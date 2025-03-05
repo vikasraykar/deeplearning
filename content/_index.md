@@ -3,6 +3,36 @@ title: Introduction
 type: docs
 ---
 
+# Logistic Regression
+
+{{< katex display=true >}}
+\text{Pr}[y=1|\mathbf{x}]=\sigma(w^Tx)
+{{< /katex >}}
+
+```python
+def __sigmoid(self, z: float):
+    """Sigmoid function."""
+    return 1.0 / (1.0 + np.exp(-z))
+```
+
+{{% hint info %}}
+**Markdown content**
+Lorem markdownum insigne. Olympo signis Delphis! Retexi Nereius nova develat
+stringit, frustra Saturnius uteroque inter! Oculis non ritibus Telethusa
+{{% /hint %}}
+
+{{% hint warning %}}
+**Markdown content**
+Lorem markdownum insigne. Olympo signis Delphis! Retexi Nereius nova develat
+stringit, frustra Saturnius uteroque inter! Oculis non ritibus Telethusa
+{{% /hint %}}
+
+{{% hint danger %}}
+**Markdown content**
+Lorem markdownum insigne. Olympo signis Delphis! Retexi Nereius nova develat
+stringit, frustra Saturnius uteroque inter! Oculis non ritibus Telethusa
+{{% /hint %}}
+
 # Acerbo datus maxime
 
 {{% columns %}}

@@ -5,34 +5,43 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="
-  Acerbo datus maxime
+  Logistic Regression
   #
 
 
 
 
-  Astris ipse furtiva
-  #
 
-Est in vagis et Pittheus tu arge accipiter regia iram vocatur nurus. Omnes ut
-olivae sensit arma sorori deducit, inesset crudus, ego vetuere aliis,
-modo arsit? Utinam rapta fiducia valuere litora adicit cursu, ad facies
-  
+  \[
+\text{Pr}[y=1|\mathbf{x}]=\sigma(w^Tx)
+\]
 
 
-  Suis quot vota
-  #
+def __sigmoid(self, z: float):
+    &#34;&#34;&#34;Sigmoid function.&#34;&#34;&#34;
+    return 1.0 / (1.0 &#43; np.exp(-z))
 
-Ea furtique risere fratres edidit terrae magis. Colla tam mihi tenebat:
-miseram excita suadent es pecudes iam. Concilio quam velatus posset ait quod
-nunc! Fragosis suae dextra geruntur functus vulgata.">
+Markdown content
+Lorem markdownum insigne. Olympo signis Delphis! Retexi Nereius nova develat
+stringit, frustra Saturnius uteroque inter! Oculis non ritibus Telethusa
+
+
+Markdown content
+Lorem markdownum insigne. Olympo signis Delphis! Retexi Nereius nova develat
+stringit, frustra Saturnius uteroque inter! Oculis non ritibus Telethusa
+
+
+Markdown content
+Lorem markdownum insigne. Olympo signis Delphis! Retexi Nereius nova develat
+stringit, frustra Saturnius uteroque inter! Oculis non ritibus Telethusa">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#343a40">
 <meta name="color-scheme" content="light dark"><meta property="og:url" content="http://localhost:1313/">
   <meta property="og:site_name" content="My New Hugo Site">
   <meta property="og:title" content="Introduction">
-  <meta property="og:description" content="Acerbo datus maxime # Astris ipse furtiva # Est in vagis et Pittheus tu arge accipiter regia iram vocatur nurus. Omnes ut olivae sensit arma sorori deducit, inesset crudus, ego vetuere aliis, modo arsit? Utinam rapta fiducia valuere litora adicit cursu, ad facies
-Suis quot vota # Ea furtique risere fratres edidit terrae magis. Colla tam mihi tenebat: miseram excita suadent es pecudes iam. Concilio quam velatus posset ait quod nunc! Fragosis suae dextra geruntur functus vulgata.">
+  <meta property="og:description" content="Logistic Regression # \[ \text{Pr}[y=1|\mathbf{x}]=\sigma(w^Tx) \] def __sigmoid(self, z: float): &#34;&#34;&#34;Sigmoid function.&#34;&#34;&#34; return 1.0 / (1.0 &#43; np.exp(-z)) Markdown content Lorem markdownum insigne. Olympo signis Delphis! Retexi Nereius nova develat stringit, frustra Saturnius uteroque inter! Oculis non ritibus Telethusa
+Markdown content Lorem markdownum insigne. Olympo signis Delphis! Retexi Nereius nova develat stringit, frustra Saturnius uteroque inter! Oculis non ritibus Telethusa
+Markdown content Lorem markdownum insigne. Olympo signis Delphis! Retexi Nereius nova develat stringit, frustra Saturnius uteroque inter! Oculis non ritibus Telethusa">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="website">
 <title>Introduction | My New Hugo Site</title>
@@ -389,7 +398,38 @@ https://github.com/alex-shpak/hugo-book
 
       
       
-  <article class="markdown book-article"><h1 id="acerbo-datus-maxime">
+  <article class="markdown book-article"><h1 id="logistic-regression">
+  Logistic Regression
+  <a class="anchor" href="#logistic-regression">#</a>
+</h1>
+
+<link rel="stylesheet" href="/katex/katex.min.css" />
+<script defer src="/katex/katex.min.js"></script>
+<script defer src="/katex/auto-render.min.js" onload="renderMathInElement(document.body);"></script><span>
+  \[
+\text{Pr}[y=1|\mathbf{x}]=\sigma(w^Tx)
+\]
+</span>
+
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">__sigmoid</span>(self, z: float):
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;&#34;&#34;Sigmoid function.&#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1.0</span> <span style="color:#f92672">/</span> (<span style="color:#ae81ff">1.0</span> <span style="color:#f92672">+</span> np<span style="color:#f92672">.</span>exp(<span style="color:#f92672">-</span>z))
+</span></span></code></pre></div><blockquote class="book-hint info">
+<p><strong>Markdown content</strong>
+Lorem markdownum insigne. Olympo signis Delphis! Retexi Nereius nova develat
+stringit, frustra Saturnius uteroque inter! Oculis non ritibus Telethusa</p>
+</blockquote>
+<blockquote class="book-hint warning">
+<p><strong>Markdown content</strong>
+Lorem markdownum insigne. Olympo signis Delphis! Retexi Nereius nova develat
+stringit, frustra Saturnius uteroque inter! Oculis non ritibus Telethusa</p>
+</blockquote>
+<blockquote class="book-hint danger">
+<p><strong>Markdown content</strong>
+Lorem markdownum insigne. Olympo signis Delphis! Retexi Nereius nova develat
+stringit, frustra Saturnius uteroque inter! Oculis non ritibus Telethusa</p>
+</blockquote>
+<h1 id="acerbo-datus-maxime">
   Acerbo datus maxime
   <a class="anchor" href="#acerbo-datus-maxime">#</a>
 </h1>
