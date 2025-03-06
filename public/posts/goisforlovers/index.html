@@ -14,7 +14,7 @@ provide more details.">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#343a40">
 <meta name="color-scheme" content="light dark"><meta property="og:url" content="http://localhost:1313/posts/goisforlovers/">
-  <meta property="og:site_name" content="My New Hugo Site">
+  <meta property="og:site_name" content="Deep Learning">
   <meta property="og:title" content="(Hu)go Template Primer">
   <meta property="og:description" content="Hugo uses the excellent Go html/template library for its template engine. It is an extremely lightweight engine that provides a very small amount of logic. In our experience that it is just the right amount of logic to be able to create a good static website. If you have used other template systems from different languages or frameworks you will find a lot of similarities in Go templates.
 This document is a brief primer on using Go templates. The Go docs provide more details.">
@@ -28,13 +28,13 @@ This document is a brief primer on using Go templates. The Go docs provide more 
     <meta property="article:tag" content="Templates">
     <meta property="article:tag" content="Themes">
     <meta property="article:tag" content="Development">
-<title>(Hu)go Template Primer | My New Hugo Site</title>
+<title>(Hu)go Template Primer | Deep Learning</title>
 <link rel="icon" href="/favicon.png" >
 <link rel="manifest" href="/manifest.json">
 <link rel="canonical" href="http://localhost:1313/posts/goisforlovers/">
 <link rel="stylesheet" href="/book.min.6c8b9d2a1fc95075ed7da46ca81060b39add8fff6741ac51259f768929281e2c.css" integrity="sha256-bIudKh/JUHXtfaRsqBBgs5rdj/9nQaxRJZ92iSkoHiw=" crossorigin="anonymous">
   <script defer src="/fuse.min.js"></script>
-  <script defer src="/en.search.min.f69ca877f0a27aab2ca1b14e1e537d7ea00b7f1226e42bc87633085e8f24db17.js" integrity="sha256-9pyod/CieqssobFOHlN9fqALfxIm5CvIdjMIXo8k2xc=" crossorigin="anonymous"></script>
+  <script defer src="/en.search.min.f9a879d73e8ba3150e5dfbd9c52d927098157f1ac6d557508d155817b7eb276d.js" integrity="sha256-&#43;ah51z6LoxUOXfvZxS2ScJgVfxrG1VdQjRVYF7frJ20=" crossorigin="anonymous"></script>
 <!--
 Made with Book Theme
 https://github.com/alex-shpak/hugo-book
@@ -50,7 +50,7 @@ https://github.com/alex-shpak/hugo-book
         
   <nav>
 <h2 class="book-brand">
-  <a class="flex align-center" href="/"><span>My New Hugo Site</span>
+  <a class="flex align-center" href="/"><span>Deep Learning</span>
   </a>
 </h2>
 
@@ -86,7 +86,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="/docs/example/" class="">Example Site</a>
+    <span>Training deep neural networks</span>
   
 
           
@@ -99,20 +99,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="/docs/example/table-of-contents/" class="">Table of Contents</a>
-  
-
-          
-  <ul>
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="/docs/example/table-of-contents/with-toc/" class="">With ToC</a>
+    <a href="/docs/training/model/" class="">Models</a>
   
 
         </li>
@@ -125,13 +112,8 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="/docs/example/table-of-contents/without-toc/" class="">Without ToC</a>
+    <a href="/docs/training/gradient_descent/" class="">Gradient Descent</a>
   
-
-        </li>
-      
-    
-  </ul>
 
         </li>
       
@@ -143,14 +125,11 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <input type="checkbox" id="section-de0675cc2431d784ae262468d8ad65d5" class="toggle"  />
-    <label for="section-de0675cc2431d784ae262468d8ad65d5" class="flex justify-between">
-      <a role="button" class="">Collapsed</a>
-    </label>
+    <a href="/docs/training/normalization/" class="">Normalization</a>
   
 
-          
-  <ul>
+        </li>
+      
     
       
         <li>
@@ -159,11 +138,11 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="/docs/example/collapsed/3rd-level/" class="">3rd Level</a>
+    <a href="/docs/training/backpropagation/" class="">Backpropagation</a>
   
 
-          
-  <ul>
+        </li>
+      
     
       
         <li>
@@ -172,20 +151,25 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="/docs/example/collapsed/3rd-level/4th-level/" class="">4th Level</a>
+    <a href="/docs/training/quiz/" class="">Quiz</a>
   
 
         </li>
       
     
-  </ul>
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/training/coding/" class="">Coding</a>
+  
 
         </li>
       
     
-  </ul>
-
-        </li>
       
     
   </ul>
@@ -671,10 +655,10 @@ notoc: true
 <p>In your top-level configuration file (eg, <code>config.yaml</code>) you can define site
 parameters, which are values which will be available to you in chrome.</p>
 <p>For instance, you might declare:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">params</span>:
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">CopyrightHTML</span>: <span style="color:#e6db74">&#34;Copyright &amp;#xA9; 2013 John Doe. All Rights Reserved.&#34;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">TwitterUser</span>: <span style="color:#e6db74">&#34;spf13&#34;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">SidebarRecentLimit</span>: <span style="color:#ae81ff">5</span>
+<div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">params</span><span style="color:#111">:</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">CopyrightHTML</span><span style="color:#111">:</span> <span style="color:#d88200">&#34;Copyright &amp;#xA9; 2013 John Doe. All Rights Reserved.&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">TwitterUser</span><span style="color:#111">:</span> <span style="color:#d88200">&#34;spf13&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">SidebarRecentLimit</span><span style="color:#111">:</span> <span style="color:#ae81ff">5</span>
 </span></span></code></pre></div><p>Within a footer layout, you might then declare a <code>&lt;footer&gt;</code> which is only
 provided if the <code>CopyrightHTML</code> parameter is provided, and if it is given,
 you would declare it to be HTML-safe, so that the HTML entity is not escaped

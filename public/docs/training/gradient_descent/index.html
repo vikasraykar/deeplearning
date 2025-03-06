@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en-us" dir="ltr">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="
+  Gradient Descent
+  #
+
+
+Steepest descent.
+
+  Batch Gradient Descent
+  #
+
+We take a small step in the direction of the negative gradient.
+
+
+
+
+  \[
+\mathbf{w}^t \leftarrow \mathbf{w}^{t-1} - \eta \nabla L(\mathbf{w}^{t-1})
+\]
+
+
+The parameter 
+  \(\eta &gt; 0\)
+
+ is called the learning rate.
+Each step requires that the entire training data be processed to compute the gradient 
+  \(\nabla L(\mathbf{w}^{t-1})\)
+
+. For large datasets this is not comptationally efficient.">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#343a40">
+<meta name="color-scheme" content="light dark"><meta property="og:url" content="http://localhost:1313/docs/training/gradient_descent/">
+  <meta property="og:site_name" content="Deep Learning">
+  <meta property="og:title" content="Gradient Descent">
+  <meta property="og:description" content="Gradient Descent # Steepest descent.
+Batch Gradient Descent # We take a small step in the direction of the negative gradient.
+\[ \mathbf{w}^t \leftarrow \mathbf{w}^{t-1} - \eta \nabla L(\mathbf{w}^{t-1}) \] The parameter \(\eta &gt; 0\) is called the learning rate.
+Each step requires that the entire training data be processed to compute the gradient \(\nabla L(\mathbf{w}^{t-1})\) . For large datasets this is not comptationally efficient.">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="docs">
+<title>Gradient Descent | Deep Learning</title>
+<link rel="icon" href="/favicon.png" >
+<link rel="manifest" href="/manifest.json">
+<link rel="canonical" href="http://localhost:1313/docs/training/gradient_descent/">
+<link rel="stylesheet" href="/book.min.6c8b9d2a1fc95075ed7da46ca81060b39add8fff6741ac51259f768929281e2c.css" integrity="sha256-bIudKh/JUHXtfaRsqBBgs5rdj/9nQaxRJZ92iSkoHiw=" crossorigin="anonymous">
+  <script defer src="/fuse.min.js"></script>
+  <script defer src="/en.search.min.f9a879d73e8ba3150e5dfbd9c52d927098157f1ac6d557508d155817b7eb276d.js" integrity="sha256-&#43;ah51z6LoxUOXfvZxS2ScJgVfxrG1VdQjRVYF7frJ20=" crossorigin="anonymous"></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><span>Deep Learning</span>
+  </a>
+</h2>
+
+
+<div class="book-search hidden">
+  <input type="text" id="book-search-input" placeholder="Search" aria-label="Search" maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+<script>document.querySelector(".book-search").classList.remove("hidden")</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <ul>
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <span>Training deep neural networks</span>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/training/model/" class="">Models</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/training/gradient_descent/" class="active">Gradient Descent</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/training/normalization/" class="">Normalization</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/training/backpropagation/" class="">Backpropagation</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/training/quiz/" class="">Quiz</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/training/coding/" class="">Coding</a>
+  
+
+        </li>
+      
+    
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <span>Shortcodes</span>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/shortcodes/buttons/" class="">Buttons</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/shortcodes/columns/" class="">Columns</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/shortcodes/details/" class="">Details</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/shortcodes/hints/" class="">Hints</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/shortcodes/mermaid/" class="">Mermaid</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/shortcodes/tabs/" class="">Tabs</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/shortcodes/katex/" class="">KaTeX</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+  
+<ul>
+  
+  <li>
+    <a href="/posts/"  >
+        Blog
+      </a>
+  </li>
+  
+</ul>
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <h3>Gradient Descent</h3>
+
+  <label for="toc-control">
+    
+    <img src="/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#batch-gradient-descent">Batch Gradient Descent</a></li>
+    <li><a href="#stochastic-gradient-descent">Stochastic Gradient Descent</a></li>
+    <li><a href="#mini-batch-stochastic-gradient-descent">Mini-batch Stochastic Gradient Descent</a></li>
+    <li><a href="#learning-rate-schedule">Learning rate schedule</a></li>
+    <li><a href="#learning-curve">Learning curve</a></li>
+    <li><a href="#training-loop">Training loop</a></li>
+    <li><a href="#momentum">Momentum</a></li>
+    <li><a href="#adaptive-learning-rates">Adaptive Learning Rates</a></li>
+    <li><a href="#adagrad">Adagrad</a></li>
+    <li><a href="#rmsprop">RMSProp</a></li>
+    <li><a href="#adam">Adam</a></li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown book-article"><h1 id="gradient-descent">
+  Gradient Descent
+  <a class="anchor" href="#gradient-descent">#</a>
+</h1>
+<blockquote>
+<p>Steepest descent.</p></blockquote>
+<h2 id="batch-gradient-descent">
+  Batch Gradient Descent
+  <a class="anchor" href="#batch-gradient-descent">#</a>
+</h2>
+<p>We take a small step in the direction of the <strong>negative gradient</strong>.</p>
+
+<link rel="stylesheet" href="/katex/katex.min.css" />
+<script defer src="/katex/katex.min.js"></script>
+<script defer src="/katex/auto-render.min.js" onload="renderMathInElement(document.body);"></script><span>
+  \[
+\mathbf{w}^t \leftarrow \mathbf{w}^{t-1} - \eta \nabla L(\mathbf{w}^{t-1})
+\]
+</span>
+
+<p>The parameter <span>
+  \(\eta > 0\)
+</span>
+ is called the <strong>learning rate</strong>.</p>
+<p>Each step requires that the <strong>entire training data</strong> be processed to compute the gradient <span>
+  \(\nabla L(\mathbf{w}^{t-1})\)
+</span>
+. For large datasets this is not comptationally efficient.</p>
+<p>This update is repeated multiple times (till covergence).</p>
+<div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#00a8c8">for</span> <span style="color:#111">epoch</span> <span style="color:#f92672">in</span> <span style="color:#111">range</span><span style="color:#111">(</span><span style="color:#111">n_epochs</span><span style="color:#111">):</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#111">dw</span> <span style="color:#f92672">=</span> <span style="color:#111">gradient</span><span style="color:#111">(</span><span style="color:#111">loss</span><span style="color:#111">,</span> <span style="color:#111">data</span><span style="color:#111">,</span> <span style="color:#111">w</span><span style="color:#111">)</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#111">w</span> <span style="color:#f92672">=</span> <span style="color:#111">w</span> <span style="color:#f92672">-</span> <span style="color:#111">learning_rate</span> <span style="color:#f92672">*</span> <span style="color:#111">dw</span>
+</span></span></code></pre></div><h2 id="stochastic-gradient-descent">
+  Stochastic Gradient Descent
+  <a class="anchor" href="#stochastic-gradient-descent">#</a>
+</h2>
+<p>In general most loss functions can be written as sum over each training instance.
+<span>
+  \[
+L(\mathbf{w}) = \sum_{i=1}^{N} L_i(\mathbf{w})
+\]
+</span>
+</p>
+<p>In Stochastic Gradient Descent (SGD) we update the parameters <strong>one data point at a time</strong>.
+<span>
+  \[
+\mathbf{w}^t \leftarrow \mathbf{w}^{t-1} - \eta \nabla L_i(\mathbf{w}^{t-1})
+\]
+</span>
+</p>
+<blockquote>
+<p>A complete passthrough of the whole dataset is called an <strong>epoch</strong>. Training is done for multiple epochs depending on the size of the dataset.</p></blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#00a8c8">for</span> <span style="color:#111">epoch</span> <span style="color:#f92672">in</span> <span style="color:#111">range</span><span style="color:#111">(</span><span style="color:#111">n_epochs</span><span style="color:#111">):</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#00a8c8">for</span> <span style="color:#111">example</span> <span style="color:#f92672">in</span> <span style="color:#111">data</span><span style="color:#111">:</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">dw</span> <span style="color:#f92672">=</span> <span style="color:#111">gradient</span><span style="color:#111">(</span><span style="color:#111">loss</span><span style="color:#111">,</span> <span style="color:#111">example</span><span style="color:#111">,</span> <span style="color:#111">w</span><span style="color:#111">)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">w</span> <span style="color:#f92672">=</span> <span style="color:#111">w</span> <span style="color:#f92672">-</span> <span style="color:#111">learning_rate</span> <span style="color:#f92672">*</span> <span style="color:#111">dw</span>
+</span></span></code></pre></div><blockquote class="book-hint warning">
+<p>Bottou, L. (2010). <a href="https://leon.bottou.org/publications/pdf/compstat-2010.pdf">Large-Scale Machine Learning with Stochastic Gradient Descent</a>. In: Lechevallier, Y., Saporta, G. (eds) Proceedings of COMPSTAT'2010. Physica-Verlag HD.</p>
+</blockquote>
+<h2 id="mini-batch-stochastic-gradient-descent">
+  Mini-batch Stochastic Gradient Descent
+  <a class="anchor" href="#mini-batch-stochastic-gradient-descent">#</a>
+</h2>
+<p>Using a single examples results in a very noisy estimate of the gradient. So we use a small subset of data called <strong>mini-batch</strong> of size B(<strong>batch size</strong>) to compute the gradient.</p>
+<span>
+  \[
+\mathbf{w}^t \leftarrow \mathbf{w}^{t-1} - \eta \nabla L_{batch}(\mathbf{w}^{t-1})
+\]
+</span>
+
+<div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#00a8c8">for</span> <span style="color:#111">epoch</span> <span style="color:#f92672">in</span> <span style="color:#111">range</span><span style="color:#111">(</span><span style="color:#111">n_epochs</span><span style="color:#111">):</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#00a8c8">for</span> <span style="color:#111">mini_batch</span> <span style="color:#f92672">in</span> <span style="color:#111">get_batches</span><span style="color:#111">(</span><span style="color:#111">data</span><span style="color:#111">,</span> <span style="color:#111">batch_size</span><span style="color:#111">):</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">dw</span> <span style="color:#f92672">=</span> <span style="color:#111">gradient</span><span style="color:#111">(</span><span style="color:#111">loss</span><span style="color:#111">,</span> <span style="color:#111">mini_batch</span><span style="color:#111">,</span> <span style="color:#111">w</span><span style="color:#111">)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">w</span> <span style="color:#f92672">=</span> <span style="color:#111">w</span> <span style="color:#f92672">-</span> <span style="color:#111">learning_rate</span> <span style="color:#f92672">*</span> <span style="color:#111">dw</span>
+</span></span></code></pre></div><blockquote class="book-hint info">
+<p>Mini-batch SGD is the most commonly used method and is sometimes refered to as just SGD.</p>
+<ul>
+<li>Typical choices of the batch size are B=32,64,128,256,..</li>
+<li>In practice we do a random shuffle of the data per epoch.</li>
+</ul>
+</blockquote>
+<h2 id="learning-rate-schedule">
+  Learning rate schedule
+  <a class="anchor" href="#learning-rate-schedule">#</a>
+</h2>
+<h2 id="learning-curve">
+  Learning curve
+  <a class="anchor" href="#learning-curve">#</a>
+</h2>
+<h2 id="training-loop">
+  Training loop
+  <a class="anchor" href="#training-loop">#</a>
+</h2>
+<h2 id="momentum">
+  Momentum
+  <a class="anchor" href="#momentum">#</a>
+</h2>
+<h2 id="adaptive-learning-rates">
+  Adaptive Learning Rates
+  <a class="anchor" href="#adaptive-learning-rates">#</a>
+</h2>
+<h2 id="adagrad">
+  Adagrad
+  <a class="anchor" href="#adagrad">#</a>
+</h2>
+<h2 id="rmsprop">
+  RMSProp
+  <a class="anchor" href="#rmsprop">#</a>
+</h2>
+<h2 id="adam">
+  Adam
+  <a class="anchor" href="#adam">#</a>
+</h2>
+</article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+
+</div>
+
+
+
+  <script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){if(window.getSelection().toString())return;e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script>
+
+
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#batch-gradient-descent">Batch Gradient Descent</a></li>
+    <li><a href="#stochastic-gradient-descent">Stochastic Gradient Descent</a></li>
+    <li><a href="#mini-batch-stochastic-gradient-descent">Mini-batch Stochastic Gradient Descent</a></li>
+    <li><a href="#learning-rate-schedule">Learning rate schedule</a></li>
+    <li><a href="#learning-curve">Learning curve</a></li>
+    <li><a href="#training-loop">Training loop</a></li>
+    <li><a href="#momentum">Momentum</a></li>
+    <li><a href="#adaptive-learning-rates">Adaptive Learning Rates</a></li>
+    <li><a href="#adagrad">Adagrad</a></li>
+    <li><a href="#rmsprop">RMSProp</a></li>
+    <li><a href="#adam">Adam</a></li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
