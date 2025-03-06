@@ -9,3 +9,7 @@ unsafe = true
 [markup]
   [markup.highlight]
     style = 'monokailight'
+
+# (Optional) Set this to true to enable 'Last Modified by' date and git author
+#  information on 'doc' type pages.
+enableGitInfo = true
