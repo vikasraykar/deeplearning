@@ -5,13 +5,24 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="
 What is the most widely used optimizer ? What are the typically used parameters of the optimizer ?
+For SGD with momemtum show that it increases the effective learning rate from 
+
+
+
+  \(\eta\)
+
+ to 
+  \(\frac{\eta}{(1-\mu)}\)
+
+.
+In Attention Is All You Need paper what is the optimizer and the learning rate scheduler used.
 ">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#343a40">
 <meta name="color-scheme" content="light dark"><meta property="og:url" content="http://localhost:1313/docs/training/quiz/">
   <meta property="og:site_name" content="Deep Learning">
   <meta property="og:title" content="Quiz">
-  <meta property="og:description" content="What is the most widely used optimizer ? What are the typically used parameters of the optimizer ?">
+  <meta property="og:description" content="What is the most widely used optimizer ? What are the typically used parameters of the optimizer ? For SGD with momemtum show that it increases the effective learning rate from \(\eta\) to \(\frac{\eta}{(1-\mu)}\) . In Attention Is All You Need paper what is the optimizer and the learning rate scheduler used.">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
     <meta property="article:section" content="docs">
@@ -21,7 +32,7 @@ What is the most widely used optimizer ? What are the typically used parameters 
 <link rel="canonical" href="http://localhost:1313/docs/training/quiz/">
 <link rel="stylesheet" href="/book.min.6c8b9d2a1fc95075ed7da46ca81060b39add8fff6741ac51259f768929281e2c.css" integrity="sha256-bIudKh/JUHXtfaRsqBBgs5rdj/9nQaxRJZ92iSkoHiw=" crossorigin="anonymous">
   <script defer src="/fuse.min.js"></script>
-  <script defer src="/en.search.min.3a2d5abb2d245c763fca7ce585c86c94e6ce29979bfe465d0239390edbfa6ad3.js" integrity="sha256-Oi1auy0kXHY/ynzlhchslObOKZeb/kZdAjk5Dtv6atM=" crossorigin="anonymous"></script>
+  <script defer src="/en.search.min.33d52ceba81537e841222a46f666353bc6601eefdd5e7a893f06e53864c7389f.js" integrity="sha256-M9Us66gVN&#43;hBIipG9mY1O8ZgHu/dXnqJPwblOGTHOJ8=" crossorigin="anonymous"></script>
 <!--
 Made with Book Theme
 https://github.com/alex-shpak/hugo-book
@@ -112,6 +123,19 @@ https://github.com/alex-shpak/hugo-book
   
 
   
+    <a href="/docs/training/backpropagation/" class="">Backpropagation</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
     <a href="/docs/training/normalization/" class="">Normalization</a>
   
 
@@ -125,7 +149,20 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="/docs/training/backpropagation/" class="">Backpropagation</a>
+    <a href="/docs/training/regularization/" class="">Regularization</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/training/training_loop/" class="">Training loop</a>
   
 
         </li>
@@ -157,8 +194,6 @@ https://github.com/alex-shpak/hugo-book
         </li>
       
     
-      
-    
   </ul>
 
         </li>
@@ -184,19 +219,6 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="/docs/shortcodes/buttons/" class="">Buttons</a>
-  
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
     <a href="/docs/shortcodes/columns/" class="">Columns</a>
   
 
@@ -211,19 +233,6 @@ https://github.com/alex-shpak/hugo-book
 
   
     <a href="/docs/shortcodes/mermaid/" class="">Mermaid</a>
-  
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="/docs/shortcodes/tabs/" class="">Tabs</a>
   
 
         </li>
@@ -296,6 +305,17 @@ https://github.com/alex-shpak/hugo-book
       
   <article class="markdown book-article"><ul>
 <li>What is the most widely used optimizer ? What are the typically used parameters of the optimizer ?</li>
+<li>For SGD with momemtum show that it increases the effective learning rate from 
+<link rel="stylesheet" href="/katex/katex.min.css" />
+<script defer src="/katex/katex.min.js"></script>
+<script defer src="/katex/auto-render.min.js" onload="renderMathInElement(document.body);"></script><span>
+  \(\eta\)
+</span>
+ to <span>
+  \(\frac{\eta}{(1-\mu)}\)
+</span>
+.</li>
+<li>In Attention Is All You Need paper what is the optimizer and the learning rate scheduler used.</li>
 </ul>
 </article>
  

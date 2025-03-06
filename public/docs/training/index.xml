@@ -12,7 +12,7 @@
       <link>http://localhost:1313/docs/training/model/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/docs/training/model/</guid>
-      <description>&lt;h2 id=&#34;models&#34;&gt;&#xA;  Models&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#models&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h2&gt;&#xA;&lt;h2 id=&#34;parameters&#34;&gt;&#xA;  Parameters&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#parameters&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h2&gt;&#xA;&lt;h2 id=&#34;loss-functions&#34;&gt;&#xA;  Loss functions&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#loss-functions&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h2&gt;</description>
+      <description>&lt;h2 id=&#34;models&#34;&gt;&#xA;  Models&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#models&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h2&gt;&#xA;&lt;p&gt;Linear Regression&lt;/p&gt;&#xA;&lt;p&gt;Logistic Regression&lt;/p&gt;&#xA;&lt;p&gt;MLP&lt;/p&gt;&#xA;&lt;h2 id=&#34;parameters&#34;&gt;&#xA;  Parameters&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#parameters&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h2&gt;&#xA;&lt;h2 id=&#34;loss-functions&#34;&gt;&#xA;  Loss functions&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#loss-functions&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h2&gt;</description>
     </item>
     <item>
       <title>Gradient Descent</title>
@@ -22,13 +22,6 @@
       <description>&lt;h2 id=&#34;gradient-descent&#34;&gt;&#xA;  Gradient Descent&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#gradient-descent&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h2&gt;&#xA;&lt;blockquote&gt;&#xA;&lt;p&gt;Steepest descent.&lt;/p&gt;&lt;/blockquote&gt;&#xA;&lt;p&gt;Let &lt;span&gt;&#xA;  \(\mathbf{w}\)&#xA;&lt;/span&gt;&#xA; be a vector of all the parameters for a model.&lt;/p&gt;&#xA;&lt;p&gt;Let &lt;span&gt;&#xA;  \(L(\mathbf{w})\)&#xA;&lt;/span&gt;&#xA; be the loss function (or error function).&lt;/p&gt;&#xA;&lt;p&gt;We need to choose the model parameters that optimizes (minimizes) the loss function.&lt;/p&gt;&#xA;&lt;span&gt;&#xA;  \[&#xA;\hat{\mathbf{w}} = \argmin_{\mathbf{w}} L(\mathbf{w})&#xA;\]&#xA;&lt;/span&gt;&#xA;&#xA;&lt;p&gt;Let &lt;span&gt;&#xA;  \(\nabla L(\mathbf{w})\)&#xA;&lt;/span&gt;&#xA; be the &lt;strong&gt;gradient vector&lt;/strong&gt;, where each element is the partial derivative of the loss fucntion wrt each parameter.&lt;/p&gt;&#xA;&lt;p&gt;The gradient vector points in the direction of the greatest rate of increase of the loss function.&lt;/p&gt;</description>
     </item>
     <item>
-      <title>Normalization</title>
-      <link>http://localhost:1313/docs/training/normalization/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/docs/training/normalization/</guid>
-      <description>&lt;h2 id=&#34;data-normalization&#34;&gt;&#xA;  Data normalization&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#data-normalization&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h2&gt;&#xA;&lt;h2 id=&#34;batch-normalization&#34;&gt;&#xA;  Batch normalization&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#batch-normalization&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h2&gt;&#xA;&lt;h2 id=&#34;layer-normalization&#34;&gt;&#xA;  Layer normalization&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#layer-normalization&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h2&gt;</description>
-    </item>
-    <item>
       <title>Backpropagation</title>
       <link>http://localhost:1313/docs/training/backpropagation/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
@@ -36,25 +29,39 @@
       <description>&lt;h2 id=&#34;backpropagation&#34;&gt;&#xA;  Backpropagation&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#backpropagation&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h2&gt;&#xA;&lt;h2 id=&#34;algorithmic-differenciation&#34;&gt;&#xA;  Algorithmic differenciation&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#algorithmic-differenciation&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h2&gt;&#xA;&lt;h2 id=&#34;autograd&#34;&gt;&#xA;  Autograd&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#autograd&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h2&gt;</description>
     </item>
     <item>
+      <title>Normalization</title>
+      <link>http://localhost:1313/docs/training/normalization/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/docs/training/normalization/</guid>
+      <description>&lt;h2 id=&#34;data-normalization&#34;&gt;&#xA;  Data normalization&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#data-normalization&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h2&gt;&#xA;&lt;h2 id=&#34;batch-normalization&#34;&gt;&#xA;  Batch normalization&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#batch-normalization&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h2&gt;&#xA;&lt;h2 id=&#34;layer-normalization&#34;&gt;&#xA;  Layer normalization&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#layer-normalization&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h2&gt;</description>
+    </item>
+    <item>
+      <title>Regularization</title>
+      <link>http://localhost:1313/docs/training/regularization/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/docs/training/regularization/</guid>
+      <description>&lt;p&gt;Dropout&lt;/p&gt;&#xA;&lt;p&gt;Early stopping&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Training loop</title>
+      <link>http://localhost:1313/docs/training/training_loop/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/docs/training/training_loop/</guid>
+      <description>&lt;h2 id=&#34;training-loop&#34;&gt;&#xA;  Training loop&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#training-loop&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h2&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;from&lt;/span&gt; &lt;span style=&#34;color:#111&#34;&gt;torch.optim&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color:#111&#34;&gt;SGD&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;from&lt;/span&gt; &lt;span style=&#34;color:#111&#34;&gt;torch.optim.lr_scheduler&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color:#111&#34;&gt;ExponentialLR&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#111&#34;&gt;optimizer&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#111&#34;&gt;SGD&lt;/span&gt;&lt;span style=&#34;color:#111&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#111&#34;&gt;model&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#111&#34;&gt;parameters&lt;/span&gt;&lt;span style=&#34;color:#111&#34;&gt;(),&lt;/span&gt; &lt;span style=&#34;color:#111&#34;&gt;lr&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;0.01&lt;/span&gt;&lt;span style=&#34;color:#111&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color:#111&#34;&gt;momentum&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;0.9&lt;/span&gt;&lt;span style=&#34;color:#111&#34;&gt;)&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#111&#34;&gt;scheduler&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#111&#34;&gt;ExponentialLR&lt;/span&gt;&lt;span style=&#34;color:#111&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#111&#34;&gt;optimizer&lt;/span&gt;&lt;span style=&#34;color:#111&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color:#111&#34;&gt;gamma&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;0.9&lt;/span&gt;&lt;span style=&#34;color:#111&#34;&gt;)&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#00a8c8&#34;&gt;for&lt;/span&gt; &lt;span style=&#34;color:#111&#34;&gt;epoch&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color:#111&#34;&gt;range&lt;/span&gt;&lt;span style=&#34;color:#111&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#111&#34;&gt;n_epochs&lt;/span&gt;&lt;span style=&#34;color:#111&#34;&gt;):&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#00a8c8&#34;&gt;for&lt;/span&gt; &lt;span style=&#34;color:#111&#34;&gt;input&lt;/span&gt;&lt;span style=&#34;color:#111&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color:#111&#34;&gt;target&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color:#111&#34;&gt;dataset&lt;/span&gt;&lt;span style=&#34;color:#111&#34;&gt;:&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#111&#34;&gt;optimizer&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#111&#34;&gt;zero_grad&lt;/span&gt;&lt;span style=&#34;color:#111&#34;&gt;()&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#111&#34;&gt;output&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#111&#34;&gt;model&lt;/span&gt;&lt;span style=&#34;color:#111&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#111&#34;&gt;input&lt;/span&gt;&lt;span style=&#34;color:#111&#34;&gt;)&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#111&#34;&gt;loss&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#111&#34;&gt;loss_fn&lt;/span&gt;&lt;span style=&#34;color:#111&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#111&#34;&gt;output&lt;/span&gt;&lt;span style=&#34;color:#111&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color:#111&#34;&gt;target&lt;/span&gt;&lt;span style=&#34;color:#111&#34;&gt;)&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#111&#34;&gt;loss&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#111&#34;&gt;backward&lt;/span&gt;&lt;span style=&#34;color:#111&#34;&gt;()&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#111&#34;&gt;optimizer&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#111&#34;&gt;step&lt;/span&gt;&lt;span style=&#34;color:#111&#34;&gt;()&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#111&#34;&gt;scheduler&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#111&#34;&gt;step&lt;/span&gt;&lt;span style=&#34;color:#111&#34;&gt;()&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+    </item>
+    <item>
       <title>Quiz</title>
       <link>http://localhost:1313/docs/training/quiz/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/docs/training/quiz/</guid>
-      <description>&lt;ul&gt;&#xA;&lt;li&gt;What is the most widely used optimizer ? What are the typically used parameters of the optimizer ?&lt;/li&gt;&#xA;&lt;/ul&gt;</description>
+      <description>&lt;ul&gt;&#xA;&lt;li&gt;What is the most widely used optimizer ? What are the typically used parameters of the optimizer ?&lt;/li&gt;&#xA;&lt;li&gt;For SGD with momemtum show that it increases the effective learning rate from &#xA;&lt;link rel=&#34;stylesheet&#34; href=&#34;http://localhost:1313/katex/katex.min.css&#34; /&gt;&#xA;&lt;script defer src=&#34;http://localhost:1313/katex/katex.min.js&#34;&gt;&lt;/script&gt;&#xA;&lt;script defer src=&#34;http://localhost:1313/katex/auto-render.min.js&#34; onload=&#34;renderMathInElement(document.body);&#34;&gt;&lt;/script&gt;&lt;span&gt;&#xA;  \(\eta\)&#xA;&lt;/span&gt;&#xA; to &lt;span&gt;&#xA;  \(\frac{\eta}{(1-\mu)}\)&#xA;&lt;/span&gt;&#xA;.&lt;/li&gt;&#xA;&lt;li&gt;In Attention Is All You Need paper what is the optimizer and the learning rate scheduler used.&lt;/li&gt;&#xA;&lt;/ul&gt;</description>
     </item>
     <item>
       <title>Coding</title>
       <link>http://localhost:1313/docs/training/coding/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/docs/training/coding/</guid>
-      <description>&lt;h2 id=&#34;coding-assignment&#34;&gt;&#xA;  Coding assignment&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#coding-assignment&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h2&gt;</description>
-    </item>
-    <item>
-      <title></title>
-      <link>http://localhost:1313/docs/training/regularization/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/docs/training/regularization/</guid>
-      <description></description>
+      <description>&lt;h2 id=&#34;coding-assignment&#34;&gt;&#xA;  Coding assignment&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#coding-assignment&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h2&gt;&#xA;&lt;p&gt;Plot learning curve for 3 differnt optimizers.&lt;/p&gt;&#xA;&lt;p&gt;numpy&lt;/p&gt;&#xA;&lt;p&gt;pytorch&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

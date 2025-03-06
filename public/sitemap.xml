@@ -8,17 +8,19 @@
   </url><url>
     <loc>http://localhost:1313/docs/training/gradient_descent/</loc>
   </url><url>
+    <loc>http://localhost:1313/docs/training/backpropagation/</loc>
+  </url><url>
     <loc>http://localhost:1313/docs/training/normalization/</loc>
   </url><url>
-    <loc>http://localhost:1313/docs/training/backpropagation/</loc>
+    <loc>http://localhost:1313/docs/training/regularization/</loc>
+  </url><url>
+    <loc>http://localhost:1313/docs/training/training_loop/</loc>
   </url><url>
     <loc>http://localhost:1313/docs/training/quiz/</loc>
   </url><url>
     <loc>http://localhost:1313/docs/training/coding/</loc>
   </url><url>
     <loc>http://localhost:1313/docs/shortcodes/</loc>
-  </url><url>
-    <loc>http://localhost:1313/docs/shortcodes/buttons/</loc>
   </url><url>
     <loc>http://localhost:1313/docs/shortcodes/columns/</loc>
   </url><url>
@@ -29,10 +31,6 @@
     <loc>http://localhost:1313/docs/shortcodes/section/first-page/</loc>
   </url><url>
     <loc>http://localhost:1313/docs/shortcodes/section/second-page/</loc>
-  </url><url>
-    <loc>http://localhost:1313/docs/shortcodes/tabs/</loc>
-  </url><url>
-    <loc>http://localhost:1313/docs/training/regularization/</loc>
   </url><url>
     <loc>http://localhost:1313/categories/</loc>
   </url><url>

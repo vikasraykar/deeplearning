@@ -295,9 +295,60 @@ Adam is the most widely used optimizer.
 
 ## Learning rate schedule
 
-## Learning curve
+A small learning rate leads to slow convergence while a large learning rate leads to instability (due to divergent oscillations).
 
-## Training loop
+In practice we start with a large learning rate and  and then reduce itover time.
+
+{{< katex display=true >}}
+\mathbf{w}^t \leftarrow \mathbf{w}^{t-1} - \eta \nabla^{t-1} L(\mathbf{w}^{t-1})
+{{< /katex >}}
+
+{{% tabs %}}
+
+{{% tab "Linear" %}}
+{{< katex display=true >}}
+\mathbf{\eta}^t = \left(1-\frac{t}{K}\right) \mathbf{\eta}^0 + \left(\frac{t}{K}\right) \mathbf{\eta}^K
+{{< /katex >}}
+The learning rate reduces linearly over K steps, after which its value is held constant.
+{{% /tab %}}
+
+{{% tab "Power" %}}
+{{< katex display=true >}}
+\mathbf{\eta}^t = \mathbf{\eta}^0 \left(1+\frac{t}{s}\right)^c
+{{< /katex >}}
+{{% /tab %}}
+
+{{% tab "Exponential" %}}
+{{< katex display=true >}}
+\mathbf{\eta}^t = \mathbf{\eta}^0 c^\frac{t}{s}{{< /katex >}}
+{{% /tab %}}
+
+{{% /tabs %}}
+
+```python
+from torch.optim import SGD
+from torch.optim.lr_scheduler import ExponentialLR
+
+optimizer = SGD(model.parameters(), lr=0.01, momentum=0.9)
+scheduler = ExponentialLR(optimizer, gamma=0.9)
+```
+{{<button href="https://pytorch.org/docs/stable/optim.html#how-to-adjust-learning-rate">}}PyTorch{{</button>}}
+
+## Learning Curve
+
+Track the learning curve.
+
+## Parameter initialization
+
+Initialization before starting the gradient descent.
+
+Avoid all parameters set to same value. (**symmetry breaking**)
+
+Uniform distribution in the range {{<katex>}}[-\epsilon,\epsilon]{{</katex>}}
+
+Zero-mean Gaussian {{<katex>}}\mathcal{N}(0,\epsilon^2){{</katex>}}
+
+{{<button href="https://pytorch.org/docs/stable/nn.init.html">}}nn.init{{</button>}}
 
 ## Collateral
 
