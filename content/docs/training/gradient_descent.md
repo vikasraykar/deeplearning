@@ -153,11 +153,8 @@ We now have two hyper-parameters learnign rate and momentum. Typically we set th
 {{< katex >}}{{< /katex >}} One interpretation of momentum to increase the effective learning rate from {{< katex >}}\eta{{< /katex >}} to {{< katex >}}\frac{\eta}{(1-\mu)}{{< /katex >}}. If we make the approximation that the gradient is unchanging then
 {{< katex display=true >}}
  -\eta \nabla L \{1+\mu+\mu^2+...\} = - \frac{\eta}{1-\mu} \nabla L
-{{< /katex >}} By contrast, in a region of high curvature in which gradient descent is oscillatory, successive contributions from the momentum term will tend to cancel and effective learning rate will be close to {{< katex >}}\eta{{< /katex >}}.
+{{< /katex >}}By contrast, in a region of high curvature in which gradient descent is oscillatory, successive contributions from the momentum term will tend to cancel and effective learning rate will be close to {{< katex >}}\eta{{< /katex >}}.
 {{% /details %}}
-
-
-
 
 
 - We can now escape local minima or saddle points because we keep moving downwards even though the gradient of the mini-batch might be zero.
@@ -170,22 +167,141 @@ Ilya Sutskever, James Martens, George Dahl, and Geoffrey Hinton. 2013. [On the i
 {{% /hint %}}
 
 
-
-
-
-
 ## Adaptive Learning Rates
+
+Different learning rate for each parameter.
 
 ### Adagrad
 
+> Adaptive gradient.
+
+AdaGrad reduces each learning rate parameter over time by using the accumulated sum of squares of all the derivates calculated for that parameter.
+{{< katex display=true >}}
+\mathbf{w}^t \leftarrow \mathbf{w}^{t-1}  - \frac{\eta}{\sqrt{\mathbf{r}^{t}}+\delta} \odot \nabla L(\mathbf{w}^{t-1})
+{{< /katex >}}
+where {{<katex>}}\mathbf{r}^t{{</katex>}} is the running sum of the squares of the gradients and {{<katex>}}\delta{{</katex>}} is a small constant to ensure numerical stability.
+{{< katex display=true >}}
+\mathbf{r}^t = \mathbf{r}^{t-1} + \left(\nabla L(\mathbf{w}^{t})\right)^2
+{{< /katex >}}
+
+```python
+for epoch in range(n_epochs):
+  for mini_batch in get_batches(data, batch_size):
+    dw = gradient(loss, mini_batch, w) # gradient
+    r += dw*dw # Accumulated squared gradients
+    w = w - lr * dw / (r.sqrt() + delta)
+```
+
+{{<button href="https://pytorch.org/docs/stable/generated/torch.optim.Adagrad.html#torch.optim.Adagrad">}}PyTorch{{</button>}}
+```python
+optimizer = torch.optim.Adagrad(model.parameters(), lr=0.01, eps=1e-10)
+```
+
+We can see that when the gradient is changing very fast, the learning rate will be smaller. When the gradient is changing slowly, the learning rate will be bigger.
+
+A drawback of Adagrad is that as time goes by, the learning rate becomes smaller and smaller due to the monotonic increment of the running squared sum.
+
+{{% hint warning %}}
+John Duchi, Elad Hazan, and Yoram Singer. 2011. [Adaptive Subgradient Methods for Online Learning and Stochastic Optimization](https://dl.acm.org/doi/pdf/10.5555/1953048.2021068). J. Mach. Learn. Res. 12, null (2/1/2011), 2121–2159.
+{{% /hint %}}
+
+
 ### RMSProp
 
+> Root Mean Square Propagation, Leaky AdaGrad
+
+Since AdaGrad accumulates the squared gradients from the beginning, the associatied weight updates can become very small as training progresses.
+
+RMSProp essentially replaces it with an **exponentialy weighted average**.
+{{< katex display=true >}}
+\mathbf{r}^t = \alpha \mathbf{r}^{t-1} + (1-\alpha) \left(\nabla L(\mathbf{w}^{t})\right)^2
+{{< /katex >}}
+where {{<katex>}}0 < \alpha < 1{{</katex>}}.
+{{< katex display=true >}}
+\mathbf{w}^t \leftarrow \mathbf{w}^{t-1}  - \frac{\eta}{\sqrt{\mathbf{r}^{t}}+\delta} \odot \nabla L(\mathbf{w}^{t-1})
+{{< /katex >}}
+
+{{% hint info %}}
+{{<katex>}}{{</katex>}}Typically we set the {{<katex>}}\alpha=0.9{{</katex>}}.
+{{% /hint %}}
+
+```python
+for epoch in range(n_epochs):
+  for mini_batch in get_batches(data, batch_size):
+    dw = gradient(loss, mini_batch, w) # gradient
+    r += alpha * r + (1-alpha) * dw*dw # Accumulated squared gradients
+    w = w - lr * dw / (r.sqrt() + delta)
+```
+
+{{<button href="https://pytorch.org/docs/stable/generated/torch.optim.RMSprop.html#torch.optim.RMSprop">}}PyTorch{{</button>}}
+```python
+optimizer = torch.optim.RMSProp(model.parameters(), lr=0.01, alpha=0.99, eps=1e-8)
+```
+{{% hint warning %}}
+Hinton, 2012. Neural Networks for Machine Learning. [Lecture 6a](https://www.cs.toronto.edu/~tijmen/csc321/slides/lecture_slides_lec6.pdf).
+{{% /hint %}}
+
+
 ### Adam
+
+> Adaptive moments.
+
+If we combine RMSProp with momentum we ontain the most popular Adam optimization method.
+
+Adam maintains an exponentially weighted average of the first and the second moments.
+{{< katex display=true >}}
+\mathbf{s}^t = \beta_1 \mathbf{s}^{t-1} + (1-\beta_1) \left(\nabla L(\mathbf{w}^{t})\right)
+{{< /katex >}}
+{{< katex display=true >}}
+\mathbf{r}^t = \beta_2 \mathbf{r}^{t-1} + (1-\beta_2) \left(\nabla L(\mathbf{w}^{t})\right)^2
+{{< /katex >}}
+We correct for the bias introduced by initializing {{<katex>}}\mathbf{s}^0{{</katex>}} and {{<katex>}}\mathbf{r}^0{{</katex>}} to zero.
+{{< katex display=true >}}
+\hat{\mathbf{s}}^t = \frac{\mathbf{s}^t}{1-\beta_1^t}
+{{< /katex >}}
+{{< katex display=true >}}
+\hat{\mathbf{r}}^t = \frac{\mathbf{r}^t}{1-\beta_2^t}
+{{< /katex >}}
+The updates are given as follows.
+{{< katex display=true >}}
+\mathbf{w}^t \leftarrow \mathbf{w}^{t-1}  - \frac{\eta}{\sqrt{\hat{\mathbf{r}}^{t}}+\delta} \odot \hat{\mathbf{s}}^t
+{{< /katex >}}
+{{% hint info %}}
+{{<katex>}}{{</katex>}}Typically we set the {{<katex>}}\beta_1=0.9{{</katex>}} and {{<katex>}}\beta_2=0.99{{</katex>}}.
+{{% /hint %}}
+
+```python
+for epoch in range(n_epochs):
+  for mini_batch in get_batches(data, batch_size):
+    dw = gradient(loss, mini_batch, w) # gradient
+    s += beta1 * s + (1-beta1) * dw # Accumulated gradients
+    r += beta2 * r + (1-beta2) * dw*dw # Accumulated squared gradients
+    s_hat = s /(1-beta1**t)
+    r_hat = r /(1-beta2**t)
+    w = w - lr * s_hat / (r_hat.sqrt() + delta)
+```
+
+{{<button href="https://pytorch.org/docs/stable/generated/torch.optim.Adam.html#torch.optim.Adam">}}PyTorch{{</button>}}
+```python
+optimizer = optim.Adam(model.parameters(), lr=0.001, betas=(0.9,0.99), eps=1e-08)
+```
+{{% hint warning %}}
+Kingma, D.P. and Ba, J., 2014. [Adam: A method for stochastic optimization](https://arxiv.org/abs/1412.6980). arXiv preprint arXiv:1412.6980.
+{{% /hint %}}
+
+{{% hint danger %}}
+Adam is the most widely used optimizer.
+{{% /hint %}}
 
 ## Learning rate schedule
 
 ## Learning curve
 
 ## Training loop
+
+## Collateral
+
+- https://pytorch.org/docs/stable/optim.html
+
 
 ![image](https://cdn-images-1.medium.com/v2/resize:fit:1000/1*Nb39bHHUWGXqgisr2WcLGQ.gif)

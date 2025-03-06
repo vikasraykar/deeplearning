@@ -19,7 +19,7 @@
       <link>http://localhost:1313/docs/training/gradient_descent/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/docs/training/gradient_descent/</guid>
-      <description>&lt;h1 id=&#34;gradient-descent&#34;&gt;&#xA;  Gradient Descent&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#gradient-descent&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h1&gt;&#xA;&lt;blockquote&gt;&#xA;&lt;p&gt;Steepest descent.&lt;/p&gt;&lt;/blockquote&gt;&#xA;&lt;p&gt;Let &lt;span&gt;&#xA;  \(\mathbf{w}\)&#xA;&lt;/span&gt;&#xA; be a vector of all the parameters for a model.&lt;/p&gt;&#xA;&lt;p&gt;Let &lt;span&gt;&#xA;  \(L(\mathbf{w})\)&#xA;&lt;/span&gt;&#xA; be the loss function (or error function).&lt;/p&gt;&#xA;&lt;p&gt;We need to choose the model parameters that optimizes (minimizes) the loss function.&lt;/p&gt;&#xA;&lt;span&gt;&#xA;  \[&#xA;\hat{\mathbf{w}} = \argmin_{\mathbf{w}} L(\mathbf{w})&#xA;\]&#xA;&lt;/span&gt;&#xA;&#xA;&lt;p&gt;Let &lt;span&gt;&#xA;  \(\nabla L(\mathbf{w})\)&#xA;&lt;/span&gt;&#xA; be the &lt;strong&gt;gradient vector&lt;/strong&gt;, where each element is the partial derivative of the loss fucntion wrt each parameter.&lt;/p&gt;&#xA;&lt;p&gt;The gradient vector points in the direction of the greatest rate of increase of the loss function.&lt;/p&gt;</description>
+      <description>&lt;h2 id=&#34;gradient-descent&#34;&gt;&#xA;  Gradient Descent&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#gradient-descent&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h2&gt;&#xA;&lt;blockquote&gt;&#xA;&lt;p&gt;Steepest descent.&lt;/p&gt;&lt;/blockquote&gt;&#xA;&lt;p&gt;Let &lt;span&gt;&#xA;  \(\mathbf{w}\)&#xA;&lt;/span&gt;&#xA; be a vector of all the parameters for a model.&lt;/p&gt;&#xA;&lt;p&gt;Let &lt;span&gt;&#xA;  \(L(\mathbf{w})\)&#xA;&lt;/span&gt;&#xA; be the loss function (or error function).&lt;/p&gt;&#xA;&lt;p&gt;We need to choose the model parameters that optimizes (minimizes) the loss function.&lt;/p&gt;&#xA;&lt;span&gt;&#xA;  \[&#xA;\hat{\mathbf{w}} = \argmin_{\mathbf{w}} L(\mathbf{w})&#xA;\]&#xA;&lt;/span&gt;&#xA;&#xA;&lt;p&gt;Let &lt;span&gt;&#xA;  \(\nabla L(\mathbf{w})\)&#xA;&lt;/span&gt;&#xA; be the &lt;strong&gt;gradient vector&lt;/strong&gt;, where each element is the partial derivative of the loss fucntion wrt each parameter.&lt;/p&gt;&#xA;&lt;p&gt;The gradient vector points in the direction of the greatest rate of increase of the loss function.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Normalization</title>
@@ -40,7 +40,7 @@
       <link>http://localhost:1313/docs/training/quiz/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/docs/training/quiz/</guid>
-      <description>&lt;h2 id=&#34;question-1&#34;&gt;&#xA;  Question 1&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#question-1&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h2&gt;</description>
+      <description>&lt;ul&gt;&#xA;&lt;li&gt;What is the most widely used optimizer ? What are the typically used parameters of the optimizer ?&lt;/li&gt;&#xA;&lt;/ul&gt;</description>
     </item>
     <item>
       <title>Coding</title>

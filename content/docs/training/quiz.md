@@ -4,4 +4,4 @@ weight: 6
 bookToc: true
 ---
 
-## Question 1
+- What is the most widely used optimizer ? What are the typically used parameters of the optimizer ?

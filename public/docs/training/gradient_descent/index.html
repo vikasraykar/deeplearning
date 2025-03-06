@@ -49,7 +49,7 @@ The gradient vector points in the direction of the greatest rate of increase of 
 <link rel="canonical" href="http://localhost:1313/docs/training/gradient_descent/">
 <link rel="stylesheet" href="/book.min.6c8b9d2a1fc95075ed7da46ca81060b39add8fff6741ac51259f768929281e2c.css" integrity="sha256-bIudKh/JUHXtfaRsqBBgs5rdj/9nQaxRJZ92iSkoHiw=" crossorigin="anonymous">
   <script defer src="/fuse.min.js"></script>
-  <script defer src="/en.search.min.700959d686469c60487caacaba060902a76e2ae7d28349743f98d9a6277dc01d.js" integrity="sha256-cAlZ1oZGnGBIfKrKugYJAqduKufSg0l0P5jZpid9wB0=" crossorigin="anonymous"></script>
+  <script defer src="/en.search.min.3a2d5abb2d245c763fca7ce585c86c94e6ce29979bfe465d0239390edbfa6ad3.js" integrity="sha256-Oi1auy0kXHY/ynzlhchslObOKZeb/kZdAjk5Dtv6atM=" crossorigin="anonymous"></script>
 <!--
 Made with Book Theme
 https://github.com/alex-shpak/hugo-book
@@ -331,6 +331,7 @@ https://github.com/alex-shpak/hugo-book
     <li><a href="#learning-rate-schedule">Learning rate schedule</a></li>
     <li><a href="#learning-curve">Learning curve</a></li>
     <li><a href="#training-loop">Training loop</a></li>
+    <li><a href="#collateral">Collateral</a></li>
   </ul>
 </nav>
 
@@ -528,7 +529,7 @@ Then, we update our weights in the direction of the velocity vector.
  -\eta \nabla L \{1+\mu+\mu^2+...\} = - \frac{\eta}{1-\mu} \nabla L
 \]
 </span>
- By contrast, in a region of high curvature in which gradient descent is oscillatory, successive contributions from the momentum term will tend to cancel and effective learning rate will be close to <span>
+By contrast, in a region of high curvature in which gradient descent is oscillatory, successive contributions from the momentum term will tend to cancel and effective learning rate will be close to <span>
   \(\eta\)
 </span>
 .
@@ -546,18 +547,165 @@ Then, we update our weights in the direction of the velocity vector.
   Adaptive Learning Rates
   <a class="anchor" href="#adaptive-learning-rates">#</a>
 </h2>
+<p>Different learning rate for each parameter.</p>
 <h3 id="adagrad">
   Adagrad
   <a class="anchor" href="#adagrad">#</a>
 </h3>
+<blockquote>
+<p>Adaptive gradient.</p></blockquote>
+<p>AdaGrad reduces each learning rate parameter over time by using the accumulated sum of squares of all the derivates calculated for that parameter.
+<span>
+  \[
+\mathbf{w}^t \leftarrow \mathbf{w}^{t-1}  - \frac{\eta}{\sqrt{\mathbf{r}^{t}}+\delta} \odot \nabla L(\mathbf{w}^{t-1})
+\]
+</span>
+
+where <span>
+  \(\mathbf{r}^t\)
+</span>
+ is the running sum of the squares of the gradients and <span>
+  \(\delta\)
+</span>
+ is a small constant to ensure numerical stability.
+<span>
+  \[
+\mathbf{r}^t = \mathbf{r}^{t-1} + \left(\nabla L(\mathbf{w}^{t})\right)^2
+\]
+</span>
+</p>
+<div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#00a8c8">for</span> <span style="color:#111">epoch</span> <span style="color:#f92672">in</span> <span style="color:#111">range</span><span style="color:#111">(</span><span style="color:#111">n_epochs</span><span style="color:#111">):</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#00a8c8">for</span> <span style="color:#111">mini_batch</span> <span style="color:#f92672">in</span> <span style="color:#111">get_batches</span><span style="color:#111">(</span><span style="color:#111">data</span><span style="color:#111">,</span> <span style="color:#111">batch_size</span><span style="color:#111">):</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">dw</span> <span style="color:#f92672">=</span> <span style="color:#111">gradient</span><span style="color:#111">(</span><span style="color:#111">loss</span><span style="color:#111">,</span> <span style="color:#111">mini_batch</span><span style="color:#111">,</span> <span style="color:#111">w</span><span style="color:#111">)</span> <span style="color:#75715e"># gradient</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">r</span> <span style="color:#f92672">+=</span> <span style="color:#111">dw</span><span style="color:#f92672">*</span><span style="color:#111">dw</span> <span style="color:#75715e"># Accumulated squared gradients</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">w</span> <span style="color:#f92672">=</span> <span style="color:#111">w</span> <span style="color:#f92672">-</span> <span style="color:#111">lr</span> <span style="color:#f92672">*</span> <span style="color:#111">dw</span> <span style="color:#f92672">/</span> <span style="color:#111">(</span><span style="color:#111">r</span><span style="color:#f92672">.</span><span style="color:#111">sqrt</span><span style="color:#111">()</span> <span style="color:#f92672">+</span> <span style="color:#111">delta</span><span style="color:#111">)</span>
+</span></span></code></pre></div><a  href="https://pytorch.org/docs/stable/generated/torch.optim.Adagrad.html#torch.optim.Adagrad"   target="_blank" rel="noopener"  class="book-btn">PyTorch</a>
+
+<div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#111">optimizer</span> <span style="color:#f92672">=</span> <span style="color:#111">torch</span><span style="color:#f92672">.</span><span style="color:#111">optim</span><span style="color:#f92672">.</span><span style="color:#111">Adagrad</span><span style="color:#111">(</span><span style="color:#111">model</span><span style="color:#f92672">.</span><span style="color:#111">parameters</span><span style="color:#111">(),</span> <span style="color:#111">lr</span><span style="color:#f92672">=</span><span style="color:#ae81ff">0.01</span><span style="color:#111">,</span> <span style="color:#111">eps</span><span style="color:#f92672">=</span><span style="color:#ae81ff">1e-10</span><span style="color:#111">)</span>
+</span></span></code></pre></div><p>We can see that when the gradient is changing very fast, the learning rate will be smaller. When the gradient is changing slowly, the learning rate will be bigger.</p>
+<p>A drawback of Adagrad is that as time goes by, the learning rate becomes smaller and smaller due to the monotonic increment of the running squared sum.</p>
+<blockquote class="book-hint warning">
+<p>John Duchi, Elad Hazan, and Yoram Singer. 2011. <a href="https://dl.acm.org/doi/pdf/10.5555/1953048.2021068">Adaptive Subgradient Methods for Online Learning and Stochastic Optimization</a>. J. Mach. Learn. Res. 12, null (2/1/2011), 2121–2159.</p>
+</blockquote>
 <h3 id="rmsprop">
   RMSProp
   <a class="anchor" href="#rmsprop">#</a>
 </h3>
+<blockquote>
+<p>Root Mean Square Propagation, Leaky AdaGrad</p></blockquote>
+<p>Since AdaGrad accumulates the squared gradients from the beginning, the associatied weight updates can become very small as training progresses.</p>
+<p>RMSProp essentially replaces it with an <strong>exponentialy weighted average</strong>.
+<span>
+  \[
+\mathbf{r}^t = \alpha \mathbf{r}^{t-1} + (1-\alpha) \left(\nabla L(\mathbf{w}^{t})\right)^2
+\]
+</span>
+
+where <span>
+  \(0 < \alpha < 1\)
+</span>
+.
+<span>
+  \[
+\mathbf{w}^t \leftarrow \mathbf{w}^{t-1}  - \frac{\eta}{\sqrt{\mathbf{r}^{t}}+\delta} \odot \nabla L(\mathbf{w}^{t-1})
+\]
+</span>
+</p>
+<blockquote class="book-hint info">
+<span>
+  \(\)
+</span>
+Typically we set the <span>
+  \(\alpha=0.9\)
+</span>
+.
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#00a8c8">for</span> <span style="color:#111">epoch</span> <span style="color:#f92672">in</span> <span style="color:#111">range</span><span style="color:#111">(</span><span style="color:#111">n_epochs</span><span style="color:#111">):</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#00a8c8">for</span> <span style="color:#111">mini_batch</span> <span style="color:#f92672">in</span> <span style="color:#111">get_batches</span><span style="color:#111">(</span><span style="color:#111">data</span><span style="color:#111">,</span> <span style="color:#111">batch_size</span><span style="color:#111">):</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">dw</span> <span style="color:#f92672">=</span> <span style="color:#111">gradient</span><span style="color:#111">(</span><span style="color:#111">loss</span><span style="color:#111">,</span> <span style="color:#111">mini_batch</span><span style="color:#111">,</span> <span style="color:#111">w</span><span style="color:#111">)</span> <span style="color:#75715e"># gradient</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">r</span> <span style="color:#f92672">+=</span> <span style="color:#111">alpha</span> <span style="color:#f92672">*</span> <span style="color:#111">r</span> <span style="color:#f92672">+</span> <span style="color:#111">(</span><span style="color:#ae81ff">1</span><span style="color:#f92672">-</span><span style="color:#111">alpha</span><span style="color:#111">)</span> <span style="color:#f92672">*</span> <span style="color:#111">dw</span><span style="color:#f92672">*</span><span style="color:#111">dw</span> <span style="color:#75715e"># Accumulated squared gradients</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">w</span> <span style="color:#f92672">=</span> <span style="color:#111">w</span> <span style="color:#f92672">-</span> <span style="color:#111">lr</span> <span style="color:#f92672">*</span> <span style="color:#111">dw</span> <span style="color:#f92672">/</span> <span style="color:#111">(</span><span style="color:#111">r</span><span style="color:#f92672">.</span><span style="color:#111">sqrt</span><span style="color:#111">()</span> <span style="color:#f92672">+</span> <span style="color:#111">delta</span><span style="color:#111">)</span>
+</span></span></code></pre></div><a  href="https://pytorch.org/docs/stable/generated/torch.optim.RMSprop.html#torch.optim.RMSprop"   target="_blank" rel="noopener"  class="book-btn">PyTorch</a>
+
+<div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#111">optimizer</span> <span style="color:#f92672">=</span> <span style="color:#111">torch</span><span style="color:#f92672">.</span><span style="color:#111">optim</span><span style="color:#f92672">.</span><span style="color:#111">RMSProp</span><span style="color:#111">(</span><span style="color:#111">model</span><span style="color:#f92672">.</span><span style="color:#111">parameters</span><span style="color:#111">(),</span> <span style="color:#111">lr</span><span style="color:#f92672">=</span><span style="color:#ae81ff">0.01</span><span style="color:#111">,</span> <span style="color:#111">alpha</span><span style="color:#f92672">=</span><span style="color:#ae81ff">0.99</span><span style="color:#111">,</span> <span style="color:#111">eps</span><span style="color:#f92672">=</span><span style="color:#ae81ff">1e-8</span><span style="color:#111">)</span>
+</span></span></code></pre></div><blockquote class="book-hint warning">
+<p>Hinton, 2012. Neural Networks for Machine Learning. <a href="https://www.cs.toronto.edu/~tijmen/csc321/slides/lecture_slides_lec6.pdf">Lecture 6a</a>.</p>
+</blockquote>
 <h3 id="adam">
   Adam
   <a class="anchor" href="#adam">#</a>
 </h3>
+<blockquote>
+<p>Adaptive moments.</p></blockquote>
+<p>If we combine RMSProp with momentum we ontain the most popular Adam optimization method.</p>
+<p>Adam maintains an exponentially weighted average of the first and the second moments.
+<span>
+  \[
+\mathbf{s}^t = \beta_1 \mathbf{s}^{t-1} + (1-\beta_1) \left(\nabla L(\mathbf{w}^{t})\right)
+\]
+</span>
+
+<span>
+  \[
+\mathbf{r}^t = \beta_2 \mathbf{r}^{t-1} + (1-\beta_2) \left(\nabla L(\mathbf{w}^{t})\right)^2
+\]
+</span>
+
+We correct for the bias introduced by initializing <span>
+  \(\mathbf{s}^0\)
+</span>
+ and <span>
+  \(\mathbf{r}^0\)
+</span>
+ to zero.
+<span>
+  \[
+\hat{\mathbf{s}}^t = \frac{\mathbf{s}^t}{1-\beta_1^t}
+\]
+</span>
+
+<span>
+  \[
+\hat{\mathbf{r}}^t = \frac{\mathbf{r}^t}{1-\beta_2^t}
+\]
+</span>
+
+The updates are given as follows.
+<span>
+  \[
+\mathbf{w}^t \leftarrow \mathbf{w}^{t-1}  - \frac{\eta}{\sqrt{\hat{\mathbf{r}}^{t}}+\delta} \odot \hat{\mathbf{s}}^t
+\]
+</span>
+</p>
+<blockquote class="book-hint info">
+<span>
+  \(\)
+</span>
+Typically we set the <span>
+  \(\beta_1=0.9\)
+</span>
+ and <span>
+  \(\beta_2=0.99\)
+</span>
+.
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#00a8c8">for</span> <span style="color:#111">epoch</span> <span style="color:#f92672">in</span> <span style="color:#111">range</span><span style="color:#111">(</span><span style="color:#111">n_epochs</span><span style="color:#111">):</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#00a8c8">for</span> <span style="color:#111">mini_batch</span> <span style="color:#f92672">in</span> <span style="color:#111">get_batches</span><span style="color:#111">(</span><span style="color:#111">data</span><span style="color:#111">,</span> <span style="color:#111">batch_size</span><span style="color:#111">):</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">dw</span> <span style="color:#f92672">=</span> <span style="color:#111">gradient</span><span style="color:#111">(</span><span style="color:#111">loss</span><span style="color:#111">,</span> <span style="color:#111">mini_batch</span><span style="color:#111">,</span> <span style="color:#111">w</span><span style="color:#111">)</span> <span style="color:#75715e"># gradient</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">s</span> <span style="color:#f92672">+=</span> <span style="color:#111">beta1</span> <span style="color:#f92672">*</span> <span style="color:#111">s</span> <span style="color:#f92672">+</span> <span style="color:#111">(</span><span style="color:#ae81ff">1</span><span style="color:#f92672">-</span><span style="color:#111">beta1</span><span style="color:#111">)</span> <span style="color:#f92672">*</span> <span style="color:#111">dw</span> <span style="color:#75715e"># Accumulated gradients</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">r</span> <span style="color:#f92672">+=</span> <span style="color:#111">beta2</span> <span style="color:#f92672">*</span> <span style="color:#111">r</span> <span style="color:#f92672">+</span> <span style="color:#111">(</span><span style="color:#ae81ff">1</span><span style="color:#f92672">-</span><span style="color:#111">beta2</span><span style="color:#111">)</span> <span style="color:#f92672">*</span> <span style="color:#111">dw</span><span style="color:#f92672">*</span><span style="color:#111">dw</span> <span style="color:#75715e"># Accumulated squared gradients</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">s_hat</span> <span style="color:#f92672">=</span> <span style="color:#111">s</span> <span style="color:#f92672">/</span><span style="color:#111">(</span><span style="color:#ae81ff">1</span><span style="color:#f92672">-</span><span style="color:#111">beta1</span><span style="color:#f92672">**</span><span style="color:#111">t</span><span style="color:#111">)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">r_hat</span> <span style="color:#f92672">=</span> <span style="color:#111">r</span> <span style="color:#f92672">/</span><span style="color:#111">(</span><span style="color:#ae81ff">1</span><span style="color:#f92672">-</span><span style="color:#111">beta2</span><span style="color:#f92672">**</span><span style="color:#111">t</span><span style="color:#111">)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">w</span> <span style="color:#f92672">=</span> <span style="color:#111">w</span> <span style="color:#f92672">-</span> <span style="color:#111">lr</span> <span style="color:#f92672">*</span> <span style="color:#111">s_hat</span> <span style="color:#f92672">/</span> <span style="color:#111">(</span><span style="color:#111">r_hat</span><span style="color:#f92672">.</span><span style="color:#111">sqrt</span><span style="color:#111">()</span> <span style="color:#f92672">+</span> <span style="color:#111">delta</span><span style="color:#111">)</span>
+</span></span></code></pre></div><a  href="https://pytorch.org/docs/stable/generated/torch.optim.Adam.html#torch.optim.Adam"   target="_blank" rel="noopener"  class="book-btn">PyTorch</a>
+
+<div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#111">optimizer</span> <span style="color:#f92672">=</span> <span style="color:#111">optim</span><span style="color:#f92672">.</span><span style="color:#111">Adam</span><span style="color:#111">(</span><span style="color:#111">model</span><span style="color:#f92672">.</span><span style="color:#111">parameters</span><span style="color:#111">(),</span> <span style="color:#111">lr</span><span style="color:#f92672">=</span><span style="color:#ae81ff">0.001</span><span style="color:#111">,</span> <span style="color:#111">betas</span><span style="color:#f92672">=</span><span style="color:#111">(</span><span style="color:#ae81ff">0.9</span><span style="color:#111">,</span><span style="color:#ae81ff">0.99</span><span style="color:#111">),</span> <span style="color:#111">eps</span><span style="color:#f92672">=</span><span style="color:#ae81ff">1e-08</span><span style="color:#111">)</span>
+</span></span></code></pre></div><blockquote class="book-hint warning">
+<p>Kingma, D.P. and Ba, J., 2014. <a href="https://arxiv.org/abs/1412.6980">Adam: A method for stochastic optimization</a>. arXiv preprint arXiv:1412.6980.</p>
+</blockquote>
+<blockquote class="book-hint danger">
+<p>Adam is the most widely used optimizer.</p>
+</blockquote>
 <h2 id="learning-rate-schedule">
   Learning rate schedule
   <a class="anchor" href="#learning-rate-schedule">#</a>
@@ -570,6 +718,13 @@ Then, we update our weights in the direction of the velocity vector.
   Training loop
   <a class="anchor" href="#training-loop">#</a>
 </h2>
+<h2 id="collateral">
+  Collateral
+  <a class="anchor" href="#collateral">#</a>
+</h2>
+<ul>
+<li><a href="https://pytorch.org/docs/stable/optim.html">https://pytorch.org/docs/stable/optim.html</a></li>
+</ul>
 <p><img src="https://cdn-images-1.medium.com/v2/resize:fit:1000/1*Nb39bHHUWGXqgisr2WcLGQ.gif" alt="image" /></p>
 </article>
  
@@ -630,6 +785,7 @@ Then, we update our weights in the direction of the velocity vector.
     <li><a href="#learning-rate-schedule">Learning rate schedule</a></li>
     <li><a href="#learning-curve">Learning curve</a></li>
     <li><a href="#training-loop">Training loop</a></li>
+    <li><a href="#collateral">Collateral</a></li>
   </ul>
 </nav>
 
