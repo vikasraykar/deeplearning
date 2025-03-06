@@ -10,6 +10,8 @@ bookToc: true
 
 <img src="/batch.jpeg" alt="Batch normalization" width="400"/>
 
+![image](/batch.jpeg)
+
 In batch normalization the mean and variance are computed across the mini-batch separately for each feature/hidden unit. For a mini-batch of size B
 {{< katex display=true >}}
 \mu_i = \frac{1}{B} \sum_{n=1}^{B} a_{ni}
