@@ -4,6 +4,6 @@ weight: 6
 bookToc: true
 ---
 
-Dropout
+## Dropout
 
-Early stopping
+## Early stopping

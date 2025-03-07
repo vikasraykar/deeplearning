@@ -8,19 +8,88 @@
   #
 
 
-  Algorithmic differenciation
+Backprop, Error Backpropagation.
+Backpropagation (or backprop) is an efficient technique to compute the gradient of the loss function.
+It boils down to a local message passing scheme in which information is sent backwards through the network.
+
+  Forward propagation
   #
 
 
-  Autograd
-  #
-">
+
+
+
+  
+
+
+
+
+
+stateDiagram-v2
+    direction LR
+    z1: $$z_1$$
+    z2: $$z_2$$
+    zi: $$z_i$$
+    zM: $$...$$
+    aj: $$a_j=\sum_i w_{ji} z_i$$
+    zj: $$z_j=h(a_j)$$
+    START1:::hidden --&gt; z1
+    START2:::hidden --&gt; z2
+    STARTi:::hidden --&gt; zi
+    STARTM:::hidden --&gt; zM
+    z1 --&gt; aj
+    z2 --&gt; aj
+    zi --&gt; aj:$$w_{ji}$$
+    zM --&gt; aj
+    aj --&gt; zj
+    zj --&gt; END:::hidden
+    note left of aj : Pre-activation
+    note left of zj : Activation
+    classDef hidden display: none;
+
+
+Let&rsquo;s consider a hidden unit in a general feed forward neural nework.
+
+  \[
+a_j=\sum_i w_{ji} z_i
+\]
+
+
+where 
+  \(z_i\)
+
+ is the activation of anoter unit or an input that sends an connection of unit 
+  \(j\)
+
+ and 
+  \(w_{ji}\)
+
+ is the weight associated with that connection. 
+  \(a_j\)
+
+ is known as pre-activation and is transformed by a non-linear activation fucntion to give the activation 
+  \(z_j\)
+
+ of unit 
+  \(j\)
+
+.
+
+  \[
+z_j=h(a_j)
+\]
+
+
+For any given data point in the traning set, we can pass the input and compute the activations of all the hidden and output units. This process is called forward propagation since it is the forward flow of information through the network.">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#343a40">
 <meta name="color-scheme" content="light dark"><meta property="og:url" content="http://localhost:1313/docs/training/backpropagation/">
   <meta property="og:site_name" content="Deep Learning">
   <meta property="og:title" content="Backpropagation">
-  <meta property="og:description" content="Backpropagation # Algorithmic differenciation # Autograd #">
+  <meta property="og:description" content="Backpropagation # Backprop, Error Backpropagation.
+Backpropagation (or backprop) is an efficient technique to compute the gradient of the loss function.
+It boils down to a local message passing scheme in which information is sent backwards through the network.
+Forward propagation # stateDiagram-v2 direction LR z1: $$z_1$$ z2: $$z_2$$ zi: $$z_i$$ zM: $$...$$ aj: $$a_j=\sum_i w_{ji} z_i$$ zj: $$z_j=h(a_j)$$ START1:::hidden --&gt; z1 START2:::hidden --&gt; z2 STARTi:::hidden --&gt; zi STARTM:::hidden --&gt; zM z1 --&gt; aj z2 --&gt; aj zi --&gt; aj:$$w_{ji}$$ zM --&gt; aj aj --&gt; zj zj --&gt; END:::hidden note left of aj : Pre-activation note left of zj : Activation classDef hidden display: none; Let’s consider a hidden unit in a general feed forward neural nework. \[ a_j=\sum_i w_{ji} z_i \] where \(z_i\) is the activation of anoter unit or an input that sends an connection of unit \(j\) and \(w_{ji}\) is the weight associated with that connection. \(a_j\) is known as pre-activation and is transformed by a non-linear activation fucntion to give the activation \(z_j\) of unit \(j\) . \[ z_j=h(a_j) \] For any given data point in the traning set, we can pass the input and compute the activations of all the hidden and output units. This process is called forward propagation since it is the forward flow of information through the network.">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
     <meta property="article:section" content="docs">
@@ -30,7 +99,7 @@
 <link rel="canonical" href="http://localhost:1313/docs/training/backpropagation/">
 <link rel="stylesheet" href="/book.min.6c8b9d2a1fc95075ed7da46ca81060b39add8fff6741ac51259f768929281e2c.css" integrity="sha256-bIudKh/JUHXtfaRsqBBgs5rdj/9nQaxRJZ92iSkoHiw=" crossorigin="anonymous">
   <script defer src="/fuse.min.js"></script>
-  <script defer src="/en.search.min.b901b80dced09497c8a90af248b2679b23949b167d52cfba483f5375ffe1323b.js" integrity="sha256-uQG4Dc7QlJfIqQrySLJnmyOUmxZ9Us&#43;6SD9Tdf/hMjs=" crossorigin="anonymous"></script>
+  <script defer src="/en.search.min.55187e3817c35bf1561b32f659286d9b99446cc04c6c18f30197ce940a38186f.js" integrity="sha256-VRh&#43;OBfDW/FWGzL2WShtm5lEbMBMbBjzAZfOlAo4GG8=" crossorigin="anonymous"></script>
 <!--
 Made with Book Theme
 https://github.com/alex-shpak/hugo-book
@@ -197,50 +266,6 @@ https://github.com/alex-shpak/hugo-book
         </li>
       
     
-      
-        <li class="book-section-flat" >
-          
-  
-  
-
-  
-    <span>Shortcodes</span>
-  
-
-          
-  <ul>
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="/docs/shortcodes/columns/" class="">Columns</a>
-  
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="/docs/shortcodes/mermaid/" class="">Mermaid</a>
-  
-
-        </li>
-      
-    
-  </ul>
-
-        </li>
-      
-    
   </ul>
 
 
@@ -292,9 +317,21 @@ https://github.com/alex-shpak/hugo-book
   
 <nav id="TableOfContents">
   <ul>
-    <li><a href="#backpropagation">Backpropagation</a></li>
-    <li><a href="#algorithmic-differenciation">Algorithmic differenciation</a></li>
-    <li><a href="#autograd">Autograd</a></li>
+    <li><a href="#backpropagation">Backpropagation</a>
+      <ul>
+        <li><a href="#forward-propagation">Forward propagation</a></li>
+        <li><a href="#backward-propagation">Backward propagation</a></li>
+        <li><a href="#forward-propagation-1">Forward propagation</a></li>
+        <li><a href="#error-evaluation">Error evaluation</a></li>
+        <li><a href="#backward-propagation-1">Backward propagation</a></li>
+      </ul>
+    </li>
+    <li><a href="#algorithmic-differenciation">Algorithmic differenciation</a>
+      <ul>
+        <li><a href="#forward-mode">Forward mode</a></li>
+        <li><a href="#reverse-mode">Reverse mode</a></li>
+      </ul>
+    </li>
   </ul>
 </nav>
 
@@ -311,14 +348,259 @@ https://github.com/alex-shpak/hugo-book
   Backpropagation
   <a class="anchor" href="#backpropagation">#</a>
 </h2>
+<blockquote>
+<p>Backprop, Error Backpropagation.</p></blockquote>
+<p>Backpropagation (or backprop) is an efficient technique to compute the gradient of the loss function.</p>
+<p>It boils down to a local message passing scheme in which information is sent backwards through the network.</p>
+<h3 id="forward-propagation">
+  Forward propagation
+  <a class="anchor" href="#forward-propagation">#</a>
+</h3>
+
+
+<script src="/mermaid.min.js"></script>
+
+  <script>mermaid.initialize({
+  "flowchart": {
+    "useMaxWidth":true
+  },
+  "theme": "default"
+}
+)</script>
+
+
+
+
+<pre class="mermaid">
+stateDiagram-v2
+    direction LR
+    z1: $$z_1$$
+    z2: $$z_2$$
+    zi: $$z_i$$
+    zM: $$...$$
+    aj: $$a_j=\sum_i w_{ji} z_i$$
+    zj: $$z_j=h(a_j)$$
+    START1:::hidden --> z1
+    START2:::hidden --> z2
+    STARTi:::hidden --> zi
+    STARTM:::hidden --> zM
+    z1 --> aj
+    z2 --> aj
+    zi --> aj:$$w_{ji}$$
+    zM --> aj
+    aj --> zj
+    zj --> END:::hidden
+    note left of aj : Pre-activation
+    note left of zj : Activation
+    classDef hidden display: none;
+</pre>
+
+<p>Let&rsquo;s consider a hidden unit in a general feed forward neural nework.
+<span>
+  \[
+a_j=\sum_i w_{ji} z_i
+\]
+</span>
+
+where <span>
+  \(z_i\)
+</span>
+ is the activation of anoter unit or an input that sends an connection of unit <span>
+  \(j\)
+</span>
+ and <span>
+  \(w_{ji}\)
+</span>
+ is the weight associated with that connection. <span>
+  \(a_j\)
+</span>
+ is known as <strong>pre-activation</strong> and is transformed by a non-linear activation fucntion to give the <strong>activation</strong> <span>
+  \(z_j\)
+</span>
+ of unit <span>
+  \(j\)
+</span>
+.
+<span>
+  \[
+z_j=h(a_j)
+\]
+</span>
+
+For any given data point in the traning set, we can pass the input and compute the activations of all the hidden and output units. This process is called <strong>forward propagation</strong> since it is the forward flow of information through the network.</p>
+<h3 id="backward-propagation">
+  Backward propagation
+  <a class="anchor" href="#backward-propagation">#</a>
+</h3>
+<p><span>
+  \[
+\frac{\partial L_n}{\partial w_{ji}} = \frac{\partial L_n}{\partial a_{j}} \frac{\partial a_j}{\partial w_{ji}} = \delta_j z_i
+\]
+</span>
+
+where <span>
+  \(\delta_j\)
+</span>
+ are referred to as <strong>errors</strong>
+<span>
+  \[
+\frac{\partial L_n}{\partial a_{j}} := \delta_j
+\]
+</span>
+
+and
+<span>
+  \[
+\frac{\partial a_j}{\partial w_{ji}} = z_i
+\]
+</span>
+
+So we now have
+<span>
+  \[
+\frac{\partial L_n}{\partial w_{ji}} = \delta_j z_i
+\]
+</span>
+
+The required derivative is simply obtained by multiplying the value of <span>
+  \(\delta\)
+</span>
+ for the unit at the output end of the weight by the value of <span>
+  \(z\)
+</span>
+ for the unit at the input end of the weight.</p>
+<p><span>
+  \(\delta\)
+</span>
+ for the output units are based on the losss function.</p>
+<p>To evaluate the <span>
+  \(\delta\)
+</span>
+ for the hidden units we again make use of the the chain rule for partial derivatives.
+<span>
+  \[
+\delta_j := \frac{\partial L_n}{\partial a_{j}} = \sum_{k} \frac{\partial L_n}{\partial a_{k}} \frac{\partial a_k}{\partial a_{j}}
+\]
+</span>
+
+where the sum runs over all the units k to which j sends connections.
+<span>
+  \[
+\delta_j = h^{'}(a_j)\sum_{k} w_{kj} \delta_k
+\]
+</span>
+
+This tells us that the value of <span>
+  \(\delta\)
+</span>
+ for a particular hidden unit can be obtained by propagating the <span>
+  \(\delta\)
+</span>
+ backward from uits higher up in the network.</p>
+
+
+<pre class="mermaid">
+stateDiagram-v2
+    direction LR
+    z1: $$z_1$$
+    z2: $$z_2$$
+    zi: $$z_i$$
+    zM: $$...$$
+    delta1: $$\delta_1$$
+    delta2: $$\delta_2$$
+    deltak: $$\delta_k$$
+    deltaM: $$...$$
+    aj: $$a_j$$
+    zj: $$z_j$$
+    START1:::hidden --> z1
+    START2:::hidden --> z2
+    STARTi:::hidden --> zi
+    STARTM:::hidden --> zM
+    z1 --> aj
+    z2 --> aj
+    zi --> aj:$$w_{ji}$$
+    zM --> aj
+    aj --> zj
+    zj --> delta1
+    zj --> delta2
+    zj --> deltak:$$w_{kj}$$
+    zj --> deltaM
+    delta1 --> zj
+    delta2 --> zj
+    deltak --> zj
+    deltaM --> zj
+    delta1 --> START11:::hidden
+    delta2 --> START22:::hidden
+    deltak --> STARTii:::hidden
+    deltaM --> STARTMM:::hidden
+    note left of aj : Pre-activation
+    note left of zj : Activation
+    note right of deltak : Errors
+    classDef hidden display: none;
+</pre>
+
+<div class="book-columns flex flex-wrap">
+<div class="flex-even markdown-inner" style="flex-grow: 1;">
+<h3 id="forward-propagation-1">
+  Forward propagation
+  <a class="anchor" href="#forward-propagation-1">#</a>
+</h3>
+<p>For all hidden and ouput units compute in <strong>forward order</strong></p>
+<link rel="stylesheet" href="/katex/katex.min.css" />
+<script defer src="/katex/katex.min.js"></script>
+<script defer src="/katex/auto-render.min.js" onload="renderMathInElement(document.body);"></script><span>
+  \[
+a_j \leftarrow \sum_i w_{ji} z_i
+\]
+</span>
+<span>
+  \[
+z_j \leftarrow h(a_j)
+\]
+</span>
+  </div>
+<div class="flex-even markdown-inner" style="flex-grow: 1;">
+<h3 id="error-evaluation">
+  Error evaluation
+  <a class="anchor" href="#error-evaluation">#</a>
+</h3>
+<p>For all output units compute</p>
+<span>
+  \[
+\delta_k \leftarrow \frac{\partial L_n}{\partial a_k}
+\]
+</span>
+  </div>
+<div class="flex-even markdown-inner" style="flex-grow: 1;">
+<h3 id="backward-propagation-1">
+  Backward propagation
+  <a class="anchor" href="#backward-propagation-1">#</a>
+</h3>
+<p>For all hidden units compute in <strong>reverse order</strong></p>
+<span>
+  \[
+\delta_j \leftarrow h^{'}(a_j)\sum_{k} w_{kj} \delta_k
+\]
+</span>
+<span>
+  \[
+\frac{\partial L_n}{\partial w_{ji}} \leftarrow \delta_j z_i
+\]
+</span>
+  </div>
+</div>
 <h2 id="algorithmic-differenciation">
   Algorithmic differenciation
   <a class="anchor" href="#algorithmic-differenciation">#</a>
 </h2>
-<h2 id="autograd">
-  Autograd
-  <a class="anchor" href="#autograd">#</a>
-</h2>
+<h3 id="forward-mode">
+  Forward mode
+  <a class="anchor" href="#forward-mode">#</a>
+</h3>
+<h3 id="reverse-mode">
+  Reverse mode
+  <a class="anchor" href="#reverse-mode">#</a>
+</h3>
 </article>
  
       
@@ -360,9 +642,21 @@ https://github.com/alex-shpak/hugo-book
   
 <nav id="TableOfContents">
   <ul>
-    <li><a href="#backpropagation">Backpropagation</a></li>
-    <li><a href="#algorithmic-differenciation">Algorithmic differenciation</a></li>
-    <li><a href="#autograd">Autograd</a></li>
+    <li><a href="#backpropagation">Backpropagation</a>
+      <ul>
+        <li><a href="#forward-propagation">Forward propagation</a></li>
+        <li><a href="#backward-propagation">Backward propagation</a></li>
+        <li><a href="#forward-propagation-1">Forward propagation</a></li>
+        <li><a href="#error-evaluation">Error evaluation</a></li>
+        <li><a href="#backward-propagation-1">Backward propagation</a></li>
+      </ul>
+    </li>
+    <li><a href="#algorithmic-differenciation">Algorithmic differenciation</a>
+      <ul>
+        <li><a href="#forward-mode">Forward mode</a></li>
+        <li><a href="#reverse-mode">Reverse mode</a></li>
+      </ul>
+    </li>
   </ul>
 </nav>
 
