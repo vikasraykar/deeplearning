@@ -99,7 +99,7 @@ Forward propagation # stateDiagram-v2 direction LR z1: $$z_1$$ z2: $$z_2$$ zi: $
 <link rel="canonical" href="http://localhost:1313/docs/training/backpropagation/">
 <link rel="stylesheet" href="/book.min.6c8b9d2a1fc95075ed7da46ca81060b39add8fff6741ac51259f768929281e2c.css" integrity="sha256-bIudKh/JUHXtfaRsqBBgs5rdj/9nQaxRJZ92iSkoHiw=" crossorigin="anonymous">
   <script defer src="/fuse.min.js"></script>
-  <script defer src="/en.search.min.55187e3817c35bf1561b32f659286d9b99446cc04c6c18f30197ce940a38186f.js" integrity="sha256-VRh&#43;OBfDW/FWGzL2WShtm5lEbMBMbBjzAZfOlAo4GG8=" crossorigin="anonymous"></script>
+  <script defer src="/en.search.min.da9e447f6f7cc491c39174f364baf632313728e9b2a5b45f09503662572288b5.js" integrity="sha256-2p5Ef298xJHDkXTzZLr2MjE3KOmypbRfCVA2YlciiLU=" crossorigin="anonymous"></script>
 <!--
 Made with Book Theme
 https://github.com/alex-shpak/hugo-book
@@ -326,10 +326,11 @@ https://github.com/alex-shpak/hugo-book
         <li><a href="#backward-propagation-1">Backward propagation</a></li>
       </ul>
     </li>
-    <li><a href="#algorithmic-differenciation">Algorithmic differenciation</a>
+    <li><a href="#automatic-differenciation">Automatic differenciation</a>
       <ul>
-        <li><a href="#forward-mode">Forward mode</a></li>
-        <li><a href="#reverse-mode">Reverse mode</a></li>
+        <li><a href="#forward-mode-automatic-differentiation">Forward-mode automatic differentiation</a></li>
+        <li><a href="#reverse-mode-automatic-differentiation">Reverse-mode automatic differentiation</a></li>
+        <li><a href="#autograd-in-pytorch">Autograd in pytorch</a></li>
       </ul>
     </li>
   </ul>
@@ -589,18 +590,295 @@ z_j \leftarrow h(a_j)
 </span>
   </div>
 </div>
-<h2 id="algorithmic-differenciation">
-  Algorithmic differenciation
-  <a class="anchor" href="#algorithmic-differenciation">#</a>
+<h2 id="automatic-differenciation">
+  Automatic differenciation
+  <a class="anchor" href="#automatic-differenciation">#</a>
 </h2>
-<h3 id="forward-mode">
-  Forward mode
-  <a class="anchor" href="#forward-mode">#</a>
+<blockquote>
+<p>Algorithmic differentiation, autodiff, autograd</p></blockquote>
+<p>There are broadly 4 appoaches to compute derivatives.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Approach</th>
+          <th>Pros</th>
+          <th>Cons</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><strong>Manual</strong> derivation of backprop equations.</td>
+          <td>If done carefully can result in efficent code.</td>
+          <td>Manual process, prone to erros and not easy to iterate on models</td>
+      </tr>
+      <tr>
+          <td><strong>Numerical</strong> evaluation of gradients via finite differences.</td>
+          <td>Sometime sused to check for correctness of other methods.</td>
+          <td>Limited by computational accuracy. Scales poorly with the size of the network.</td>
+      </tr>
+      <tr>
+          <td><strong>Symbolic</strong> differenciation using packages like <code>sympy</code></td>
+          <td></td>
+          <td>Closed form needed. Resulting expression can be very long (<em>expression swell</em>).</td>
+      </tr>
+      <tr>
+          <td><strong>Automatic differentiation</strong></td>
+          <td>Most prefered.</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<blockquote class="book-hint warning">
+<p>Atılım Günes Baydin, Barak A. Pearlmutter, Alexey Andreyevich Radul, and Jeffrey Mark Siskind. 2017. <a href="https://dl.acm.org/doi/pdf/10.5555/3122009.3242010">Automatic differentiation in machine learning: a survey.</a> J. Mach. Learn. Res. 18, 1 (January 2017), 5595–5637.</p>
+</blockquote>
+<h3 id="forward-mode-automatic-differentiation">
+  Forward-mode automatic differentiation
+  <a class="anchor" href="#forward-mode-automatic-differentiation">#</a>
 </h3>
-<h3 id="reverse-mode">
-  Reverse mode
-  <a class="anchor" href="#reverse-mode">#</a>
+<blockquote>
+<p>We augment each intermediate variable <span>
+  \(z_i\)
+</span>
+ (known as <strong>primal</strong> variable) with an additional variable representing the value of some derivative of that variable, which we denote as <span>
+  \(\dot{z}_i\)
+</span>
+, known as <strong>tangent</strong> variable. The tangent variables are generated automatically.</p></blockquote>
+<p>Consider the following function.
+<span>
+  \[
+f(x_1,x_2) = x_1x_2 + \exp(x_1x_2) - \sin(x_2)
+\]
+</span>
+
+When implemented in software the code consists of a sequence of operations than can be expressed as an <strong>evaluation trace</strong> of the underlying elementary operations. This trace can be visualized as a computation graph with respect to the following 7 primal variables.
+
+
+<pre class="mermaid">
+stateDiagram-v2
+    direction LR
+    x1: $$x_1$$
+    x2: $$x_2$$
+    v1: $$v_1 = x_1$$
+    v2: $$v_2 = x_2$$
+    v3: $$v_3 = v_1v_2$$
+    v4: $$v_4 = \sin(v_2)$$
+    v5: $$v_5 = \exp(v_3)$$
+    v6: $$v_6 = v_3 - v_4$$
+    v7: $$v_7 = v_5 + v_6$$
+    f: $$f = v_5 + v_6$$
+    x1 --> v1
+    x2 --> v2
+    v1 --> v3
+    v2 --> v4
+    v2 --> v3
+    v3 --> v5
+    v4 --> v6
+    v3 --> v6
+    v5 --> v7
+    v6 --> v7
+    v7 --> f
+</pre>
+
+We first write code to implement the evaluation of the primal variables.
+<span>
+  \[
+v_1 = x_1
+\]
+</span>
+
+<span>
+  \[
+v_2 = x_2
+\]
+</span>
+
+<span>
+  \[
+v_3 = v_1v_2
+\]
+</span>
+
+<span>
+  \[
+v_4 = \sin(v_2)
+\]
+</span>
+
+<span>
+  \[
+v_5 = \exp(v_3)
+\]
+</span>
+
+<span>
+  \[
+v_6 = v_3 - v_4
+\]
+</span>
+
+<span>
+  \[
+v7 = v_5 + v_6
+\]
+</span>
+
+Not say we wish to evaluate the derivative <span>
+  \(\partial f/\partial x_1\)
+</span>
+. First we define the tangent variables by
+<span>
+  \[\dot{v}_i = \frac{\partial v_i}{\partial x_1}\]
+</span>
+
+Expressions for evaluating these can be constructed automatically using the chain rule of calculus.
+<span>
+  \[
+\dot{v}_i = \frac{\partial v_i}{\partial x_1} = \sum_{j\in\text{parents}(i)} \frac{\partial v_i}{\partial v_j} \frac{\partial v_j}{\partial x_1} = \sum_{j\in\text{parents}(i)} \dot{v}_j \frac{\partial v_i}{\partial v_j}
+\]
+</span>
+
+where <span>
+  \(\text{parents}(i)\)
+</span>
+ denotes the set of <strong>parents</strong> of node i in the evaluation trace diagram.</p>
+<p>The associated euqations and correspoding code for evaluating the tangent variables are generated automatically.
+<span>
+  \[
+\dot{v}_1 = 1
+\]
+</span>
+
+<span>
+  \[
+\dot{v}_2 = 0
+\]
+</span>
+
+<span>
+  \[
+\dot{v}_3 = v_1\dot{v}_2+\dot{v}_1v_2
+\]
+</span>
+
+<span>
+  \[
+\dot{v}_4 = \dot{v}_2\cos(v_2)
+\]
+</span>
+
+<span>
+  \[
+\dot{v}_5 = \dot{v}_3\exp(v_3)
+\]
+</span>
+
+<span>
+  \[
+\dot{v}_6 = \dot{v}_3 - \dot{v}_4
+\]
+</span>
+
+<span>
+  \[
+\dot{v}_7 = \dot{v}_5 + \dot{v}_6
+\]
+</span>
+</p>
+<p>To evaluate the derivative <span>
+  \(\frac{\partial f}{\partial x_1}\)
+</span>
+ we input specific values of <span>
+  \(x_1\)
+</span>
+ and <span>
+  \(x_2\)
+</span>
+ and the code then executes the primal and tangent equations, numerically evalating the tuples <span>
+  \((v_i,\dot{v}_i)\)
+</span>
+ in <strong>forward</strong> order untill we obtain the required derivative.</p>
+<blockquote class="book-hint danger">
+<p>The forward mode with slight modifications can handle multiple outputs in the same pass but the proces has to be repeated for every parameter that we need the derivative. Since we are often in the rgime of one output with millions of parameters this is not scalable for modern deep neural networks. We therefore turn to an alternative version based on the backwards flow of derivative data through the evaluation trace graph.</p>
+</blockquote>
+<h3 id="reverse-mode-automatic-differentiation">
+  Reverse-mode automatic differentiation
+  <a class="anchor" href="#reverse-mode-automatic-differentiation">#</a>
 </h3>
+<p>Reverse-mode automatic differentiation is a gernalization of the error backpropagation procedure we discussed earlier.</p>
+<p>As with forward mode, we augment each primal variable <span>
+  \(v_i\)
+</span>
+ with an additional variable called <strong>adjoint</strong> variable, denoted as <span>
+  \(\bar{v}_i\)
+</span>
+.
+<span>
+  \[\bar{v}_i = \frac{\partial f}{\partial v_i}\]
+</span>
+
+Expressions for evaluating these can be constructed automatically using the chain rule of calculus.
+<span>
+  \[
+\bar{v}_i = \frac{\partial f}{\partial v_i} = \sum_{j\in\text{children}(i)} \frac{\partial f}{\partial v_j} \frac{\partial v_j}{\partial v_i} = \sum_{j\in\text{children}(i)} \bar{v}_j \frac{\partial v_j}{\partial v_i}
+\]
+</span>
+
+where <span>
+  \(\text{children}(i)\)
+</span>
+ denotes the set of <strong>children</strong> of node i in the evaluation trace diagram.</p>
+<blockquote>
+<p>The successive evaluation of the adjoint variables represents a flow of information backwards through the graph. For multiple parameters a single backward pass is enough. Reverse mode is more memory intensive than forward mode.</p></blockquote>
+<p><span>
+  \[
+\bar{v}_7 = 1
+\]
+</span>
+
+<span>
+  \[
+\bar{v}_6 = \bar{v}_7
+\]
+</span>
+
+<span>
+  \[
+\bar{v}_5 = \bar{v}_7
+\]
+</span>
+
+<span>
+  \[
+\bar{v}_4 = -\bar{v}_6
+\]
+</span>
+
+<span>
+  \[
+\bar{v}_3 = \bar{v}_5v_5+\bar{v}_6
+\]
+</span>
+
+<span>
+  \[
+\bar{v}_2 = \bar{v}_2v_1+\bar{v}_4\cos(v_2)
+\]
+</span>
+
+<span>
+  \[
+\bar{v}_1 = \bar{v}_3v_2
+\]
+</span>
+</p>
+<h3 id="autograd-in-pytorch">
+  Autograd in pytorch
+  <a class="anchor" href="#autograd-in-pytorch">#</a>
+</h3>
+<ul>
+<li><a href="https://pytorch.org/tutorials/beginner/blitz/autograd_tutorial.html">A Gentle Introduction to <code>torch.autograd</code></a></li>
+<li><a href="https://pytorch.org/tutorials/beginner/introyt/autogradyt_tutorial.html">The Fundamentals of Autograd</a></li>
+</ul>
 </article>
  
       
@@ -651,10 +929,11 @@ z_j \leftarrow h(a_j)
         <li><a href="#backward-propagation-1">Backward propagation</a></li>
       </ul>
     </li>
-    <li><a href="#algorithmic-differenciation">Algorithmic differenciation</a>
+    <li><a href="#automatic-differenciation">Automatic differenciation</a>
       <ul>
-        <li><a href="#forward-mode">Forward mode</a></li>
-        <li><a href="#reverse-mode">Reverse mode</a></li>
+        <li><a href="#forward-mode-automatic-differentiation">Forward-mode automatic differentiation</a></li>
+        <li><a href="#reverse-mode-automatic-differentiation">Reverse-mode automatic differentiation</a></li>
+        <li><a href="#autograd-in-pytorch">Autograd in pytorch</a></li>
       </ul>
     </li>
   </ul>
