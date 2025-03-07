@@ -8,6 +8,10 @@ bookToc: true
 
 Plot learning curve for 3 differnt optimizers.
 
-numpy
+## numpy
 
-pytorch
+Derive the equation for the gradient of the BCE loss used in logistic regression.
+
+## pytorch
+
+## Adam implementation

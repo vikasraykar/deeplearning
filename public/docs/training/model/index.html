@@ -4,29 +4,54 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="
-  Models
-  #
-
-Linear Regression
-Logistic Regression
-MLP
-
-  Parameters
+  Single Layer Networks
   #
 
 
-  Loss functions
+For simplicity for this chapter we will mainly introduce single layer networks for regression and classification.
+
+  Linear Regression
   #
+
+Linear Regression is a single layer neural network for regression. The probability of 
+  \(y\)
+
+ for a given feature vector (
+  \(\mathbf{x}\in \mathbb{R}^d\)
+
+) is modelled as
+
+  \[
+\text{Pr}[y|\mathbf{x},\mathbf{w}] = \mathcal{N}(y|\mathbf{w}^T\mathbf{x},\sigma^2)
+\]
+
+
+where 
+  \(\mathbf{w}\in \mathbb{R}^d\)
+
+ are the weights/parameters of the model and 
+  \(\mathcal{N}\)
+
+ is the normal distribution with mean 
+  \(\mathbf{w}^T\mathbf{x}\)
+
+ and variance 
+  \(\sigma^2\)
+
+. The prediction is given by
+
+  \[
+\text{E}[y|\mathbf{x},\mathbf{w}] = \mathbf{w}^T\mathbf{x}
+\]
+
 ">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#343a40">
 <meta name="color-scheme" content="light dark"><meta property="og:url" content="http://localhost:1313/docs/training/model/">
   <meta property="og:site_name" content="Deep Learning">
   <meta property="og:title" content="Models">
-  <meta property="og:description" content="Models # Linear Regression
-Logistic Regression
-MLP
-Parameters # Loss functions #">
+  <meta property="og:description" content="Single Layer Networks # For simplicity for this chapter we will mainly introduce single layer networks for regression and classification.
+Linear Regression # Linear Regression is a single layer neural network for regression. The probability of \(y\) for a given feature vector ( \(\mathbf{x}\in \mathbb{R}^d\) ) is modelled as \[ \text{Pr}[y|\mathbf{x},\mathbf{w}] = \mathcal{N}(y|\mathbf{w}^T\mathbf{x},\sigma^2) \] where \(\mathbf{w}\in \mathbb{R}^d\) are the weights/parameters of the model and \(\mathcal{N}\) is the normal distribution with mean \(\mathbf{w}^T\mathbf{x}\) and variance \(\sigma^2\) . The prediction is given by \[ \text{E}[y|\mathbf{x},\mathbf{w}] = \mathbf{w}^T\mathbf{x} \]">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
     <meta property="article:section" content="docs">
@@ -36,7 +61,7 @@ Parameters # Loss functions #">
 <link rel="canonical" href="http://localhost:1313/docs/training/model/">
 <link rel="stylesheet" href="/book.min.6c8b9d2a1fc95075ed7da46ca81060b39add8fff6741ac51259f768929281e2c.css" integrity="sha256-bIudKh/JUHXtfaRsqBBgs5rdj/9nQaxRJZ92iSkoHiw=" crossorigin="anonymous">
   <script defer src="/fuse.min.js"></script>
-  <script defer src="/en.search.min.da9e447f6f7cc491c39174f364baf632313728e9b2a5b45f09503662572288b5.js" integrity="sha256-2p5Ef298xJHDkXTzZLr2MjE3KOmypbRfCVA2YlciiLU=" crossorigin="anonymous"></script>
+  <script defer src="/en.search.min.1abb8e89d5fc1a80c3455bd61f672722f192d7977b5f6dccb4a8c96692faf438.js" integrity="sha256-GruOidX8GoDDRVvWH2cnIvGS15d7X23MtKjJZpL69Dg=" crossorigin="anonymous"></script>
 <!--
 Made with Book Theme
 https://github.com/alex-shpak/hugo-book
@@ -254,8 +279,12 @@ https://github.com/alex-shpak/hugo-book
   
 <nav id="TableOfContents">
   <ul>
-    <li><a href="#models">Models</a></li>
-    <li><a href="#parameters">Parameters</a></li>
+    <li><a href="#single-layer-networks">Single Layer Networks</a>
+      <ul>
+        <li><a href="#linear-regression">Linear Regression</a></li>
+        <li><a href="#logistic-regression">Logistic Regression</a></li>
+      </ul>
+    </li>
     <li><a href="#loss-functions">Loss functions</a></li>
   </ul>
 </nav>
@@ -269,21 +298,248 @@ https://github.com/alex-shpak/hugo-book
 
       
       
-  <article class="markdown book-article"><h2 id="models">
-  Models
-  <a class="anchor" href="#models">#</a>
+  <article class="markdown book-article"><h2 id="single-layer-networks">
+  Single Layer Networks
+  <a class="anchor" href="#single-layer-networks">#</a>
 </h2>
-<p>Linear Regression</p>
-<p>Logistic Regression</p>
-<p>MLP</p>
-<h2 id="parameters">
-  Parameters
-  <a class="anchor" href="#parameters">#</a>
-</h2>
+<blockquote>
+<p>For simplicity for this chapter we will mainly introduce single layer networks for regression and classification.</p></blockquote>
+<h3 id="linear-regression">
+  Linear Regression
+  <a class="anchor" href="#linear-regression">#</a>
+</h3>
+<p>Linear Regression is a single layer neural network for regression. The probability of <span>
+  \(y\)
+</span>
+ for a given feature vector (<span>
+  \(\mathbf{x}\in \mathbb{R}^d\)
+</span>
+) is modelled as
+<span>
+  \[
+\text{Pr}[y|\mathbf{x},\mathbf{w}] = \mathcal{N}(y|\mathbf{w}^T\mathbf{x},\sigma^2)
+\]
+</span>
+
+where <span>
+  \(\mathbf{w}\in \mathbb{R}^d\)
+</span>
+ are the weights/<strong>parameters</strong> of the model and <span>
+  \(\mathcal{N}\)
+</span>
+ is the <strong>normal</strong> distribution with mean <span>
+  \(\mathbf{w}^T\mathbf{x}\)
+</span>
+ and variance <span>
+  \(\sigma^2\)
+</span>
+. The prediction is given by
+<span>
+  \[
+\text{E}[y|\mathbf{x},\mathbf{w}] = \mathbf{w}^T\mathbf{x}
+\]
+</span>
+</p>
+<blockquote class="book-hint warning">
+<p>Without loss of generalization we ignore the bias term as it can be incorporated into the feature vector.</p>
+</blockquote>
+<p>Given a dataset <span>
+  \(\mathcal{D}=\{\mathbf{x}_i \in \mathbb{R}^d,\mathbf{y}_i \in \mathbb{R}\}_{i=1}^N\)
+</span>
+ containing <span>
+  \(n\)
+</span>
+ examples we need to estimate the parameter vector <span>
+  \(\mathbf{w}\)
+</span>
+ by maximizing the likelihood of data.</p>
+<blockquote>
+<p>In practice we minimize the <strong>negative log likelihood</strong>.</p></blockquote>
+<p>Let <span>
+  \( \mu_i = \mathbf{w}^T\mathbf{x}_i\)
+</span>
+ be the model prediction for each example in the training dataset. The negative log likelihood (NLL) is given by
+<span>
+  \[
+\begin{align}
+L(\mathbf{w}) &= - \sum_{i=1}^{N} \log \left[\text{Pr}[y_i|\mathbf{x}_i,\mathbf{w}]\right] \nonumber \\
+                       &= \frac{N}{2} \log(2\pi\sigma^2) + \frac{1}{2\sigma^2} \sum_{i=1}^{N} (y_i-\mu_i)^2 \nonumber \\
+
+\end{align}
+\]
+</span>
+
+This is equivalent to minimizing the <strong>Mean Squared Error</strong> (MSE) loss.
+<span>
+  \[
+\begin{align}
+L(\mathbf{w}) &= \frac{1}{N} \sum_{i=1}^{N} (y_i-\mu_i)^2 \nonumber \\
+\end{align}
+\]
+</span>
+
+We need to choose the model parameters that optimizes (minimizes) the loss function.
+<span>
+  \[
+\hat{\mathbf{w}} = \argmin_{\mathbf{w}} L(\mathbf{w})
+\]
+</span>
+</p>
+<a  href="https://pytorch.org/docs/stable/generated/torch.nn.MSELoss.html#torch.nn.MSELoss"   target="_blank" rel="noopener"  class="book-btn">torch.nn.MSELoss</a>
+
+<h3 id="logistic-regression">
+  Logistic Regression
+  <a class="anchor" href="#logistic-regression">#</a>
+</h3>
+<p>Logisitc Regression is a single layer neural network for binary classification. The probability of the positive class (<span>
+  \(y=1\)
+</span>
+) for a given feature vector (<span>
+  \(\mathbf{x}\in \mathbb{R}^d\)
+</span>
+) is given by
+<span>
+  \[
+\text{Pr}[y=1|\mathbf{x},\mathbf{w}] = \sigma(\mathbf{w}^T\mathbf{x})
+\]
+</span>
+
+where <span>
+  \(\mathbf{w}\in \mathbb{R}^d\)
+</span>
+ are the weights/<strong>parameters</strong> of the model and <span>
+  \(\sigma\)
+</span>
+ is the <strong>sigmoid</strong> activation function defined as
+<span>
+  \[
+\sigma(x) = \frac{1}{1-e^{-z}}
+\]
+</span>
+</p>
+<blockquote class="book-hint warning">
+<p>Without loss of generalization we ignore the bias term as it can be incorporated into the feature vector.</p>
+</blockquote>
+<p>Given a dataset <span>
+  \(\mathcal{D}=\{\mathbf{x}_i \in \mathbb{R}^d,\mathbf{y}_i \in [0,1]\}_{i=1}^N\)
+</span>
+ containing <span>
+  \(n\)
+</span>
+ examples we need to estimate the parameter vector <span>
+  \(\mathbf{w}\)
+</span>
+ by maximizing the likelihood of data.</p>
+<blockquote>
+<p>In practice we minimize the <strong>negative log likelihood</strong>.</p></blockquote>
+<p>Let <span>
+  \( \mu_i = \text{Pr}[y_i=1|\mathbf{x}_i,\mathbf{w}] = \sigma(\mathbf{w}^T\mathbf{x}_i)\)
+</span>
+ be the model prediction for each example in the training dataset. The the negative log likelihood (NLL) is given by
+<span>
+  \[
+\begin{align}
+L(\mathbf{w}) &= - \sum_{i=1}^{N} \log\left[\mu_i^{y_i}(1-\mu_i)^{1-y_i}\right] \nonumber \\
+                       &= - \sum_{i=1}^{N} \left[ y_i\log(\mu_i) + (1-y_i)\log(1-\mu_i) \right] \nonumber \\
+
+\end{align}
+\]
+</span>
+
+This is referred to as the <strong>Binary Cross Entropy</strong> (BCE) loss. We need to choose the model parameters that optimizes (minimizes) the loss function.
+<span>
+  \[
+\hat{\mathbf{w}} = \argmin_{\mathbf{w}} L(\mathbf{w})
+\]
+</span>
+</p>
+<p><a  href="https://pytorch.org/docs/stable/generated/torch.nn.BCELoss.html#torch.nn.BCELoss"   target="_blank" rel="noopener"  class="book-btn">torch.nn.BCELoss</a>
+ <a  href="https://pytorch.org/docs/stable/generated/torch.nn.BCEWithLogitsLoss.html#torch.nn.BCEWithLogitsLoss"   target="_blank" rel="noopener"  class="book-btn">torch.nn.BCEWithLogitsLoss</a>
+</p>
+<details ><summary>Entropy</summary>
+  <div class="markdown-inner">
+<link rel="stylesheet" href="/katex/katex.min.css" />
+<script defer src="/katex/katex.min.js"></script>
+<script defer src="/katex/auto-render.min.js" onload="renderMathInElement(document.body);"></script><span>
+  \(\)
+</span>
+The entropy of a discrete random variable <span>
+  \(X\)
+</span>
+ with <span>
+  \(K\)
+</span>
+ states/categories with distribution <span>
+  \(p_k = \text{Pr}(X=k)\)
+</span>
+ for <span>
+  \(k=1,...,K\)
+</span>
+  is a measure of uncertainty and is defined as follows.
+<span>
+  \[H(X) = \sum_{k=1}^{K} p_k \log_2 \frac{1}{p_k} = - \sum_{k=1}^{K} p_k \log_2 p_k \]
+</span>
+<span>
+  \(\)
+</span>
+The term <span>
+  \(\log_2\frac{1}{p}\)
+</span>
+ quantifies the notion or surprise or uncertainty and entropy is the average uncertainty. The unit is bits (<span>
+  \(\in [0,\log_2 K]\)
+</span>
+) (or nats incase of natural log). The discrete distribution with maximum entropy (<span>
+  \(\log_2 K\)
+</span>
+) is uniform. The discrete distribution with minimum entropy (<span>
+  \(0\)
+</span>
+) is any delta function which puts all mass on one state/category.
+<p>Binary entropy</p>
+<span>
+  \(\)
+</span>
+For a binary random variable <span>
+  \(X \in {0,1}\)
+</span>
+ with <span>
+  \(\text{Pr}(X=1) = \theta\)
+</span>
+ and <span>
+  \(\text{Pr}(X=0) = 1-\theta\)
+</span>
+ the entropy is as follows.
+<span>
+  \[H(\theta) = - [ \theta \log_2 \theta + (1-\theta) \log_2 (1-\theta) ] \]
+</span>
+<span>
+  \[H(\theta) \in [0,1]\]
+</span>
+ and is maximum when <span>
+  \(\theta=0.5\)
+</span>
+.
+<p>Cross entropy</p>
+<span>
+  \(\)
+</span>
+Cross entropy is the average number of bits needed to encode the data from from a source <span>
+  \(p\)
+</span>
+ when we model it using <span>
+  \(q\)
+</span>
+.
+<span>
+  \[H(p,q) = - \sum_{k=1}^{K} p_k \log_2 q_k \]
+</span>
+  </div>
+</details>
 <h2 id="loss-functions">
   Loss functions
   <a class="anchor" href="#loss-functions">#</a>
 </h2>
+<p><a href="https://pytorch.org/docs/stable/nn.html#loss-functions">https://pytorch.org/docs/stable/nn.html#loss-functions</a></p>
 </article>
  
       
@@ -325,8 +581,12 @@ https://github.com/alex-shpak/hugo-book
   
 <nav id="TableOfContents">
   <ul>
-    <li><a href="#models">Models</a></li>
-    <li><a href="#parameters">Parameters</a></li>
+    <li><a href="#single-layer-networks">Single Layer Networks</a>
+      <ul>
+        <li><a href="#linear-regression">Linear Regression</a></li>
+        <li><a href="#logistic-regression">Logistic Regression</a></li>
+      </ul>
+    </li>
     <li><a href="#loss-functions">Loss functions</a></li>
   </ul>
 </nav>
