@@ -30,7 +30,7 @@ pip install -r requirements.txt
   #
 
 
-Linear Regression with numpy.
+Linear Regression with numpy and batch gradient descent.
 In the first coding assigment you will be implementing a basic Linear Regression model from scratch using only numpy. You will be implementing a basic batch gradient descent optimizer.
 
 You can use only numpy and are not allowed to to use torch or any other python libraries.">
@@ -40,7 +40,7 @@ You can use only numpy and are not allowed to to use torch or any other python l
   <meta property="og:site_name" content="Deep Learning">
   <meta property="og:title" content="Coding">
   <meta property="og:description" content="Coding assignment # \(\) Setup # https://github.com/vikasraykar/deeplearning-dojo/
-git clone https://github.com/vikasraykar/deeplearning-dojo.git cd deeplearning-dojo python -m venv .env source .env/bin/activate pip install -r requirements.txt Problem 1 # Linear Regression with numpy.
+git clone https://github.com/vikasraykar/deeplearning-dojo.git cd deeplearning-dojo python -m venv .env source .env/bin/activate pip install -r requirements.txt Problem 1 # Linear Regression with numpy and batch gradient descent.
 In the first coding assigment you will be implementing a basic Linear Regression model from scratch using only numpy. You will be implementing a basic batch gradient descent optimizer.
 You can use only numpy and are not allowed to to use torch or any other python libraries.">
   <meta property="og:locale" content="en_us">
@@ -52,7 +52,7 @@ You can use only numpy and are not allowed to to use torch or any other python l
 <link rel="canonical" href="http://localhost:1313/docs/training/coding/">
 <link rel="stylesheet" href="/book.min.6c8b9d2a1fc95075ed7da46ca81060b39add8fff6741ac51259f768929281e2c.css" integrity="sha256-bIudKh/JUHXtfaRsqBBgs5rdj/9nQaxRJZ92iSkoHiw=" crossorigin="anonymous">
   <script defer src="/fuse.min.js"></script>
-  <script defer src="/en.search.min.bbc7956a15bcf123064bb33ba9a3bb10e09d7f1b0a08050af8ce23d24e9f9cf5.js" integrity="sha256-u8eVahW88SMGS7M7qaO7EOCdfxsKCAUK&#43;M4j0k6fnPU=" crossorigin="anonymous"></script>
+  <script defer src="/en.search.min.3fcf9981df2da1565aac34055bb544d78ea6912025719fff8f7ee5aefda1c58e.js" integrity="sha256-P8&#43;Zgd8toVZarDQFW7VE146mkSAlcZ//j37lrv2hxY4=" crossorigin="anonymous"></script>
 <!--
 Made with Book Theme
 https://github.com/alex-shpak/hugo-book
@@ -274,11 +274,12 @@ https://github.com/alex-shpak/hugo-book
       <ul>
         <li><a href="#setup">Setup</a></li>
         <li><a href="#problem-1">Problem 1</a></li>
+        <li><a href="#problem-2">Problem 2</a></li>
+        <li><a href="#problem-3">Problem 3</a></li>
+        <li><a href="#problem-4">Problem 4</a></li>
+        <li><a href="#bonus-problem">Bonus problem</a></li>
       </ul>
     </li>
-    <li><a href="#numpy">numpy</a></li>
-    <li><a href="#pytorch">pytorch</a></li>
-    <li><a href="#adam-implementation">Adam implementation</a></li>
   </ul>
 </nav>
 
@@ -318,13 +319,13 @@ pip install -r requirements.txt
   <a class="anchor" href="#problem-1">#</a>
 </h3>
 <blockquote>
-<p>Linear Regression with numpy.</p></blockquote>
+<p>Linear Regression with numpy and batch gradient descent.</p></blockquote>
 <p>In the first coding assigment you will be implementing a basic <strong>Linear Regression</strong> model from scratch using <strong>only <code>numpy</code></strong>. You will be implementing a basic batch gradient descent optimizer.</p>
 <blockquote class="book-hint danger">
 <p>You can use only <code>numpy</code> and are not allowed to to use <code>torch</code> or any other python libraries.</p>
 </blockquote>
 <ol>
-<li>Review the <a href="/docs/training/model/#linear-regression">linear regression model</a> and its loss function.</li>
+<li>Review the <a href="/deeplearning/docs/training/model/#linear-regression">linear regression model</a> and its loss function.</li>
 <li>Given a feature matrix <span>
   \(\mathbf{X}\)
 </span>
@@ -334,7 +335,7 @@ pip install -r requirements.txt
  <code>numpy.ndarray</code> write the prediction and the loss function using matrix notation and carefully check for dimensions.</li>
 <li>Accont for the bias by appending the feature matrix with a column of ones.</li>
 <li>Derive the expression for the gradient of the loss function.</li>
-<li>Implement a basic <a href="training/gradient_descent/#batch-gradient-descent">batch gradient descent optimizer</a> with a fixed learning rate first.</li>
+<li>Implement a basic <a href="/deeplearning/docs/training/gradient_descent/#batch-gradient-descent">batch gradient descent optimizer</a> with a fixed learning rate first.</li>
 <li>Track the loss every few epochs and check the actual and estimated parameters.</li>
 <li>Check the MSE loss on the train and the test set.</li>
 <li>Implement a simple learning rate decay as follows <code>lr=lr/(1+decay_factor*epoch)</code>.</li>
@@ -353,7 +354,7 @@ pip install -r requirements.txt
 </span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">def</span> <span style="color:#111">__init__</span><span style="color:#111">(</span><span style="color:#111">self</span><span style="color:#111">):</span>
 </span></span><span style="display:flex;"><span>        <span style="color:#00a8c8">pass</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">def</span> <span style="color:#75af00">pred</span><span style="color:#111">(</span><span style="color:#111">self</span><span style="color:#111">,</span> <span style="color:#111">X</span><span style="color:#111">:</span> <span style="color:#111">np</span><span style="color:#f92672">.</span><span style="color:#111">ndarray</span><span style="color:#111">)</span> <span style="color:#f92672">-&gt;</span> <span style="color:#111">np</span><span style="color:#f92672">.</span><span style="color:#111">ndarray</span><span style="color:#111">:</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">def</span> <span style="color:#75af00">predict</span><span style="color:#111">(</span><span style="color:#111">self</span><span style="color:#111">,</span> <span style="color:#111">X</span><span style="color:#111">:</span> <span style="color:#111">np</span><span style="color:#f92672">.</span><span style="color:#111">ndarray</span><span style="color:#111">)</span> <span style="color:#f92672">-&gt;</span> <span style="color:#111">np</span><span style="color:#f92672">.</span><span style="color:#111">ndarray</span><span style="color:#111">:</span>
 </span></span><span style="display:flex;"><span>        <span style="color:#d88200">&#34;&#34;&#34;Predction.
 </span></span></span><span style="display:flex;"><span><span style="color:#d88200">
 </span></span></span><span style="display:flex;"><span><span style="color:#d88200">        Args:
@@ -388,20 +389,115 @@ pip install -r requirements.txt
 </span></span></span><span style="display:flex;"><span><span style="color:#d88200">            track_loss_num_epochs (int, optional): Compute loss on training set once in k epochs. Defaults to 100.
 </span></span></span><span style="display:flex;"><span><span style="color:#d88200">        &#34;&#34;&#34;</span>
 </span></span><span style="display:flex;"><span>        <span style="color:#00a8c8">pass</span>
-</span></span></code></pre></div><h2 id="numpy">
-  numpy
-  <a class="anchor" href="#numpy">#</a>
-</h2>
-<p>Derive the equation for the gradient of the BCE loss used in logistic regression.</p>
-<h2 id="pytorch">
-  pytorch
-  <a class="anchor" href="#pytorch">#</a>
-</h2>
+</span></span></code></pre></div><h3 id="problem-2">
+  Problem 2
+  <a class="anchor" href="#problem-2">#</a>
+</h3>
+<blockquote>
+<p>Logistic Regression with numpy and batch gradient descent.</p></blockquote>
+<p>In the second coding assigment you will be implementing a basic <strong>Logisitc Regression</strong> model from scratch using <strong>only <code>numpy</code></strong>. You will be implementing a basic batch gradient descent optimizer.</p>
+<blockquote class="book-hint danger">
+<p>You can use only <code>numpy</code> and are not allowed to to use <code>torch</code> or any other python libraries.</p>
+</blockquote>
+<ol>
+<li>Review the <a href="/deeplearning/docs/training/model/#llogistic-regression">logistic regression model</a> and its loss function.</li>
+<li>Given a feature matrix <span>
+  \(\mathbf{X}\)
+</span>
+ as a <span>
+  \(N \times d\)
+</span>
+ <code>numpy.ndarray</code> write the prediction and the loss function using matrix notation and carefully check for dimensions.</li>
+<li>Accont for the bias by appending the feature matrix with a column of ones.</li>
+<li>Derive the expression for the gradient of the loss function. Modularize it so that it should look exactly like the derivative you got for linear regression.</li>
+<li>Implement a basic <a href="/deeplearning/docs/training/gradient_descent/#batch-gradient-descent">batch gradient descent optimizer</a> with a fixed learning rate first.</li>
+<li>Track the loss every few epochs and check the actual and estimated parameters.</li>
+<li>Check the accuracy on the train and the test set.</li>
+<li>Implement a simple learning rate decay as follows <code>lr=lr/(1+decay_factor*epoch)</code>.</li>
+</ol>
+<blockquote>
+<p>A sample stub is provided in the repo as below. Your task is to implement the <code>predict_proba</code>, <code>predict</code> and the <code>fit</code> function.</p></blockquote>
+<a  href="https://github.com/vikasraykar/deeplearning-dojo/blob/main/stubs/LogisticRegressionNumpy.py"   target="_blank" rel="noopener"  class="book-btn">LogisticRegressionNumpy.py</a>
+
+<div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#d88200">&#34;&#34;&#34;Basic implementation of Logistic Regression using numpy only.&#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> <span style="color:#111">numpy</span> <span style="color:#00a8c8">as</span> <span style="color:#111">np</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#00a8c8">class</span> <span style="color:#75af00">LogisticRegression</span><span style="color:#111">:</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#d88200">&#34;&#34;&#34;Logistic Regression&#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">def</span> <span style="color:#111">__init__</span><span style="color:#111">(</span><span style="color:#111">self</span><span style="color:#111">):</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#00a8c8">pass</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">def</span> <span style="color:#75af00">fit</span><span style="color:#111">(</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#111">self</span><span style="color:#111">,</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#111">X_train</span><span style="color:#111">:</span> <span style="color:#111">np</span><span style="color:#f92672">.</span><span style="color:#111">ndarray</span><span style="color:#111">,</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#111">y_train</span><span style="color:#111">:</span> <span style="color:#111">np</span><span style="color:#f92672">.</span><span style="color:#111">ndarray</span><span style="color:#111">,</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#111">learning_rate</span><span style="color:#111">:</span> <span style="color:#111">float</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">1e-3</span><span style="color:#111">,</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#111">learning_rate_decay</span><span style="color:#111">:</span> <span style="color:#111">bool</span> <span style="color:#f92672">=</span> <span style="color:#00a8c8">True</span><span style="color:#111">,</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#111">learning_rate_decay_factor</span><span style="color:#111">:</span> <span style="color:#111">float</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">1.0</span><span style="color:#111">,</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#111">num_epochs</span><span style="color:#111">:</span> <span style="color:#111">int</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">100</span><span style="color:#111">,</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#111">track_loss_num_epochs</span><span style="color:#111">:</span> <span style="color:#111">int</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span><span style="color:#111">,</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">):</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#d88200">&#34;&#34;&#34;Train.
+</span></span></span><span style="display:flex;"><span><span style="color:#d88200">
+</span></span></span><span style="display:flex;"><span><span style="color:#d88200">        Args:
+</span></span></span><span style="display:flex;"><span><span style="color:#d88200">            X_train (np.ndarray): Feature matrix. (N,d)
+</span></span></span><span style="display:flex;"><span><span style="color:#d88200">            y_train (np.ndarray): Target labels (0,1). (N,)
+</span></span></span><span style="display:flex;"><span><span style="color:#d88200">            learning_rate (float, optional): The initial learning rate. Defaults to 1e-3.
+</span></span></span><span style="display:flex;"><span><span style="color:#d88200">            learning_rate_decay (bool, optional): If True enables learning rate decay. Defaults to True.
+</span></span></span><span style="display:flex;"><span><span style="color:#d88200">            learning_rate_decay_factor (float, optional): The learning rate decay factor (1/(1+decay_factor*epoch)). Defaults to 1.0.
+</span></span></span><span style="display:flex;"><span><span style="color:#d88200">            num_epochs (int, optional): The number of epochs to train. Defaults to 100.
+</span></span></span><span style="display:flex;"><span><span style="color:#d88200">            track_loss_num_epochs (int, optional): Compute loss on training set once in k epochs. Defaults to 10.
+</span></span></span><span style="display:flex;"><span><span style="color:#d88200">        &#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#00a8c8">pass</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">def</span> <span style="color:#75af00">predict_proba</span><span style="color:#111">(</span><span style="color:#111">self</span><span style="color:#111">,</span> <span style="color:#111">X</span><span style="color:#111">:</span> <span style="color:#111">np</span><span style="color:#f92672">.</span><span style="color:#111">ndarray</span><span style="color:#111">):</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#d88200">&#34;&#34;&#34;Predict the probability of the positive class (Pr(y=1)).
+</span></span></span><span style="display:flex;"><span><span style="color:#d88200">
+</span></span></span><span style="display:flex;"><span><span style="color:#d88200">        Args:
+</span></span></span><span style="display:flex;"><span><span style="color:#d88200">            X (np.ndarray): Feature matrix. (N,d)
+</span></span></span><span style="display:flex;"><span><span style="color:#d88200">
+</span></span></span><span style="display:flex;"><span><span style="color:#d88200">        Returns:
+</span></span></span><span style="display:flex;"><span><span style="color:#d88200">            y_pred_proba (np.ndarray): Predicted probabilities. (N,)
+</span></span></span><span style="display:flex;"><span><span style="color:#d88200">        &#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#00a8c8">pass</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">def</span> <span style="color:#75af00">predict</span><span style="color:#111">(</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#111">self</span><span style="color:#111">,</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#111">X</span><span style="color:#111">:</span> <span style="color:#111">np</span><span style="color:#f92672">.</span><span style="color:#111">ndarray</span><span style="color:#111">,</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#111">threshold</span><span style="color:#111">:</span> <span style="color:#111">float</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.5</span><span style="color:#111">,</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">):</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#d88200">&#34;&#34;&#34;Predict the label(0,1).
+</span></span></span><span style="display:flex;"><span><span style="color:#d88200">
+</span></span></span><span style="display:flex;"><span><span style="color:#d88200">        Args:
+</span></span></span><span style="display:flex;"><span><span style="color:#d88200">            X (np.ndarray): Feature matrix. (N,d)
+</span></span></span><span style="display:flex;"><span><span style="color:#d88200">            add_colum_vector_for_bias (bool, optional): Add a column vector of ones to model the bias term. Defaults to True.
+</span></span></span><span style="display:flex;"><span><span style="color:#d88200">            threshold (float, optional): The threshold on the probabilit. Defaults to 0.5.
+</span></span></span><span style="display:flex;"><span><span style="color:#d88200">
+</span></span></span><span style="display:flex;"><span><span style="color:#d88200">        Returns:
+</span></span></span><span style="display:flex;"><span><span style="color:#d88200">            y (np.ndarray): Prediction vector. (N,)
+</span></span></span><span style="display:flex;"><span><span style="color:#d88200">        &#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#00a8c8">pass</span>
+</span></span></code></pre></div><h3 id="problem-3">
+  Problem 3
+  <a class="anchor" href="#problem-3">#</a>
+</h3>
+<blockquote>
+<p>Logistic Regression with torch and min-batch SGD.</p></blockquote>
 <p>Plot learning curve for 3 differnt optimizers.</p>
-<h2 id="adam-implementation">
-  Adam implementation
-  <a class="anchor" href="#adam-implementation">#</a>
-</h2>
+<h3 id="problem-4">
+  Problem 4
+  <a class="anchor" href="#problem-4">#</a>
+</h3>
+<blockquote>
+<p>Logistic Regression with torch and min-batch SGD on a publicly avaiable dataset.</p></blockquote>
+<h3 id="bonus-problem">
+  Bonus problem
+  <a class="anchor" href="#bonus-problem">#</a>
+</h3>
+<blockquote>
+<p>AdamW implementation by subclassing the torch optim class.</p></blockquote>
 </article>
  
       
@@ -447,11 +543,12 @@ pip install -r requirements.txt
       <ul>
         <li><a href="#setup">Setup</a></li>
         <li><a href="#problem-1">Problem 1</a></li>
+        <li><a href="#problem-2">Problem 2</a></li>
+        <li><a href="#problem-3">Problem 3</a></li>
+        <li><a href="#problem-4">Problem 4</a></li>
+        <li><a href="#bonus-problem">Bonus problem</a></li>
       </ul>
     </li>
-    <li><a href="#numpy">numpy</a></li>
-    <li><a href="#pytorch">pytorch</a></li>
-    <li><a href="#adam-implementation">Adam implementation</a></li>
   </ul>
 </nav>
 
