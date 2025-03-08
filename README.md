@@ -1,4 +1,7 @@
-# deeplearning
-Deep Learning notes
+## 📚 Documentation
 
-Testing
+https://vikasraykar.github.io/deeplearning/
+
+## ⛩️ Coding
+
+https://github.com/vikasraykar/deeplearning-dojo.git
