@@ -184,12 +184,18 @@ class LogisticRegression:
 
 > Logistic Regression with torch and min-batch SGD.
 
-Plot learning curve for 3 differnt optimizers.
+- Review [Datasets & DataLoaders](https://pytorch.org/tutorials/beginner/basics/data_tutorial.html) in pytorch.
+- Experiment withe different optimizers covered in this lectures and plot the learning curve for different optimizers (SGD, SGD with momentum, AdaGrad, RMSProp Adam).
+
+> A sample stub is provided in the repo as below.
+
+{{<button href="https://github.com/vikasraykar/deeplearning-dojo/blob/main/stubs/LogisticRegressionPytorch.py">}}LogisticRegressionPytorch.py{{</button>}}
 
 ### Problem 4
 
 > Logistic Regression with torch and min-batch SGD on a publicly avaiable dataset.
 
+Chosee one publicly avaiable large dataset and implement custom datsets and loaders and learn either a linear regression or logistic regression model.
 
 ### Bonus problem
 
