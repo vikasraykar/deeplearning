@@ -185,7 +185,8 @@ class LogisticRegression:
 > Logistic Regression with torch and min-batch SGD.
 
 - Review [Datasets & DataLoaders](https://pytorch.org/tutorials/beginner/basics/data_tutorial.html) in pytorch.
-- Experiment withe different optimizers covered in this lectures and plot the learning curve for different optimizers (SGD, SGD with momentum, AdaGrad, RMSProp Adam).
+- Experiment withe different optimizers covered in this lectures and plot the learning curve for different optimizers (SGD, SGD with momentum, AdaGrad, RMSProp, Adam), AdamW.
+- Tune the learning rate for a optimizer.
 
 > A sample stub is provided in the repo as below.
 
@@ -195,8 +196,29 @@ class LogisticRegression:
 
 > Logistic Regression with torch and min-batch SGD on a publicly avaiable dataset.
 
-Chosee one publicly avaiable large dataset and implement custom datsets and loaders and learn either a linear regression or logistic regression model.
+Chosee one publicly avaiable large dataset and implement custom datsets and loaders and learn either a linear regression model.
+
+[Real Estate Data UAE](https://www.kaggle.com/datasets/kanchana1990/real-estate-data-uae)
 
 ### Bonus problem
 
-> AdamW implementation by subclassing the torch optim class.
+> AdamW implementation
+
+Implement the AdamW optimizer as a subclass of `torch.optim.Optimizer`.
+
+An Optimizer subclass much implemnt two methods.
+
+```python
+import torch
+
+class AdamW(torch.optim.Optimizer):
+    def __init__(self,params, ...):
+        pass
+
+    def step(self):
+        pass
+```
+
+{{% hint danger %}}
+The PyTorch optimizer API has a few subtleties and study how some optimizers are written.
+{{% /hint %}}

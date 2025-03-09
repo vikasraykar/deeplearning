@@ -4,6 +4,8 @@
   <url>
     <loc>http://localhost:1313/docs/training/</loc>
   </url><url>
+    <loc>http://localhost:1313/docs/transformers/</loc>
+  </url><url>
     <loc>http://localhost:1313/docs/training/model/</loc>
   </url><url>
     <loc>http://localhost:1313/docs/training/gradient_descent/</loc>
@@ -19,6 +21,8 @@
     <loc>http://localhost:1313/docs/training/quiz/</loc>
   </url><url>
     <loc>http://localhost:1313/docs/training/coding/</loc>
+  </url><url>
+    <loc>http://localhost:1313/docs/transformers/transformers101/</loc>
   </url><url>
     <loc>http://localhost:1313/categories/</loc>
   </url><url>

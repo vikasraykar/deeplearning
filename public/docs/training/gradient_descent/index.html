@@ -49,7 +49,7 @@ The gradient vector points in the direction of the greatest rate of increase of 
 <link rel="canonical" href="http://localhost:1313/docs/training/gradient_descent/">
 <link rel="stylesheet" href="/book.min.6c8b9d2a1fc95075ed7da46ca81060b39add8fff6741ac51259f768929281e2c.css" integrity="sha256-bIudKh/JUHXtfaRsqBBgs5rdj/9nQaxRJZ92iSkoHiw=" crossorigin="anonymous">
   <script defer src="/fuse.min.js"></script>
-  <script defer src="/en.search.min.675e7c74b7b2f25ba1a40bcae0c30469274ae6c619a18291818f28edc09321b6.js" integrity="sha256-Z158dLey8luhpAvK4MMEaSdK5sYZoYKRgY8o7cCTIbY=" crossorigin="anonymous"></script>
+  <script defer src="/en.search.min.69075baa36fbf9851c1d258502d6256c04165031b53fef14c89b8ba4503b1612.js" integrity="sha256-aQdbqjb7&#43;YUcHSWFAtYlbAQWUDG1P&#43;8UyJuLpFA7FhI=" crossorigin="anonymous"></script>
 <!--
 Made with Book Theme
 https://github.com/alex-shpak/hugo-book
@@ -216,6 +216,37 @@ https://github.com/alex-shpak/hugo-book
         </li>
       
     
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <a href="/docs/transformers/" class="">Transformers</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/transformers/transformers101/" class="">Transformers101</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
   </ul>
 
 
@@ -280,6 +311,7 @@ https://github.com/alex-shpak/hugo-book
         <li><a href="#adagrad">Adagrad</a></li>
         <li><a href="#rmsprop">RMSProp</a></li>
         <li><a href="#adam">Adam</a></li>
+        <li><a href="#adamw">AdamW</a></li>
       </ul>
     </li>
     <li><a href="#learning-rate-schedule">Learning rate schedule</a></li>
@@ -338,7 +370,9 @@ https://github.com/alex-shpak/hugo-book
 .</p>
 <details ><summary>Stationary points</summary>
   <div class="markdown-inner">
-<span>
+<link rel="stylesheet" href="/katex/katex.min.css" />
+<script defer src="/katex/katex.min.js"></script>
+<script defer src="/katex/auto-render.min.js" onload="renderMathInElement(document.body);"></script><span>
   \(\nabla L(\mathbf{w})=0\)
 </span>
  are knows as stationary points, which can be either a minima, maxima or a saddle point. The necessary and sufficient condition for a local minima is
@@ -655,8 +689,25 @@ Typically we set the <span>
 </span></span></code></pre></div><blockquote class="book-hint warning">
 <p>Kingma, D.P. and Ba, J., 2014. <a href="https://arxiv.org/abs/1412.6980">Adam: A method for stochastic optimization</a>. arXiv preprint arXiv:1412.6980.</p>
 </blockquote>
+<h3 id="adamw">
+  AdamW
+  <a class="anchor" href="#adamw">#</a>
+</h3>
+<p>AdamW proposes a modification to Adam that improves regularization by adding <strong>weight decay</strong>. At each iteration we pull the parameters towards zero.</p>
+<span>
+  \[
+\mathbf{w}^t \leftarrow \mathbf{w}^{t}  - \eta \lambda \mathbf{w}^{t}
+\]
+</span>
+
+<a  href="https://pytorch.org/docs/stable/generated/torch.optim.AdamW.html#torch.optim.AdamW"   target="_blank" rel="noopener"  class="book-btn">PyTorch</a>
+
+<div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#111">optimizer</span> <span style="color:#f92672">=</span> <span style="color:#111">optim</span><span style="color:#f92672">.</span><span style="color:#111">AdamW</span><span style="color:#111">(</span><span style="color:#111">model</span><span style="color:#f92672">.</span><span style="color:#111">parameters</span><span style="color:#111">(),</span> <span style="color:#111">lr</span><span style="color:#f92672">=</span><span style="color:#ae81ff">0.001</span><span style="color:#111">,</span> <span style="color:#111">betas</span><span style="color:#f92672">=</span><span style="color:#111">(</span><span style="color:#ae81ff">0.9</span><span style="color:#111">,</span><span style="color:#ae81ff">0.99</span><span style="color:#111">),</span> <span style="color:#111">eps</span><span style="color:#f92672">=</span><span style="color:#ae81ff">1e-08</span><span style="color:#111">,</span> <span style="color:#111">weight_decay</span><span style="color:#f92672">=</span><span style="color:#ae81ff">0.01</span><span style="color:#111">)</span>
+</span></span></code></pre></div><blockquote class="book-hint warning">
+<p>Ilya Loshchilov, Frank Hutter, <a href="https://arxiv.org/abs/1711.05101">Decoupled Weight Decay Regularization</a>, ICLR 2019.</p>
+</blockquote>
 <blockquote class="book-hint danger">
-<p>Adam is the most widely used optimizer.</p>
+<p>Adam and AdamW are the most widely used optimizers.</p>
 </blockquote>
 <h2 id="learning-rate-schedule">
   Learning rate schedule
@@ -671,8 +722,8 @@ Typically we set the <span>
 </span>
 
 <div class="book-tabs">
-<input type="radio" class="toggle" name="tabs-49" id="tabs-49-0" checked="checked" />
-<label for="tabs-49-0">Linear</label>
+<input type="radio" class="toggle" name="tabs-52" id="tabs-52-0" checked="checked" />
+<label for="tabs-52-0">Linear</label>
 <div class="book-tabs-content markdown-inner"><span>
   \[
 \mathbf{\eta}^t = \left(1-\frac{t}{K}\right) \mathbf{\eta}^0 + \left(\frac{t}{K}\right) \mathbf{\eta}^K
@@ -680,16 +731,16 @@ Typically we set the <span>
 </span>
 <p>The learning rate reduces linearly over K steps, after which its value is held constant.</p>
 </div>
-<input type="radio" class="toggle" name="tabs-49" id="tabs-49-1"  />
-<label for="tabs-49-1">Power</label>
+<input type="radio" class="toggle" name="tabs-52" id="tabs-52-1"  />
+<label for="tabs-52-1">Power</label>
 <div class="book-tabs-content markdown-inner"><span>
   \[
 \mathbf{\eta}^t = \mathbf{\eta}^0 \left(1+\frac{t}{s}\right)^c
 \]
 </span>
 </div>
-<input type="radio" class="toggle" name="tabs-49" id="tabs-49-2"  />
-<label for="tabs-49-2">Exponential</label>
+<input type="radio" class="toggle" name="tabs-52" id="tabs-52-2"  />
+<label for="tabs-52-2">Exponential</label>
 <div class="book-tabs-content markdown-inner"><span>
   \[
 \mathbf{\eta}^t = \mathbf{\eta}^0 c^\frac{t}{s}\]
@@ -786,6 +837,7 @@ Typically we set the <span>
         <li><a href="#adagrad">Adagrad</a></li>
         <li><a href="#rmsprop">RMSProp</a></li>
         <li><a href="#adam">Adam</a></li>
+        <li><a href="#adamw">AdamW</a></li>
       </ul>
     </li>
     <li><a href="#learning-rate-schedule">Learning rate schedule</a></li>

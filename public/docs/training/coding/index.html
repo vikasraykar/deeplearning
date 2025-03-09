@@ -8,6 +8,9 @@
   #
 
 
+
+
+
   \(\)
 
 
@@ -49,7 +52,7 @@ You can use only numpy and are not allowed to to use torch or any other python l
 <link rel="canonical" href="http://localhost:1313/docs/training/coding/">
 <link rel="stylesheet" href="/book.min.6c8b9d2a1fc95075ed7da46ca81060b39add8fff6741ac51259f768929281e2c.css" integrity="sha256-bIudKh/JUHXtfaRsqBBgs5rdj/9nQaxRJZ92iSkoHiw=" crossorigin="anonymous">
   <script defer src="/fuse.min.js"></script>
-  <script defer src="/en.search.min.675e7c74b7b2f25ba1a40bcae0c30469274ae6c619a18291818f28edc09321b6.js" integrity="sha256-Z158dLey8luhpAvK4MMEaSdK5sYZoYKRgY8o7cCTIbY=" crossorigin="anonymous"></script>
+  <script defer src="/en.search.min.69075baa36fbf9851c1d258502d6256c04165031b53fef14c89b8ba4503b1612.js" integrity="sha256-aQdbqjb7&#43;YUcHSWFAtYlbAQWUDG1P&#43;8UyJuLpFA7FhI=" crossorigin="anonymous"></script>
 <!--
 Made with Book Theme
 https://github.com/alex-shpak/hugo-book
@@ -216,6 +219,37 @@ https://github.com/alex-shpak/hugo-book
         </li>
       
     
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <a href="/docs/transformers/" class="">Transformers</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/transformers/transformers101/" class="">Transformers101</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
   </ul>
 
 
@@ -293,7 +327,10 @@ https://github.com/alex-shpak/hugo-book
   Coding assignment
   <a class="anchor" href="#coding-assignment">#</a>
 </h2>
-<span>
+
+<link rel="stylesheet" href="/katex/katex.min.css" />
+<script defer src="/katex/katex.min.js"></script>
+<script defer src="/katex/auto-render.min.js" onload="renderMathInElement(document.body);"></script><span>
   \(\)
 </span>
 
@@ -481,7 +518,8 @@ pip install -r requirements.txt
 <p>Logistic Regression with torch and min-batch SGD.</p></blockquote>
 <ul>
 <li>Review <a href="https://pytorch.org/tutorials/beginner/basics/data_tutorial.html">Datasets &amp; DataLoaders</a> in pytorch.</li>
-<li>Experiment withe different optimizers covered in this lectures and plot the learning curve for different optimizers (SGD, SGD with momentum, AdaGrad, RMSProp Adam).</li>
+<li>Experiment withe different optimizers covered in this lectures and plot the learning curve for different optimizers (SGD, SGD with momentum, AdaGrad, RMSProp, Adam), AdamW.</li>
+<li>Tune the learning rate for a optimizer.</li>
 </ul>
 <blockquote>
 <p>A sample stub is provided in the repo as below.</p></blockquote>
@@ -493,13 +531,27 @@ pip install -r requirements.txt
 </h3>
 <blockquote>
 <p>Logistic Regression with torch and min-batch SGD on a publicly avaiable dataset.</p></blockquote>
-<p>Chosee one publicly avaiable large dataset and implement custom datsets and loaders and learn either a linear regression or logistic regression model.</p>
+<p>Chosee one publicly avaiable large dataset and implement custom datsets and loaders and learn either a linear regression model.</p>
+<p><a href="https://www.kaggle.com/datasets/kanchana1990/real-estate-data-uae">Real Estate Data UAE</a></p>
 <h3 id="bonus-problem">
   Bonus problem
   <a class="anchor" href="#bonus-problem">#</a>
 </h3>
 <blockquote>
-<p>AdamW implementation by subclassing the torch optim class.</p></blockquote>
+<p>AdamW implementation</p></blockquote>
+<p>Implement the AdamW optimizer as a subclass of <code>torch.optim.Optimizer</code>.</p>
+<p>An Optimizer subclass much implemnt two methods.</p>
+<div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> <span style="color:#111">torch</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#00a8c8">class</span> <span style="color:#75af00">AdamW</span><span style="color:#111">(</span><span style="color:#111">torch</span><span style="color:#f92672">.</span><span style="color:#111">optim</span><span style="color:#f92672">.</span><span style="color:#111">Optimizer</span><span style="color:#111">):</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">def</span> <span style="color:#111">__init__</span><span style="color:#111">(</span><span style="color:#111">self</span><span style="color:#111">,</span><span style="color:#111">params</span><span style="color:#111">,</span> <span style="color:#f92672">...</span><span style="color:#111">):</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#00a8c8">pass</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">def</span> <span style="color:#75af00">step</span><span style="color:#111">(</span><span style="color:#111">self</span><span style="color:#111">):</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#00a8c8">pass</span>
+</span></span></code></pre></div><blockquote class="book-hint danger">
+<p>The PyTorch optimizer API has a few subtleties and study how some optimizers are written.</p>
+</blockquote>
 </article>
  
       

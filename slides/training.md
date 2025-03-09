@@ -564,6 +564,28 @@ Adam is the most widely used optimizer.
 
 ---
 
+# AdamW
+
+AdamW proposes a modification to Adam that improves regularization by adding **weight decay**. At each iteration we pull the parameters towards zero.
+
+$$
+\mathbf{w}^t \leftarrow \mathbf{w}^{t}  - \eta \lambda \mathbf{w}^{t}
+$$
+
+[`torch.optim.AdamW`](https://pytorch.org/docs/stable/generated/torch.optim.AdamW.html#torch.optim.AdamW)
+```python
+optimizer = optim.AdamW(model.parameters(), lr=0.001, betas=(0.9,0.99), eps=1e-08, weight_decay=0.01)
+```
+
+> Ilya Loshchilov, Frank Hutter, [Decoupled Weight Decay Regularization](https://arxiv.org/abs/1711.05101), ICLR 2019.
+
+
+---
+
+# Adam and AdamW are the most widely used optimizers.
+
+---
+
 # Learning rate schedule
 
 A small learning rate leads to slow convergence while a large learning rate leads to instability (due to divergent oscillations).
@@ -634,9 +656,9 @@ Zero-mean Gaussian $\mathcal{N}(0,\epsilon^2)$
 
 > Backprop, Error Backpropagation.
 
-Backpropagation (or backprop) is an efficient technique to compute the gradient of the loss function.
+**Backpropagation** (or backprop) is an efficient technique to compute the gradient of the loss function.
 
-It boils down to a local message passing scheme in which information is sent backwards through the network.
+It boils down to a **local message passing scheme** in which information is sent backwards through the network.
 
 ---
 
@@ -649,33 +671,39 @@ It boils down to a local message passing scheme in which information is sent bac
 # Forward propagation
 
 Let's consider a hidden unit in a general feed forward neural nework.
+
+### Pre-activation
 $$
 a_j=\sum_i w_{ji} z_i
 $$
-$a_j$ is known as **pre-activation** and is transformed by a non-linear activation function to give the **activation** $z_j$ of unit $j$.
+
+### Activation
 $$
 z_j=h(a_j)
 $$
-This process is called **forward propagation** since it is the forward flow of information through the network.
+
+> This process is called **forward propagation** since it is the forward flow of information through the network.
 
 ---
 
-# Backward propagation
+# Gradients via chain rule
 
-Backpropagation (or backprop) is an efficient technique to compute the gradient of the loss function.
-
+To compute the gradient of the loss function we use the chain rule.
 $$
 \frac{\partial L_n}{\partial w_{ji}} = \frac{\partial L_n}{\partial a_{j}} \frac{\partial a_j}{\partial w_{ji}} = \delta_j z_i
 $$
-where $\frac{\partial L_n}{\partial a_{j}}=\delta_j$ (are referred to as **errors**) and $\frac{\partial a_j}{\partial w_{ji}} = z_i$
+where
+$$\frac{\partial L_n}{\partial a_{j}}=\delta_j$$
+$$\frac{\partial a_j}{\partial w_{ji}} = z_i$$
 
-The required derivative is simply obtained by multiplying the value of $\delta$ for the unit at the output end of the weight by the value of $z$ for the unit at the input end of the weight.
+> $\delta_j$ are referred to as **errors**.
+
 
 ---
 
 $\delta$ for the output units are based on the losss function.
 
-To evaluate the $\delta$ for the hidden units we again make use of the the chain rule for partial derivatives.
+To evaluate the $\delta$ for the hidden units we again make use of the the chain rule.
 $$
 \delta_j := \frac{\partial L_n}{\partial a_{j}} = \sum_{k} \frac{\partial L_n}{\partial a_{k}} \frac{\partial a_k}{\partial a_{j}}
 $$
@@ -689,8 +717,7 @@ This tells us that the value of $\delta$ for a particular hidden unit can be obt
 ---
 
 
-
-<img src="backward.png" alt="" width="600"/>
+<img src="backward.png" alt="" width="650"/>
 
 ---
 
@@ -707,7 +734,7 @@ There are broadly 4 appoaches to compute derivatives.
 | Approach  | Pros | Cons |
 | ------------- | ------------- | ------------- |
 | **Manual** derivation of backprop equations. | If done carefully can result in efficent code.  | Manual process, prone to erros and not easy to iterate on models |
-| **Numerical** evaluation of gradients via finite differences. | Sometime sused to check for correctness of other methods.| Limited by computational accuracy. Scales poorly with the size of the network.
+| **Numerical** evaluation of gradients via finite differences. | Sometimes used to check for correctness of other methods.| Limited by computational accuracy. Scales poorly with the size of the network.
 | **Symbolic** differenciation using packages like `sympy` | | Closed form needed. Resulting expression can be very long (*expression swell*).|
 | **Automatic differentiation** | Most prefered. |
 
@@ -715,11 +742,7 @@ There are broadly 4 appoaches to compute derivatives.
 
 # Forward-mode automatic differentiation
 
-> Primal and tangent variables.
 
-We augment each intermediate variable $z_i$ (known as **primal** variable) with an additional variable representing the value of some derivative of that variable, which we denote as $\dot{z}_i$, known as **tangent** variable.
-
-The tangent variables are generated automatically.
 
 ---
 
@@ -727,7 +750,7 @@ Consider the following function.
 $$
 f(x_1,x_2) = x_1x_2 + \exp(x_1x_2) - \sin(x_2)
 $$
-When implemented in software the code consists of a sequence of operations than can be expressed as an **evaluation trace** of the underlying elementary operations. This trace can be visualized as a computation graph with respect to the following 7 primal variables.
+When implemented in software the code consists of a sequence of operations than can be expressed as an **evaluation trace** of the underlying elementary operations. This trace can be visualized as a computation graph with respect to the following 7 **primal variables**.
 
 <img src="autograd.png" alt="" width="1000"/>
 
@@ -756,6 +779,16 @@ $$
 $$
 v7 = v_5 + v_6
 $$
+
+---
+
+# Primal and tangent variables
+
+
+
+We augment each intermediate variable $z_i$ (known as **primal** variable) with an additional variable representing the value of some derivative of that variable, which we denote as $\dot{z}_i$, known as **tangent** variable.
+
+The tangent variables are generated automatically.
 
 ----
 
@@ -797,11 +830,9 @@ To evaluate the derivative $\frac{\partial f}{\partial x_1}$ we input specific v
 
 ----
 
-The forward mode with slight modifications can handle multiple outputs in the same pass but the proces has to be repeated for every parameter that we need the derivative.
-
-Since we are often in the rgeime of one output with millions of parameters this is not scalable for modern deep neural networks.
-
- We therefore turn to an alternative version based on the backwards flow of derivative data through the evaluation trace graph.
+- The forward mode with slight modifications can handle multiple outputs in the same pass but the proces has to be repeated for every parameter that we need the derivative.
+- Since we are often in the rgeime of one output with millions of parameters this is not scalable for modern deep neural networks.
+- We therefore turn to an alternative version based on the backwards flow of derivative data through the evaluation trace graph.
 
 ---
 
@@ -812,6 +843,8 @@ Reverse-mode automatic differentiation is a generalization of the error backprop
 
 ---
 
+# Primal and adjoint variables
+
 As with forward mode, we augment each primal variable $v_i$ with an additional variable called **adjoint** variable, denoted as $\bar{v}_i$.
 $$\bar{v}_i = \frac{\partial f}{\partial v_i}$$
 Expressions for evaluating these can be constructed automatically using the chain rule of calculus.
@@ -820,9 +853,11 @@ $$
 $$
 where $\text{children}(i)$ denotes the set of **children** of node i in the evaluation trace diagram.
 
-The successive evaluation of the adjoint variables represents a flow of information backwards through the graph. For multiple parameters a single backward pass is enough.
 
 ---
+
+The successive evaluation of the adjoint variables represents a flow of information backwards through the graph. For multiple parameters a single backward pass is enough.
+
 $$
 \bar{v}_7 = 1
 $$
@@ -965,9 +1000,54 @@ layer_norm = nn.LayerNorm(enormalized_shape)
 
 ---
 
----
+## Training loop
 
-# Training loop
+```python
+# Load the dataset.
+train_dataset = SampleDataset(X_train, y_train)
+
+# Preparing your data for training with DataLoaders.
+batch_size = 64
+train_dataloader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
+
+# Define the model class.
+model = LogisticRegression(num_features=d)
+
+# Loss fucntion.
+loss_fn = nn.BCELoss()
+
+# Optimizer.
+optimizer = SGD(model.parameters(), lr=0.01, momentum=0.9)
+
+# Learning rate scheduler.
+scheduler = ExponentialLR(optimizer, gamma=0.9)
+```
+
+---
+```python
+# Run for a few epochs.
+for epoch in range(n_epochs):
+    # Iterate through the DataLoader to access mini-batches.
+    for batch, (input, target) in enumerate(train_dataloader):
+        # Prediction.
+        output = model(input)
+
+        # Compute loss.
+        loss = loss_fn(output, target)
+
+        # Compute gradient.
+        loss.backward()
+
+        # Gradient descent.
+        optimizer.step()
+
+        # Prevent gradient accumulation
+        optimizer.zero_grad()
+
+    # Adjust learning rate
+    scheduler.step()
+
+```
 
 ---
 
@@ -1001,6 +1081,10 @@ What are the typically used parameters of the optimizer ?
 ---
 
 ### What is the difference between batch and layer normalization ?
+
+---
+
+### Why do we do `optimizer.zero_grad()` ?
 
 ---
 

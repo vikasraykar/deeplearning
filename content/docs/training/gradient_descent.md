@@ -289,9 +289,30 @@ optimizer = optim.Adam(model.parameters(), lr=0.001, betas=(0.9,0.99), eps=1e-08
 Kingma, D.P. and Ba, J., 2014. [Adam: A method for stochastic optimization](https://arxiv.org/abs/1412.6980). arXiv preprint arXiv:1412.6980.
 {{% /hint %}}
 
-{{% hint danger %}}
-Adam is the most widely used optimizer.
+
+
+### AdamW
+
+AdamW proposes a modification to Adam that improves regularization by adding **weight decay**. At each iteration we pull the parameters towards zero.
+
+{{< katex display=true >}}
+\mathbf{w}^t \leftarrow \mathbf{w}^{t}  - \eta \lambda \mathbf{w}^{t}
+{{< /katex >}}
+
+{{<button href="https://pytorch.org/docs/stable/generated/torch.optim.AdamW.html#torch.optim.AdamW">}}PyTorch{{</button>}}
+```python
+optimizer = optim.AdamW(model.parameters(), lr=0.001, betas=(0.9,0.99), eps=1e-08, weight_decay=0.01)
+```
+{{% hint warning %}}
+Ilya Loshchilov, Frank Hutter, [Decoupled Weight Decay Regularization](https://arxiv.org/abs/1711.05101), ICLR 2019.
 {{% /hint %}}
+
+
+{{% hint danger %}}
+Adam and AdamW are the most widely used optimizers.
+{{% /hint %}}
+
+
 
 ## Learning rate schedule
 
