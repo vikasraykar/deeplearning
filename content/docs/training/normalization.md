@@ -8,7 +8,7 @@ bookToc: true
 
 ## Batch normalization
 
-<img src="/batch.jpeg" alt="Batch normalization" width="400"/>
+<img src="https://vikasraykar.github.io/deeplearning/batch.jpeg" alt="Batch normalization" width="400"/>
 
 In batch normalization the mean and variance are computed across the mini-batch separately for each feature/hidden unit. For a mini-batch of size B
 {{< katex display=true >}}
@@ -32,7 +32,7 @@ m = nn.BatchNorm1d(num_features)
 
 ## Layer normalization
 
-<img src="/layer.jpeg" alt="Layer normalization" width="300"/>
+<img src="https://vikasraykar.github.io/deeplearning/layer.jpeg" alt="Layer normalization" width="300"/>
 
 In layer normalization the mean and variance are computed across the feature/hidden unit for each example seprately.
 {{< katex display=true >}}
