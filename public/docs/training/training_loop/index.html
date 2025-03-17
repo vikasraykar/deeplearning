@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en-us" dir="ltr">
-<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+<head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="
@@ -52,7 +52,7 @@ for epoch in range(n_epochs):
 ">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#343a40">
-<meta name="color-scheme" content="light dark"><meta property="og:url" content="http://localhost:1313/docs/training/training_loop/">
+<meta name="color-scheme" content="light dark"><meta property="og:url" content="https://example.org/docs/training/training_loop/">
   <meta property="og:site_name" content="Deep Learning">
   <meta property="og:title" content="Training loop">
   <meta property="og:description" content="Training loop # # Load the dataset. train_dataset = SampleDataset(X_train, y_train) test_dataset = SampleDataset(X_test, y_test) # Preparing your data for training with DataLoaders. batch_size = 64 train_dataloader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True) test_dataloader = DataLoader(test_dataset, batch_size=batch_size, shuffle=True) # Define the model class. model = LogisticRegression(num_features=d) # Loss fucntion. loss_fn = nn.BCELoss() # Optimizer. optimizer = SGD(model.parameters(), lr=0.01, momentum=0.9) # Learning rate scheduler. scheduler = ExponentialLR(optimizer, gamma=0.9) # Run for a few epochs. for epoch in range(n_epochs): # Iterate through the DataLoader to access mini-batches. for batch, (input, target) in enumerate(train_dataloader): # Prediction. output = model(input) # Compute loss. loss = loss_fn(output, target) # Compute gradient. loss.backward() # Gradient descent. optimizer.step() # Prevent gradient accumulation optimizer.zero_grad() # Adjust learning rate scheduler.step()">
@@ -62,10 +62,10 @@ for epoch in range(n_epochs):
 <title>Training loop | Deep Learning</title>
 <link rel="icon" href="/favicon.png" >
 <link rel="manifest" href="/manifest.json">
-<link rel="canonical" href="http://localhost:1313/docs/training/training_loop/">
+<link rel="canonical" href="https://example.org/docs/training/training_loop/">
 <link rel="stylesheet" href="/book.min.6c8b9d2a1fc95075ed7da46ca81060b39add8fff6741ac51259f768929281e2c.css" integrity="sha256-bIudKh/JUHXtfaRsqBBgs5rdj/9nQaxRJZ92iSkoHiw=" crossorigin="anonymous">
   <script defer src="/fuse.min.js"></script>
-  <script defer src="/en.search.min.69075baa36fbf9851c1d258502d6256c04165031b53fef14c89b8ba4503b1612.js" integrity="sha256-aQdbqjb7&#43;YUcHSWFAtYlbAQWUDG1P&#43;8UyJuLpFA7FhI=" crossorigin="anonymous"></script>
+  <script defer src="/en.search.min.65dc1a11824b2da143dbe0f3156e5ebf75da7a83d57472cdc61922a7a6f305ce.js" integrity="sha256-ZdwaEYJLLaFD2&#43;DzFW5ev3XaeoPVdHLNxhkip6bzBc4=" crossorigin="anonymous"></script>
 <!--
 Made with Book Theme
 https://github.com/alex-shpak/hugo-book
@@ -253,6 +253,37 @@ https://github.com/alex-shpak/hugo-book
 
   
     <a href="/docs/transformers/transformers101/" class="">Transformers101</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <a href="/docs/rl/" class="">Reinforcement Learning</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/rl/basics/" class="">Basics</a>
   
 
         </li>

@@ -10,8 +10,14 @@ paginate: true
 **Vikas Chandrakant Raykar**
 Microsoft AI
 
-https://vikasraykar.github.io/deeplearning
-https://github.com/vikasraykar/deeplearning-dojo
+---
+
+# Collateral
+
+
+notes - https://vikasraykar.github.io/deeplearning
+code  - https://github.com/vikasraykar/deeplearning-dojo
+
 
 ---
 
@@ -420,7 +426,8 @@ Different learning rate for each parameter.
 - Adagrad
 - RMSProp
 - Adam
-- ...
+- AdamW
+
 
 ---
 
@@ -512,6 +519,9 @@ optimizer = torch.optim.RMSProp(model.parameters(), lr=0.01, alpha=0.99, eps=1e-
 
 If we combine RMSProp with momentum we obtain the most popular Adam optimization method.
 
+> Kingma, D.P. and Ba, J., 2014. [Adam: A method for stochastic optimization](https://arxiv.org/abs/1412.6980). arXiv preprint arXiv:1412.6980.
+
+
 ---
 
 # Adam
@@ -554,13 +564,6 @@ optimizer = optim.Adam(model.parameters(), lr=0.001, betas=(0.9,0.99), eps=1e-08
 
 > Typically we set the $\beta_1=0.9$ and $\beta_2=0.99$.
 
----
-
-# Adam
-
-> Kingma, D.P. and Ba, J., 2014. [Adam: A method for stochastic optimization](https://arxiv.org/abs/1412.6980). arXiv preprint arXiv:1412.6980.
-
-Adam is the most widely used optimizer.
 
 ---
 
@@ -1057,6 +1060,14 @@ https://vikasraykar.github.io/deeplearning/docs/training/quiz/
 
 ---
 
+### Derive the gradient of the loss function for linear regression and logistic regression.
+
+---
+
+### What is cross entropy ?
+
+---
+
 ### What is the most widely used optimizer ?
 
 What are the typically used parameters of the optimizer ?
@@ -1069,12 +1080,11 @@ What are the typically used parameters of the optimizer ?
 
 ### In [Attention Is All You Need](https://arxiv.org/abs/1706.03762) paper what is the optimizer and the learning rate scheduler used ?
 
+What are the optimizers used in LLaMA and GPT-3 ?
 
 ---
 
-### Derive the gradient of the loss function for linear regression and logistic regression.
 
----
 
 ### What is the disadvantage of forward-mode automatic differentiation ?
 
@@ -1095,3 +1105,7 @@ https://vikasraykar.github.io/deeplearning/docs/training/coding/
 ---
 
 # Thanks you and any questions ?
+
+
+notes - https://vikasraykar.github.io/deeplearning
+code  - https://github.com/vikasraykar/deeplearning-dojo

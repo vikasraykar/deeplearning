@@ -2,34 +2,38 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>http://localhost:1313/docs/training/</loc>
+    <loc>https://example.org/docs/rl/basics/</loc>
   </url><url>
-    <loc>http://localhost:1313/docs/transformers/</loc>
+    <loc>https://example.org/docs/training/</loc>
   </url><url>
-    <loc>http://localhost:1313/docs/training/model/</loc>
+    <loc>https://example.org/docs/training/model/</loc>
   </url><url>
-    <loc>http://localhost:1313/docs/training/gradient_descent/</loc>
+    <loc>https://example.org/docs/transformers/</loc>
   </url><url>
-    <loc>http://localhost:1313/docs/training/backpropagation/</loc>
+    <loc>https://example.org/docs/training/gradient_descent/</loc>
   </url><url>
-    <loc>http://localhost:1313/docs/training/normalization/</loc>
+    <loc>https://example.org/docs/rl/</loc>
   </url><url>
-    <loc>http://localhost:1313/docs/training/regularization/</loc>
+    <loc>https://example.org/docs/training/backpropagation/</loc>
   </url><url>
-    <loc>http://localhost:1313/docs/training/training_loop/</loc>
+    <loc>https://example.org/docs/training/normalization/</loc>
   </url><url>
-    <loc>http://localhost:1313/docs/training/quiz/</loc>
+    <loc>https://example.org/docs/training/regularization/</loc>
   </url><url>
-    <loc>http://localhost:1313/docs/training/coding/</loc>
+    <loc>https://example.org/docs/training/training_loop/</loc>
   </url><url>
-    <loc>http://localhost:1313/docs/transformers/transformers101/</loc>
+    <loc>https://example.org/docs/training/quiz/</loc>
   </url><url>
-    <loc>http://localhost:1313/categories/</loc>
+    <loc>https://example.org/docs/training/coding/</loc>
   </url><url>
-    <loc>http://localhost:1313/</loc>
+    <loc>https://example.org/docs/transformers/transformers101/</loc>
   </url><url>
-    <loc>http://localhost:1313/docs/</loc>
+    <loc>https://example.org/categories/</loc>
   </url><url>
-    <loc>http://localhost:1313/tags/</loc>
+    <loc>https://example.org/</loc>
+  </url><url>
+    <loc>https://example.org/docs/</loc>
+  </url><url>
+    <loc>https://example.org/tags/</loc>
   </url>
 </urlset>
