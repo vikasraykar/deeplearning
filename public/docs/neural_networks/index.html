@@ -4,12 +4,11 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="
-  Alignment
+  Single Layer Networks
   #
 
-LLMs are typically trained for next-token prediction.
-Pre-trained LLMs may not be able to follow user instructions because they were not trained to do so.
-Pre-trained LLMs may generate harmful content or perpetuate  biases inherent in their training data.
+
+For simplicity for this chapter we will mainly introduce single layer networks (for regression and classification).
 
 
 
@@ -20,53 +19,43 @@ Pre-trained LLMs may generate harmful content or perpetuate  biases inherent in 
 
 
 
----
-title: LLM training stages
----
-flowchart LR
-    subgraph Pre-training
-    A[Pre-training]
-    end
-    subgraph Post-training
-    B[&#34;Instruction Alignment (SFT)&#34;]
-    C[&#34;Preference Alignment (RLHF)&#34;]
-    end
-    subgraph Inference
-    D[Prompt engineering]
-    end
-    A--&gt;B
-    B--&gt;C
-    C--&gt;D
-
-
-
-  Fine tune LLMs with labelled data
-  #
-
-
-  Supervised Fine Tuning (SFT)
-  #
-
-Training data is task specific instructions paired with their expected outputs.">
+stateDiagram-v2
+    direction LR
+    z1: $$x_1$$
+    z2: $$x_2$$
+    zi: $$x_i$$
+    zM: $$x_d$$
+    aj: $$a=\sum_i w_{i} x_i$$
+    zj: $$z=h(a)$$
+    z1 --&gt; aj:$$w_{1}$$
+    z2 --&gt; aj:$$w_{2}$$
+    zi --&gt; aj:$$w_{i}$$
+    zM --&gt; aj:$$w_{d}$$
+    aj --&gt; zj
+    zj --&gt; END:::hidden
+    note left of zM : Inputs
+    note left of aj : Pre-activation
+    note left of zj : Activation
+    note left of END : Output
+    classDef hidden display: none;
+">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#343a40">
-<meta name="color-scheme" content="light dark"><meta property="og:url" content="https://example.org/docs/transformers/alignment/">
+<meta name="color-scheme" content="light dark"><meta property="og:url" content="https://example.org/docs/neural_networks/">
   <meta property="og:site_name" content="Deep Learning">
-  <meta property="og:title" content="Alignment">
-  <meta property="og:description" content="Alignment # LLMs are typically trained for next-token prediction.
-Pre-trained LLMs may not be able to follow user instructions because they were not trained to do so.
-Pre-trained LLMs may generate harmful content or perpetuate biases inherent in their training data.
---- title: LLM training stages --- flowchart LR subgraph Pre-training A[Pre-training] end subgraph Post-training B[&#34;Instruction Alignment (SFT)&#34;] C[&#34;Preference Alignment (RLHF)&#34;] end subgraph Inference D[Prompt engineering] end A--&gt;B B--&gt;C C--&gt;D Fine tune LLMs with labelled data # Supervised Fine Tuning (SFT) # Training data is task specific instructions paired with their expected outputs.">
+  <meta property="og:title" content="Neural Networks">
+  <meta property="og:description" content="Single Layer Networks # For simplicity for this chapter we will mainly introduce single layer networks (for regression and classification).
+stateDiagram-v2 direction LR z1: $$x_1$$ z2: $$x_2$$ zi: $$x_i$$ zM: $$x_d$$ aj: $$a=\sum_i w_{i} x_i$$ zj: $$z=h(a)$$ z1 --&gt; aj:$$w_{1}$$ z2 --&gt; aj:$$w_{2}$$ zi --&gt; aj:$$w_{i}$$ zM --&gt; aj:$$w_{d}$$ aj --&gt; zj zj --&gt; END:::hidden note left of zM : Inputs note left of aj : Pre-activation note left of zj : Activation note left of END : Output classDef hidden display: none;">
   <meta property="og:locale" content="en_us">
-  <meta property="og:type" content="article">
-    <meta property="article:section" content="docs">
-<title>Alignment | Deep Learning</title>
+  <meta property="og:type" content="website">
+<title>Neural Networks | Deep Learning</title>
 <link rel="icon" href="/favicon.png" >
 <link rel="manifest" href="/manifest.json">
-<link rel="canonical" href="https://example.org/docs/transformers/alignment/">
+<link rel="canonical" href="https://example.org/docs/neural_networks/">
 <link rel="stylesheet" href="/book.min.6c8b9d2a1fc95075ed7da46ca81060b39add8fff6741ac51259f768929281e2c.css" integrity="sha256-bIudKh/JUHXtfaRsqBBgs5rdj/9nQaxRJZ92iSkoHiw=" crossorigin="anonymous">
   <script defer src="/fuse.min.js"></script>
   <script defer src="/en.search.min.18f6d56d63702829226c3a10cab725f357e36dbcf0ec30ff7b3ce55779d566a6.js" integrity="sha256-GPbVbWNwKCkibDoQyrcl81fjbbzw7DD/ezzlV3nVZqY=" crossorigin="anonymous"></script>
+<link rel="alternate" type="application/rss+xml" href="https://example.org/docs/neural_networks/index.xml" title="Deep Learning" />
 <!--
 Made with Book Theme
 https://github.com/alex-shpak/hugo-book
@@ -118,7 +107,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="/docs/neural_networks/" class="">Neural Networks</a>
+    <a href="/docs/neural_networks/" class="active">Neural Networks</a>
   
 
           
@@ -336,7 +325,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="/docs/transformers/alignment/" class="active">Alignment</a>
+    <a href="/docs/transformers/alignment/" class="">Alignment</a>
   
 
         </li>
@@ -413,7 +402,7 @@ https://github.com/alex-shpak/hugo-book
     <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
   </label>
 
-  <h3>Alignment</h3>
+  <h3>Neural Networks</h3>
 
   <label for="toc-control">
     
@@ -429,17 +418,7 @@ https://github.com/alex-shpak/hugo-book
   
 <nav id="TableOfContents">
   <ul>
-    <li><a href="#fine-tune-llms-with-labelled-data">Fine tune LLMs with labelled data</a>
-      <ul>
-        <li><a href="#supervised-fine-tuning-sft">Supervised Fine Tuning (SFT)</a></li>
-        <li><a href="#parameter-efficient-fine-tuning-peft">Parameter Efficient Fine Tuning (PEFT)</a></li>
-        <li><a href="#lora">LoRA</a></li>
-        <li><a href="#qlora">QLoRA</a></li>
-        <li><a href="#soft-prompts">Soft prompts</a></li>
-      </ul>
-    </li>
-    <li><a href="#fine-tune-llms-with-reward-models">Fine tune LLMs with reward models</a></li>
-    <li><a href="#alignment-during-inference">Alignment during inference</a></li>
+    <li><a href="#single-layer-networks">Single Layer Networks</a></li>
   </ul>
 </nav>
 
@@ -452,13 +431,12 @@ https://github.com/alex-shpak/hugo-book
 
       
       
-  <article class="markdown book-article"><h1 id="alignment">
-  Alignment
-  <a class="anchor" href="#alignment">#</a>
-</h1>
-<p>LLMs are typically trained for next-token prediction.</p>
-<p>Pre-trained LLMs may not be able to follow user instructions because they were not trained to do so.</p>
-<p>Pre-trained LLMs may generate harmful content or perpetuate  biases inherent in their training data.</p>
+  <article class="markdown book-article"><h2 id="single-layer-networks">
+  Single Layer Networks
+  <a class="anchor" href="#single-layer-networks">#</a>
+</h2>
+<blockquote>
+<p>For simplicity for this chapter we will mainly introduce single layer networks (for regression and classification).</p></blockquote>
 
 
 <script src="/mermaid.min.js"></script>
@@ -475,60 +453,27 @@ https://github.com/alex-shpak/hugo-book
 
 
 <pre class="mermaid">
----
-title: LLM training stages
----
-flowchart LR
-    subgraph Pre-training
-    A[Pre-training]
-    end
-    subgraph Post-training
-    B["Instruction Alignment (SFT)"]
-    C["Preference Alignment (RLHF)"]
-    end
-    subgraph Inference
-    D[Prompt engineering]
-    end
-    A-->B
-    B-->C
-    C-->D
+stateDiagram-v2
+    direction LR
+    z1: $$x_1$$
+    z2: $$x_2$$
+    zi: $$x_i$$
+    zM: $$x_d$$
+    aj: $$a=\sum_i w_{i} x_i$$
+    zj: $$z=h(a)$$
+    z1 --> aj:$$w_{1}$$
+    z2 --> aj:$$w_{2}$$
+    zi --> aj:$$w_{i}$$
+    zM --> aj:$$w_{d}$$
+    aj --> zj
+    zj --> END:::hidden
+    note left of zM : Inputs
+    note left of aj : Pre-activation
+    note left of zj : Activation
+    note left of END : Output
+    classDef hidden display: none;
 </pre>
 
-<h2 id="fine-tune-llms-with-labelled-data">
-  Fine tune LLMs with labelled data
-  <a class="anchor" href="#fine-tune-llms-with-labelled-data">#</a>
-</h2>
-<h3 id="supervised-fine-tuning-sft">
-  Supervised Fine Tuning (SFT)
-  <a class="anchor" href="#supervised-fine-tuning-sft">#</a>
-</h3>
-<p>Training data is task specific instructions paired with their expected outputs.</p>
-<p>During backward pass we the force the loss corresponding to the instruction to be zero.</p>
-<h3 id="parameter-efficient-fine-tuning-peft">
-  Parameter Efficient Fine Tuning (PEFT)
-  <a class="anchor" href="#parameter-efficient-fine-tuning-peft">#</a>
-</h3>
-<h3 id="lora">
-  LoRA
-  <a class="anchor" href="#lora">#</a>
-</h3>
-<h3 id="qlora">
-  QLoRA
-  <a class="anchor" href="#qlora">#</a>
-</h3>
-<h3 id="soft-prompts">
-  Soft prompts
-  <a class="anchor" href="#soft-prompts">#</a>
-</h3>
-<h2 id="fine-tune-llms-with-reward-models">
-  Fine tune LLMs with reward models
-  <a class="anchor" href="#fine-tune-llms-with-reward-models">#</a>
-</h2>
-<h2 id="alignment-during-inference">
-  Alignment during inference
-  <a class="anchor" href="#alignment-during-inference">#</a>
-</h2>
-<p>Prompting</p>
 </article>
  
       
@@ -570,17 +515,7 @@ flowchart LR
   
 <nav id="TableOfContents">
   <ul>
-    <li><a href="#fine-tune-llms-with-labelled-data">Fine tune LLMs with labelled data</a>
-      <ul>
-        <li><a href="#supervised-fine-tuning-sft">Supervised Fine Tuning (SFT)</a></li>
-        <li><a href="#parameter-efficient-fine-tuning-peft">Parameter Efficient Fine Tuning (PEFT)</a></li>
-        <li><a href="#lora">LoRA</a></li>
-        <li><a href="#qlora">QLoRA</a></li>
-        <li><a href="#soft-prompts">Soft prompts</a></li>
-      </ul>
-    </li>
-    <li><a href="#fine-tune-llms-with-reward-models">Fine tune LLMs with reward models</a></li>
-    <li><a href="#alignment-during-inference">Alignment during inference</a></li>
+    <li><a href="#single-layer-networks">Single Layer Networks</a></li>
   </ul>
 </nav>
 
