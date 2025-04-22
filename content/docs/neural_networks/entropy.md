@@ -1,13 +1,22 @@
 ---
 title: Entropy
-weight: 3
+weight: 6
 bookToc: true
 ---
 
+> A brief primer on entropy, cross-entropy and perplexity.
+
 ##  Entropy
-{{< katex >}}{{< /katex >}}The entropy of a discrete random variable {{< katex >}}X{{< /katex >}} with {{< katex >}}K{{< /katex >}} states/categories with distribution {{< katex >}}p_k = \text{Pr}(X=k){{< /katex >}} for {{< katex >}}k=1,...,K{{< /katex >}}  is a measure of uncertainty and is defined as follows.
+{{< katex >}}{{< /katex >}}The **entropy** of a discrete random variable {{< katex >}}X{{< /katex >}} with {{< katex >}}K{{< /katex >}} states/categories with distribution {{< katex >}}p_k = \text{Pr}(X=k){{< /katex >}} for {{< katex >}}k=1,...,K{{< /katex >}}  is a measure of uncertainty and is defined as follows.
 {{< katex display=true >}}H(X) = \sum_{k=1}^{K} p_k \log_2 \frac{1}{p_k} = - \sum_{k=1}^{K} p_k \log_2 p_k {{< /katex >}}
-{{< katex >}}{{< /katex >}}The term {{< katex >}}\log_2\frac{1}{p}{{< /katex >}} quantifies the notion or surprise or uncertainty and entropy is the average uncertainty. The unit is bits ({{< katex >}}\in [0,\log_2 K]{{< /katex >}}) (or nats incase of natural log). The discrete distribution with maximum entropy ({{< katex >}}\log_2 K{{< /katex >}}) is uniform. The discrete distribution with minimum entropy ({{< katex >}}0{{< /katex >}}) is any delta function which puts all mass on one state/category.
+{{< katex >}}{{< /katex >}}
+The term {{< katex >}}\log_2\frac{1}{p}{{< /katex >}} quantifies the notion or surprise or uncertainty and hence entropy is the average uncertainty.
+
+The unit is bits ({{< katex >}}\in [0,\log_2 K]{{< /katex >}}) (or nats incase of natural log).
+
+The discrete distribution with maximum entropy ({{< katex >}}\log_2 K{{< /katex >}}) is uniform.
+
+The discrete distribution with minimum entropy ({{< katex >}}0{{< /katex >}}) is any delta function which puts all mass on one state/category.
 
 ## Binary entropy
 
@@ -15,7 +24,7 @@ bookToc: true
 
 {{< katex display=true >}}H(\theta) = - [ \theta \log_2 \theta + (1-\theta) \log_2 (1-\theta) ] {{< /katex >}}
 
-{{< katex display=true >}}H(\theta) \in [0,1]{{< /katex >}} and is maximum when {{< katex >}}\theta=0.5{{< /katex >}}.
+The range is {{< katex >}}H(\theta) \in [0,1]{{< /katex >}} and is maximum when {{< katex >}}\theta=0.5{{< /katex >}}.
 
 ## Cross entropy
 
@@ -23,3 +32,20 @@ bookToc: true
 
 {{< katex display=true >}}H(p,q) = - \sum_{k=1}^{K} p_k \log_2 q_k {{< /katex >}}
 
+## Perplexity
+
+{{< katex display=true >}}\text{PPL}(p,q) = 2^{H(p,q)}{{< /katex >}}
+
+{{< katex display=true >}}\text{PPL}(p,q) = e^{H(p,q)}{{< /katex >}}
+
+## KL Divergence
+
+The **Kullback-Leibler** (KL) divergence or **relative entropy** measures the dissimilarity between two probability distributions {{< katex >}}p{{< /katex >}} and {{< katex >}}q{{< /katex >}}.
+
+{{< katex display=true >}}KL(p,q) = \sum_{k=1}^{K} p_k \log_2 \frac{p_k}{q_k}{{< /katex >}}
+
+{{< katex display=true >}}KL(p,q) = H(p,q) - H(p,p) \geq 0{{< /katex >}}
+
+## Mutual Information
+
+{{< katex >}}I(X,Y) = KL(P(X,Y)\|P(X)P(Y)){{< /katex >}}

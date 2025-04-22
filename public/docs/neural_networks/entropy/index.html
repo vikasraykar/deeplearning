@@ -1,14 +1,13 @@
 <!DOCTYPE html>
 <html lang="en-us" dir="ltr">
-<head>
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="
+A brief primer on entropy, cross-entropy and perplexity.
+
   Entropy
   #
-
-
-
 
 
   \(\)
@@ -33,35 +32,28 @@ The entropy of a discrete random variable
 
   \(\)
 
+
 The term 
   \(\log_2\frac{1}{p}\)
 
- quantifies the notion or surprise or uncertainty and entropy is the average uncertainty. The unit is bits (
-  \(\in [0,\log_2 K]\)
-
-) (or nats incase of natural log). The discrete distribution with maximum entropy (
-  \(\log_2 K\)
-
-) is uniform. The discrete distribution with minimum entropy (
-  \(0\)
-
-) is any delta function which puts all mass on one state/category.">
+ quantifies the notion or surprise or uncertainty and hence entropy is the average uncertainty.">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#343a40">
-<meta name="color-scheme" content="light dark"><meta property="og:url" content="https://example.org/docs/neural_networks/entropy/">
+<meta name="color-scheme" content="light dark"><meta property="og:url" content="http://localhost:1313/docs/neural_networks/entropy/">
   <meta property="og:site_name" content="Deep Learning">
   <meta property="og:title" content="Entropy">
-  <meta property="og:description" content="Entropy # \(\) The entropy of a discrete random variable \(X\) with \(K\) states/categories with distribution \(p_k = \text{Pr}(X=k)\) for \(k=1,...,K\) is a measure of uncertainty and is defined as follows. \[H(X) = \sum_{k=1}^{K} p_k \log_2 \frac{1}{p_k} = - \sum_{k=1}^{K} p_k \log_2 p_k \] \(\) The term \(\log_2\frac{1}{p}\) quantifies the notion or surprise or uncertainty and entropy is the average uncertainty. The unit is bits ( \(\in [0,\log_2 K]\) ) (or nats incase of natural log). The discrete distribution with maximum entropy ( \(\log_2 K\) ) is uniform. The discrete distribution with minimum entropy ( \(0\) ) is any delta function which puts all mass on one state/category.">
+  <meta property="og:description" content="A brief primer on entropy, cross-entropy and perplexity.
+Entropy # \(\) The entropy of a discrete random variable \(X\) with \(K\) states/categories with distribution \(p_k = \text{Pr}(X=k)\) for \(k=1,...,K\) is a measure of uncertainty and is defined as follows. \[H(X) = \sum_{k=1}^{K} p_k \log_2 \frac{1}{p_k} = - \sum_{k=1}^{K} p_k \log_2 p_k \] \(\) The term \(\log_2\frac{1}{p}\) quantifies the notion or surprise or uncertainty and hence entropy is the average uncertainty.">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
     <meta property="article:section" content="docs">
 <title>Entropy | Deep Learning</title>
 <link rel="icon" href="/favicon.png" >
 <link rel="manifest" href="/manifest.json">
-<link rel="canonical" href="https://example.org/docs/neural_networks/entropy/">
+<link rel="canonical" href="http://localhost:1313/docs/neural_networks/entropy/">
 <link rel="stylesheet" href="/book.min.6c8b9d2a1fc95075ed7da46ca81060b39add8fff6741ac51259f768929281e2c.css" integrity="sha256-bIudKh/JUHXtfaRsqBBgs5rdj/9nQaxRJZ92iSkoHiw=" crossorigin="anonymous">
   <script defer src="/fuse.min.js"></script>
-  <script defer src="/en.search.min.18f6d56d63702829226c3a10cab725f357e36dbcf0ec30ff7b3ce55779d566a6.js" integrity="sha256-GPbVbWNwKCkibDoQyrcl81fjbbzw7DD/ezzlV3nVZqY=" crossorigin="anonymous"></script>
+  <script defer src="/en.search.min.ae67b6a6a7d0ac5e05d3052f66b3d8658cefe195da8e7017b2b5b31a1452dfd7.js" integrity="sha256-rme2pqfQrF4F0wUvZrPYZYzv4ZXajnAXsrWzGhRS39c=" crossorigin="anonymous"></script>
 <!--
 Made with Book Theme
 https://github.com/alex-shpak/hugo-book
@@ -152,7 +144,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="/docs/neural_networks/entropy/" class="active">Entropy</a>
+    <a href="/docs/neural_networks/softmax_regression/" class="">Softmax Regression</a>
   
 
         </li>
@@ -179,6 +171,19 @@ https://github.com/alex-shpak/hugo-book
 
   
     <a href="/docs/neural_networks/activations/" class="">Activation functions</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/neural_networks/entropy/" class="active">Entropy</a>
   
 
         </li>
@@ -427,6 +432,9 @@ https://github.com/alex-shpak/hugo-book
     <li><a href="#entropy">Entropy</a></li>
     <li><a href="#binary-entropy">Binary entropy</a></li>
     <li><a href="#cross-entropy">Cross entropy</a></li>
+    <li><a href="#perplexity">Perplexity</a></li>
+    <li><a href="#kl-divergence">KL Divergence</a></li>
+    <li><a href="#mutual-information">Mutual Information</a></li>
   </ul>
 </nav>
 
@@ -439,17 +447,16 @@ https://github.com/alex-shpak/hugo-book
 
       
       
-  <article class="markdown book-article"><h2 id="entropy">
+  <article class="markdown book-article"><blockquote>
+<p>A brief primer on entropy, cross-entropy and perplexity.</p></blockquote>
+<h2 id="entropy">
   Entropy
   <a class="anchor" href="#entropy">#</a>
 </h2>
-<p>
-<link rel="stylesheet" href="/katex/katex.min.css" />
-<script defer src="/katex/katex.min.js"></script>
-<script defer src="/katex/auto-render.min.js" onload="renderMathInElement(document.body);"></script><span>
+<p><span>
   \(\)
 </span>
-The entropy of a discrete random variable <span>
+The <strong>entropy</strong> of a discrete random variable <span>
   \(X\)
 </span>
  with <span>
@@ -469,16 +476,20 @@ The entropy of a discrete random variable <span>
 <span>
   \(\)
 </span>
+
 The term <span>
   \(\log_2\frac{1}{p}\)
 </span>
- quantifies the notion or surprise or uncertainty and entropy is the average uncertainty. The unit is bits (<span>
+ quantifies the notion or surprise or uncertainty and hence entropy is the average uncertainty.</p>
+<p>The unit is bits (<span>
   \(\in [0,\log_2 K]\)
 </span>
-) (or nats incase of natural log). The discrete distribution with maximum entropy (<span>
+) (or nats incase of natural log).</p>
+<p>The discrete distribution with maximum entropy (<span>
   \(\log_2 K\)
 </span>
-) is uniform. The discrete distribution with minimum entropy (<span>
+) is uniform.</p>
+<p>The discrete distribution with minimum entropy (<span>
   \(0\)
 </span>
 ) is any delta function which puts all mass on one state/category.</p>
@@ -503,8 +514,8 @@ For a binary random variable <span>
   \[H(\theta) = - [ \theta \log_2 \theta + (1-\theta) \log_2 (1-\theta) ] \]
 </span>
 
-<p><span>
-  \[H(\theta) \in [0,1]\]
+<p>The range is <span>
+  \(H(\theta) \in [0,1]\)
 </span>
  and is maximum when <span>
   \(\theta=0.5\)
@@ -526,6 +537,45 @@ Cross entropy is the average number of bits needed to encode the data from from 
 .</p>
 <span>
   \[H(p,q) = - \sum_{k=1}^{K} p_k \log_2 q_k \]
+</span>
+
+<h2 id="perplexity">
+  Perplexity
+  <a class="anchor" href="#perplexity">#</a>
+</h2>
+<span>
+  \[\text{PPL}(p,q) = 2^{H(p,q)}\]
+</span>
+
+<span>
+  \[\text{PPL}(p,q) = e^{H(p,q)}\]
+</span>
+
+<h2 id="kl-divergence">
+  KL Divergence
+  <a class="anchor" href="#kl-divergence">#</a>
+</h2>
+<p>The <strong>Kullback-Leibler</strong> (KL) divergence or <strong>relative entropy</strong> measures the dissimilarity between two probability distributions <span>
+  \(p\)
+</span>
+ and <span>
+  \(q\)
+</span>
+.</p>
+<span>
+  \[KL(p,q) = \sum_{k=1}^{K} p_k \log_2 \frac{p_k}{q_k}\]
+</span>
+
+<span>
+  \[KL(p,q) = H(p,q) - H(p,p) \geq 0\]
+</span>
+
+<h2 id="mutual-information">
+  Mutual Information
+  <a class="anchor" href="#mutual-information">#</a>
+</h2>
+<span>
+  \(I(X,Y) = KL(P(X,Y)\|P(X)P(Y))\)
 </span>
 
 </article>
@@ -572,6 +622,9 @@ Cross entropy is the average number of bits needed to encode the data from from 
     <li><a href="#entropy">Entropy</a></li>
     <li><a href="#binary-entropy">Binary entropy</a></li>
     <li><a href="#cross-entropy">Cross entropy</a></li>
+    <li><a href="#perplexity">Perplexity</a></li>
+    <li><a href="#kl-divergence">KL Divergence</a></li>
+    <li><a href="#mutual-information">Mutual Information</a></li>
   </ul>
 </nav>
 

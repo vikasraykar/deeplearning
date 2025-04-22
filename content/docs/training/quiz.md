@@ -10,6 +10,10 @@ bookToc: true
 
 > Derive the gradient of the loss function for linear regression and logistic regression.
 
+> Plot binary entropy.
+
+> WHy don't you use MSE loss for binary classification ?
+
 > What is the most widely used optimizer ? What are the typically used parameters of the optimizer ?
 
 > For SGD with momemtum show that it increases the effective learning rate from {{< katex >}}\eta{{< /katex >}} to {{< katex >}}\frac{\eta}{(1-\mu)}{{< /katex >}}.

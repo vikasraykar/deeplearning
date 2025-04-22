@@ -4,75 +4,98 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="
-  Linear Regression
+  Softmax Regression
   #
 
-Linear Regression is a single layer neural network for regression.
+Softmax Regression is a single layer neural network for multi-class classification.
+
+
+
+
+  
+
+
 
 
 
 stateDiagram-v2
     direction LR
-    z1: $$x_1$$
-    z2: $$x_2$$
-    zi: $$x_i$$
-    zM: $$x_d$$
-    aj: $$a=\sum_i w_{i} x_i$$
-    zj: $$z=h(a)=a$$
-    z1 --&gt; aj:$$w_{1}$$
-    z2 --&gt; aj:$$w_{2}$$
-    zi --&gt; aj:$$w_{i}$$
-    zM --&gt; aj:$$w_{d}$$
-    aj --&gt; zj
-    zj --&gt; END:::hidden
-    note left of zM : Inputs
-    note left of aj : Pre-activation
-    note left of zj : Activation
-    note left of END : Output
+    x1: $$x_1$$
+    x2: $$x_2$$
+    x3: $$x_3$$
+    xd: $$x_d$$
+    a1: $$a_1=\sum_i w_{1i} x_i$$
+    a2: $$a_2=\sum_i w_{2i} x_i$$
+    ak: $$a_k=\sum_i w_{ki} x_i$$
+    z1: $$z_1=\text{softmax}(\mathbf{a})_1$$
+    z2: $$z_2=\text{softmax}(\mathbf{a})_2$$
+    zk: $$z_k=\text{softmax}(\mathbf{a})_k$$
+    x1 --&gt; a1:$$w_{11}$$
+    x2 --&gt; a1:$$w_{12}$$
+    x3 --&gt; a1:$$w_{13}$$
+    xd --&gt; a1:$$w_{1d}$$
+    x1 --&gt; a2:$$w_{21}$$
+    x2 --&gt; a2:$$w_{22}$$
+    x3 --&gt; a2:$$w_{23}$$
+    xd --&gt; a2:$$w_{2d}$$
+    x1 --&gt; ak:$$w_{k1}$$
+    x2 --&gt; ak:$$w_{k2}$$
+    x3 --&gt; ak:$$w_{k3}$$
+    xd --&gt; ak:$$w_{kd}$$
+    a1 --&gt; z1
+    a2 --&gt; z2
+    ak --&gt; zk
+    z1 --&gt; END1:::hidden
+    z2 --&gt; END2:::hidden
+    zk --&gt; END:::hidden
+    note left of xd : Inputs
+    note right of a1 : Pre-activations
+    note left of zk : Activations
+    note left of END : Outputs
     classDef hidden display: none;
 
 
 
-  Model
+  Statistical model
   #
 
-Linear Regression assumes a linear relationship between the target 
-  \(y \in \mathbb{R}\)
+Given 
 
- and the features 
+
+
+  \(k\)
+
+ classes the probability of class 
+  \(i\)
+
+ for a given feature vector (
   \(\mathbf{x}\in \mathbb{R}^d\)
 
-.
+) is given by
 
   \[
-y = f(\mathbf{x}) = w_1 x_1 &#43; w_2 x_2 &#43; ... &#43; w_d x_d &#43; b = \mathbf{w}^T\mathbf{x} &#43; b,
+\text{Pr}[y=i|\mathbf{x},(\mathbf{w}_1,\mathbf{w}_2,...,\mathbf{w}_k)] = \frac{\exp(\mathbf{w}_i^T\mathbf{x})}{\sum_{j=1}^{k} \exp(\mathbf{w}_j^T\mathbf{x})}
 \]
 
 
 where 
-  \(\mathbf{w}\in \mathbb{R}^d\)
+  \(\mathbf{w}_1,\mathbf{w}_2,...,\mathbf{w}_k\in \mathbb{R}^d\)
 
- is the 
-  \(d\)
-
--dimensional weight vector and 
-  \(b \in \mathbb{R}\)
-
- is the bias term.">
+ are the weight vector or parameters of the model for each class.">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#343a40">
-<meta name="color-scheme" content="light dark"><meta property="og:url" content="http://localhost:1313/docs/neural_networks/linear_regression/">
+<meta name="color-scheme" content="light dark"><meta property="og:url" content="http://localhost:1313/docs/neural_networks/softmax_regression/">
   <meta property="og:site_name" content="Deep Learning">
-  <meta property="og:title" content="Linear Regression">
-  <meta property="og:description" content="Linear Regression # Linear Regression is a single layer neural network for regression.
-stateDiagram-v2 direction LR z1: $$x_1$$ z2: $$x_2$$ zi: $$x_i$$ zM: $$x_d$$ aj: $$a=\sum_i w_{i} x_i$$ zj: $$z=h(a)=a$$ z1 --&gt; aj:$$w_{1}$$ z2 --&gt; aj:$$w_{2}$$ zi --&gt; aj:$$w_{i}$$ zM --&gt; aj:$$w_{d}$$ aj --&gt; zj zj --&gt; END:::hidden note left of zM : Inputs note left of aj : Pre-activation note left of zj : Activation note left of END : Output classDef hidden display: none; Model # Linear Regression assumes a linear relationship between the target \(y \in \mathbb{R}\) and the features \(\mathbf{x}\in \mathbb{R}^d\) . \[ y = f(\mathbf{x}) = w_1 x_1 &#43; w_2 x_2 &#43; ... &#43; w_d x_d &#43; b = \mathbf{w}^T\mathbf{x} &#43; b, \] where \(\mathbf{w}\in \mathbb{R}^d\) is the \(d\) -dimensional weight vector and \(b \in \mathbb{R}\) is the bias term.">
+  <meta property="og:title" content="Softmax Regression">
+  <meta property="og:description" content="Softmax Regression # Softmax Regression is a single layer neural network for multi-class classification.
+stateDiagram-v2 direction LR x1: $$x_1$$ x2: $$x_2$$ x3: $$x_3$$ xd: $$x_d$$ a1: $$a_1=\sum_i w_{1i} x_i$$ a2: $$a_2=\sum_i w_{2i} x_i$$ ak: $$a_k=\sum_i w_{ki} x_i$$ z1: $$z_1=\text{softmax}(\mathbf{a})_1$$ z2: $$z_2=\text{softmax}(\mathbf{a})_2$$ zk: $$z_k=\text{softmax}(\mathbf{a})_k$$ x1 --&gt; a1:$$w_{11}$$ x2 --&gt; a1:$$w_{12}$$ x3 --&gt; a1:$$w_{13}$$ xd --&gt; a1:$$w_{1d}$$ x1 --&gt; a2:$$w_{21}$$ x2 --&gt; a2:$$w_{22}$$ x3 --&gt; a2:$$w_{23}$$ xd --&gt; a2:$$w_{2d}$$ x1 --&gt; ak:$$w_{k1}$$ x2 --&gt; ak:$$w_{k2}$$ x3 --&gt; ak:$$w_{k3}$$ xd --&gt; ak:$$w_{kd}$$ a1 --&gt; z1 a2 --&gt; z2 ak --&gt; zk z1 --&gt; END1:::hidden z2 --&gt; END2:::hidden zk --&gt; END:::hidden note left of xd : Inputs note right of a1 : Pre-activations note left of zk : Activations note left of END : Outputs classDef hidden display: none; Statistical model # Given \(k\) classes the probability of class \(i\) for a given feature vector ( \(\mathbf{x}\in \mathbb{R}^d\) ) is given by \[ \text{Pr}[y=i|\mathbf{x},(\mathbf{w}_1,\mathbf{w}_2,...,\mathbf{w}_k)] = \frac{\exp(\mathbf{w}_i^T\mathbf{x})}{\sum_{j=1}^{k} \exp(\mathbf{w}_j^T\mathbf{x})} \] where \(\mathbf{w}_1,\mathbf{w}_2,...,\mathbf{w}_k\in \mathbb{R}^d\) are the weight vector or parameters of the model for each class.">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
     <meta property="article:section" content="docs">
-<title>Linear Regression | Deep Learning</title>
+<title>Softmax Regression | Deep Learning</title>
 <link rel="icon" href="/favicon.png" >
 <link rel="manifest" href="/manifest.json">
-<link rel="canonical" href="http://localhost:1313/docs/neural_networks/linear_regression/">
+<link rel="canonical" href="http://localhost:1313/docs/neural_networks/softmax_regression/">
 <link rel="stylesheet" href="/book.min.6c8b9d2a1fc95075ed7da46ca81060b39add8fff6741ac51259f768929281e2c.css" integrity="sha256-bIudKh/JUHXtfaRsqBBgs5rdj/9nQaxRJZ92iSkoHiw=" crossorigin="anonymous">
   <script defer src="/fuse.min.js"></script>
   <script defer src="/en.search.min.ae67b6a6a7d0ac5e05d3052f66b3d8658cefe195da8e7017b2b5b31a1452dfd7.js" integrity="sha256-rme2pqfQrF4F0wUvZrPYZYzv4ZXajnAXsrWzGhRS39c=" crossorigin="anonymous"></script>
@@ -140,7 +163,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="/docs/neural_networks/linear_regression/" class="active">Linear Regression</a>
+    <a href="/docs/neural_networks/linear_regression/" class="">Linear Regression</a>
   
 
         </li>
@@ -166,7 +189,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="/docs/neural_networks/softmax_regression/" class="">Softmax Regression</a>
+    <a href="/docs/neural_networks/softmax_regression/" class="active">Softmax Regression</a>
   
 
         </li>
@@ -435,7 +458,7 @@ https://github.com/alex-shpak/hugo-book
     <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
   </label>
 
-  <h3>Linear Regression</h3>
+  <h3>Softmax Regression</h3>
 
   <label for="toc-control">
     
@@ -451,13 +474,11 @@ https://github.com/alex-shpak/hugo-book
   
 <nav id="TableOfContents">
   <ul>
-    <li><a href="#linear-regression">Linear Regression</a></li>
-    <li><a href="#model">Model</a></li>
+    <li><a href="#softmax-regression">Softmax Regression</a></li>
     <li><a href="#statistical-model">Statistical model</a></li>
     <li><a href="#likelihood">Likelihood</a></li>
     <li><a href="#loss-function">Loss function</a></li>
     <li><a href="#gradient">Gradient</a></li>
-    <li><a href="#analytic-solution">Analytic solution</a></li>
   </ul>
 </nav>
 
@@ -470,68 +491,128 @@ https://github.com/alex-shpak/hugo-book
 
       
       
-  <article class="markdown book-article"><h2 id="linear-regression">
-  Linear Regression
-  <a class="anchor" href="#linear-regression">#</a>
+  <article class="markdown book-article"><h2 id="softmax-regression">
+  Softmax Regression
+  <a class="anchor" href="#softmax-regression">#</a>
 </h2>
-<p>Linear Regression is a single layer neural network for regression.</p>
+<p>Softmax Regression is a single layer neural network for multi-class classification.</p>
+
+
+<script src="/mermaid.min.js"></script>
+
+  <script>mermaid.initialize({
+  "flowchart": {
+    "useMaxWidth":true
+  },
+  "theme": "default"
+}
+)</script>
+
+
 
 
 <pre class="mermaid">
 stateDiagram-v2
     direction LR
-    z1: $$x_1$$
-    z2: $$x_2$$
-    zi: $$x_i$$
-    zM: $$x_d$$
-    aj: $$a=\sum_i w_{i} x_i$$
-    zj: $$z=h(a)=a$$
-    z1 --> aj:$$w_{1}$$
-    z2 --> aj:$$w_{2}$$
-    zi --> aj:$$w_{i}$$
-    zM --> aj:$$w_{d}$$
-    aj --> zj
-    zj --> END:::hidden
-    note left of zM : Inputs
-    note left of aj : Pre-activation
-    note left of zj : Activation
-    note left of END : Output
+    x1: $$x_1$$
+    x2: $$x_2$$
+    x3: $$x_3$$
+    xd: $$x_d$$
+    a1: $$a_1=\sum_i w_{1i} x_i$$
+    a2: $$a_2=\sum_i w_{2i} x_i$$
+    ak: $$a_k=\sum_i w_{ki} x_i$$
+    z1: $$z_1=\text{softmax}(\mathbf{a})_1$$
+    z2: $$z_2=\text{softmax}(\mathbf{a})_2$$
+    zk: $$z_k=\text{softmax}(\mathbf{a})_k$$
+    x1 --> a1:$$w_{11}$$
+    x2 --> a1:$$w_{12}$$
+    x3 --> a1:$$w_{13}$$
+    xd --> a1:$$w_{1d}$$
+    x1 --> a2:$$w_{21}$$
+    x2 --> a2:$$w_{22}$$
+    x3 --> a2:$$w_{23}$$
+    xd --> a2:$$w_{2d}$$
+    x1 --> ak:$$w_{k1}$$
+    x2 --> ak:$$w_{k2}$$
+    x3 --> ak:$$w_{k3}$$
+    xd --> ak:$$w_{kd}$$
+    a1 --> z1
+    a2 --> z2
+    ak --> zk
+    z1 --> END1:::hidden
+    z2 --> END2:::hidden
+    zk --> END:::hidden
+    note left of xd : Inputs
+    note right of a1 : Pre-activations
+    note left of zk : Activations
+    note left of END : Outputs
     classDef hidden display: none;
 </pre>
 
-<h2 id="model">
-  Model
-  <a class="anchor" href="#model">#</a>
+<h2 id="statistical-model">
+  Statistical model
+  <a class="anchor" href="#statistical-model">#</a>
 </h2>
-<p>Linear Regression assumes a <strong>linear relationship</strong> between the target <span>
-  \(y \in \mathbb{R}\)
+<p>Given 
+<link rel="stylesheet" href="/katex/katex.min.css" />
+<script defer src="/katex/katex.min.js"></script>
+<script defer src="/katex/auto-render.min.js" onload="renderMathInElement(document.body);"></script><span>
+  \(k\)
 </span>
- and the features <span>
+ classes the probability of class <span>
+  \(i\)
+</span>
+ for a given feature vector (<span>
   \(\mathbf{x}\in \mathbb{R}^d\)
 </span>
-.
+) is given by
 <span>
   \[
-y = f(\mathbf{x}) = w_1 x_1 + w_2 x_2 + ... + w_d x_d + b = \mathbf{w}^T\mathbf{x} + b,
+\text{Pr}[y=i|\mathbf{x},(\mathbf{w}_1,\mathbf{w}_2,...,\mathbf{w}_k)] = \frac{\exp(\mathbf{w}_i^T\mathbf{x})}{\sum_{j=1}^{k} \exp(\mathbf{w}_j^T\mathbf{x})}
 \]
 </span>
 
 where <span>
-  \(\mathbf{w}\in \mathbb{R}^d\)
+  \(\mathbf{w}_1,\mathbf{w}_2,...,\mathbf{w}_k\in \mathbb{R}^d\)
 </span>
- is the <span>
-  \(d\)
+ are the weight vector or <strong>parameters</strong> of the model for each class.</p>
+<p>Stacking the weights vectors <span>
+  \(\mathbf{w}_1,\mathbf{w}_2,...,\mathbf{w}_k\in \mathbb{R}^d\)
 </span>
--dimensional <em>weight vector</em> and <span>
-  \(b \in \mathbb{R}\)
+ into a <strong>weight matrix</strong> <span>
+  \(\mathbf{W} \in \mathbb{R}^{d \times k}\)
 </span>
- is the <em>bias term</em>.</p>
-<blockquote class="book-hint warning">
-<p>Without loss of generalization we can ignore the bias term as it can be subsumed into the design matrix by appending a column of ones.</p>
-</blockquote>
-<p><span>
+ we can write the <strong>pre-activation</strong> vector <span>
+  \(\mathbf{a} \in \mathbb{R}^{k}\)
+</span>
+ as follows.
+<span>
   \[
-y = f(\mathbf{x}) = \mathbf{w}^T\mathbf{x}
+\mathbf{a} = \mathbf{W}^T\mathbf{x}
+\]
+</span>
+
+The <strong>activation</strong> vector <span>
+  \(\mathbf{z} \in \mathbb{R}^{k}\)
+</span>
+ is given by
+<span>
+  \[
+\mathbf{z} = \text{softmax}(\mathbf{a})
+\]
+</span>
+
+and the <strong>softmax</strong> activation function is defined as
+<span>
+  \[
+\text{softmax}(\mathbf{a})_i = \frac{\exp(\mathbf{a}_i)}{\sum_{j=1}^{k} \exp(\mathbf{a}_j)}
+\]
+</span>
+
+Hence
+<span>
+  \[
+\text{Pr}[y=i|\mathbf{x},\mathbf{W}] = \text{softmax}(\mathbf{W}^T\mathbf{x})_i
 \]
 </span>
 
@@ -545,48 +626,12 @@ We often stack all the <span>
   \(n\)
 </span>
  instances <span>
-  \(\mathbf{y} \in \mathbb{R}^n\)
+  \(\mathbf{y} \in \mathbb{R}^{n \times K }\)
 </span>
  can be written conveniently as a matrix-vector product.
 <span>
   \[
-\mathbf{y} = \mathbf{X}\mathbf{w}
-\]
-</span>
-</p>
-<h2 id="statistical-model">
-  Statistical model
-  <a class="anchor" href="#statistical-model">#</a>
-</h2>
-<p>The probability of <span>
-  \(y\)
-</span>
- for a given feature vector (<span>
-  \(\mathbf{x}\in \mathbb{R}^d\)
-</span>
-) is modelled as
-<span>
-  \[
-\text{Pr}[y|\mathbf{x},\mathbf{w}] = \mathcal{N}(y|\mathbf{w}^T\mathbf{x},\sigma^2)
-\]
-</span>
-
-where <span>
-  \(\mathbf{w}\in \mathbb{R}^d\)
-</span>
- are the weights/<strong>parameters</strong> of the model and <span>
-  \(\mathcal{N}\)
-</span>
- is the <strong>normal</strong> distribution with mean <span>
-  \(\mathbf{w}^T\mathbf{x}\)
-</span>
- and variance <span>
-  \(\sigma^2\)
-</span>
-. The model prediction is given by
-<span>
-  \[
-\text{E}[y|\mathbf{x},\mathbf{w}] = \mathbf{w}^T\mathbf{x}
+\mathbf{y} = \text{softmax}(\mathbf{X}\mathbf{W})
 \]
 </span>
 </p>
@@ -595,7 +640,7 @@ where <span>
   <a class="anchor" href="#likelihood">#</a>
 </h2>
 <p>Given a dataset <span>
-  \(\mathcal{D}=\{\mathbf{x}_i \in \mathbb{R}^d,\mathbf{y}_i \in \mathbb{R}\}_{i=1}^N\)
+  \(\mathcal{D}=\{\mathbf{x}_i \in \mathbb{R}^d,\mathbf{y}_i \in [0,1]\}_{i=1}^N\)
 </span>
  containing <span>
   \(n\)
@@ -607,29 +652,20 @@ where <span>
 <blockquote>
 <p>In practice we minimize the <strong>negative log likelihood</strong>.</p></blockquote>
 <p>Let <span>
-  \( \mu_i = \mathbf{w}^T\mathbf{x}_i\)
+  \( \mu_i = \text{Pr}[y_i=1|\mathbf{x}_i,\mathbf{w}] = \sigma(\mathbf{w}^T\mathbf{x}_i)\)
 </span>
- be the model prediction for each example in the training dataset. The negative log likelihood (NLL) is given by
+ be the model prediction for each example in the training dataset. The the negative log likelihood (NLL) is given by
 <span>
   \[
 \begin{align}
-L(\mathbf{w}) &= - \sum_{i=1}^{N} \log \left[\text{Pr}[y_i|\mathbf{x}_i,\mathbf{w}]\right] \nonumber \\
-                       &= \frac{N}{2} \log(2\pi\sigma^2) + \frac{1}{2\sigma^2} \sum_{i=1}^{N} (y_i-\mu_i)^2 \nonumber \\
+L(\mathbf{w}) &= - \sum_{i=1}^{N} \log\left[\mu_i^{y_i}(1-\mu_i)^{1-y_i}\right] \nonumber \\
+                       &= - \sum_{i=1}^{N} \left[ y_i\log(\mu_i) + (1-y_i)\log(1-\mu_i) \right] \nonumber \\
 
 \end{align}
 \]
 </span>
 
-This is equivalent to minimizing the <strong>Mean Squared Error</strong> (MSE) loss.
-<span>
-  \[
-\begin{align}
-L(\mathbf{w}) &= \frac{1}{2N} \sum_{i=1}^{N} (y_i-\mu_i)^2 \nonumber \\
-\end{align}
-\]
-</span>
-
-We need to choose the model parameters that optimizes (minimizes) the loss function.
+This is referred to as the <strong>Binary Cross Entropy</strong> (BCE) loss. We need to choose the model parameters that optimizes (minimizes) the loss function.
 <span>
   \[
 \hat{\mathbf{w}} = \argmin_{\mathbf{w}} L(\mathbf{w})
@@ -640,51 +676,27 @@ We need to choose the model parameters that optimizes (minimizes) the loss funct
   Loss function
   <a class="anchor" href="#loss-function">#</a>
 </h2>
-<p><strong>Mean Squared Error</strong> (MSE)
+<p><strong>Binary Cross Entropy</strong> (BCE) loss
 <span>
   \[
-L(\mathbf{w}) = \frac{1}{2N} \sum_{i=1}^{N}  \left(y_i - \mathbf{w}^T\mathbf{x}_i  \right)^2
+L(\mathbf{w}) - \sum_{i=1}^{N} \left[ y_i\log(\mu_i) + (1-y_i)\log(1-\mu_i) \right]
 \]
 </span>
 </p>
-<a  href="https://pytorch.org/docs/stable/generated/torch.nn.MSELoss.html#torch.nn.MSELoss"   target="_blank" rel="noopener"  class="book-btn">torch.nn.MSELoss</a>
-
+<p><a  href="https://pytorch.org/docs/stable/generated/torch.nn.BCELoss.html#torch.nn.BCELoss"   target="_blank" rel="noopener"  class="book-btn">torch.nn.BCELoss</a>
+ <a  href="https://pytorch.org/docs/stable/generated/torch.nn.BCEWithLogitsLoss.html#torch.nn.BCEWithLogitsLoss"   target="_blank" rel="noopener"  class="book-btn">torch.nn.BCEWithLogitsLoss</a>
+</p>
 <h2 id="gradient">
   Gradient
   <a class="anchor" href="#gradient">#</a>
 </h2>
-<p>The loss function using matrix notation can be written as follows.
+<p>The gradient of the loss function if given by
 <span>
   \[
-L(\mathbf{w}) = \frac{1}{2} \| \mathbf{y} - \mathbf{X}\mathbf{w} \|^2
-\]
-</span>
-
-The gradient of the loss function if given by
-<span>
-  \[
-\nabla_{\mathbf{w}} L(\mathbf{w}) = \mathbf{X}^T(\mathbf{X}\mathbf{w}-\mathbf{y})
+\nabla_{\mathbf{w}} L(\mathbf{w}) = \mathbf{X}^T\left(\sigma(\mathbf{X}\mathbf{w})-\mathbf{y}\right)
 \]
 </span>
 </p>
-<h2 id="analytic-solution">
-  Analytic solution
-  <a class="anchor" href="#analytic-solution">#</a>
-</h2>
-<p>Taking the derivative of the loss with respect to <span>
-  \(\mathbf{w}\)
-</span>
- and setting it to zero yields:
-<span>
-  \[
-\hat{\mathbf{w}} = \left(\mathbf{X}^T\mathbf{X}\right)^{-1}\mathbf{X}^T\mathbf{y}.
-\]
-</span>
-
-This is unique when the design matrix is full rank, that columns of the design matrix are linearly independent or no features is linearly dependent on the others.</p>
-<blockquote class="book-hint warning">
-<p>In practice we will use mini-batch stochastic gradient descent.</p>
-</blockquote>
 </article>
  
       
@@ -726,13 +738,11 @@ This is unique when the design matrix is full rank, that columns of the design m
   
 <nav id="TableOfContents">
   <ul>
-    <li><a href="#linear-regression">Linear Regression</a></li>
-    <li><a href="#model">Model</a></li>
+    <li><a href="#softmax-regression">Softmax Regression</a></li>
     <li><a href="#statistical-model">Statistical model</a></li>
     <li><a href="#likelihood">Likelihood</a></li>
     <li><a href="#loss-function">Loss function</a></li>
     <li><a href="#gradient">Gradient</a></li>
-    <li><a href="#analytic-solution">Analytic solution</a></li>
   </ul>
 </nav>
 

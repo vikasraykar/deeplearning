@@ -42,8 +42,15 @@ where {{< katex >}}\mathbf{w}\in \mathbb{R}^d{{< /katex >}} are the weights/**pa
 \sigma(x) = \frac{1}{1-e^{-z}}
 {{< /katex >}}
 {{% hint warning %}}
-Without loss of generalization we ignore the bias term as it can be incorporated into the feature vector.
+Without loss of generalization we ignore the bias term as it can be incorporated into the feature vector by appending a column of ones to the feature matrix.
 {{% /hint %}}
+We often stack all the {{< katex >}}n{{< /katex >}} examples into a *design matrix* {{< katex >}}\mathbf{X} \in \mathbb{R^{n \times d}}{{< /katex >}}, where each row is one instance. The predictions for all the {{< katex >}}n{{< /katex >}} instances {{< katex >}}\mathbf{y} \in \mathbb{R}^n{{< /katex >}} can be written conveniently as a matrix-vector product.
+{{< katex display=true >}}
+\mathbf{y} = \sigma(\mathbf{X}\mathbf{w})
+{{< /katex >}}
+
+## Likelihood
+
 Given a dataset {{< katex >}}\mathcal{D}=\{\mathbf{x}_i \in \mathbb{R}^d,\mathbf{y}_i \in [0,1]\}_{i=1}^N{{< /katex >}} containing {{< katex >}}n{{< /katex >}} examples we need to estimate the parameter vector {{< katex >}}\mathbf{w}{{< /katex >}} by maximizing the likelihood of data.
 
 > In practice we minimize the **negative log likelihood**.
@@ -61,13 +68,23 @@ This is referred to as the **Binary Cross Entropy** (BCE) loss. We need to choos
 \hat{\mathbf{w}} = \argmin_{\mathbf{w}} L(\mathbf{w})
 {{< /katex >}}
 
+## Loss function
+
+**Binary Cross Entropy** (BCE) loss
+{{< katex display=true >}}
+L(\mathbf{w}) - \sum_{i=1}^{N} \left[ y_i\log(\mu_i) + (1-y_i)\log(1-\mu_i) \right]
+{{< /katex >}}
+
 {{<button href="https://pytorch.org/docs/stable/generated/torch.nn.BCELoss.html#torch.nn.BCELoss">}}torch.nn.BCELoss{{</button>}} {{<button href="https://pytorch.org/docs/stable/generated/torch.nn.BCEWithLogitsLoss.html#torch.nn.BCEWithLogitsLoss">}}torch.nn.BCEWithLogitsLoss{{</button>}}
 
 
+## Gradient
+The gradient of the loss function if given by
+{{< katex display=true >}}
+\nabla_{\mathbf{w}} L(\mathbf{w}) = \mathbf{X}^T\left(\sigma(\mathbf{X}\mathbf{w})-\mathbf{y}\right)
+{{< /katex >}}
 
 
-
-
-## Loss functions
+## Collateral
 
 https://pytorch.org/docs/stable/nn.html#loss-functions

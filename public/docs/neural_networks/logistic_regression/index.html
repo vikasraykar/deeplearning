@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en-us" dir="ltr">
-<head>
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="
@@ -8,13 +8,6 @@
   #
 
 Logistic Regression is a single layer neural network for binary classification.
-
-
-
-
-  
-
-
 
 
 
@@ -44,9 +37,6 @@ stateDiagram-v2
   #
 
 The probability of the positive class (
-
-
-
   \(y=1\)
 
 ) for a given feature vector (
@@ -74,7 +64,7 @@ where
 ">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#343a40">
-<meta name="color-scheme" content="light dark"><meta property="og:url" content="https://example.org/docs/neural_networks/logistic_regression/">
+<meta name="color-scheme" content="light dark"><meta property="og:url" content="http://localhost:1313/docs/neural_networks/logistic_regression/">
   <meta property="og:site_name" content="Deep Learning">
   <meta property="og:title" content="Logistic Regression">
   <meta property="og:description" content="Logistic Regression # Logistic Regression is a single layer neural network for binary classification.
@@ -85,10 +75,10 @@ stateDiagram-v2 direction LR z1: $$x_1$$ z2: $$x_2$$ zi: $$x_i$$ zM: $$x_d$$ aj:
 <title>Logistic Regression | Deep Learning</title>
 <link rel="icon" href="/favicon.png" >
 <link rel="manifest" href="/manifest.json">
-<link rel="canonical" href="https://example.org/docs/neural_networks/logistic_regression/">
+<link rel="canonical" href="http://localhost:1313/docs/neural_networks/logistic_regression/">
 <link rel="stylesheet" href="/book.min.6c8b9d2a1fc95075ed7da46ca81060b39add8fff6741ac51259f768929281e2c.css" integrity="sha256-bIudKh/JUHXtfaRsqBBgs5rdj/9nQaxRJZ92iSkoHiw=" crossorigin="anonymous">
   <script defer src="/fuse.min.js"></script>
-  <script defer src="/en.search.min.18f6d56d63702829226c3a10cab725f357e36dbcf0ec30ff7b3ce55779d566a6.js" integrity="sha256-GPbVbWNwKCkibDoQyrcl81fjbbzw7DD/ezzlV3nVZqY=" crossorigin="anonymous"></script>
+  <script defer src="/en.search.min.ae67b6a6a7d0ac5e05d3052f66b3d8658cefe195da8e7017b2b5b31a1452dfd7.js" integrity="sha256-rme2pqfQrF4F0wUvZrPYZYzv4ZXajnAXsrWzGhRS39c=" crossorigin="anonymous"></script>
 <!--
 Made with Book Theme
 https://github.com/alex-shpak/hugo-book
@@ -179,7 +169,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="/docs/neural_networks/entropy/" class="">Entropy</a>
+    <a href="/docs/neural_networks/softmax_regression/" class="">Softmax Regression</a>
   
 
         </li>
@@ -206,6 +196,19 @@ https://github.com/alex-shpak/hugo-book
 
   
     <a href="/docs/neural_networks/activations/" class="">Activation functions</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/neural_networks/entropy/" class="">Entropy</a>
   
 
         </li>
@@ -453,7 +456,10 @@ https://github.com/alex-shpak/hugo-book
   <ul>
     <li><a href="#logistic-regression">Logistic Regression</a></li>
     <li><a href="#statistical-model">Statistical model</a></li>
-    <li><a href="#loss-functions">Loss functions</a></li>
+    <li><a href="#likelihood">Likelihood</a></li>
+    <li><a href="#loss-function">Loss function</a></li>
+    <li><a href="#gradient">Gradient</a></li>
+    <li><a href="#collateral">Collateral</a></li>
   </ul>
 </nav>
 
@@ -471,19 +477,6 @@ https://github.com/alex-shpak/hugo-book
   <a class="anchor" href="#logistic-regression">#</a>
 </h2>
 <p>Logistic Regression is a single layer neural network for binary classification.</p>
-
-
-<script src="/mermaid.min.js"></script>
-
-  <script>mermaid.initialize({
-  "flowchart": {
-    "useMaxWidth":true
-  },
-  "theme": "default"
-}
-)</script>
-
-
 
 
 <pre class="mermaid">
@@ -512,10 +505,7 @@ stateDiagram-v2
   Statistical model
   <a class="anchor" href="#statistical-model">#</a>
 </h2>
-<p>The probability of the positive class (
-<link rel="stylesheet" href="/katex/katex.min.css" />
-<script defer src="/katex/katex.min.js"></script>
-<script defer src="/katex/auto-render.min.js" onload="renderMathInElement(document.body);"></script><span>
+<p>The probability of the positive class (<span>
   \(y=1\)
 </span>
 ) for a given feature vector (<span>
@@ -542,8 +532,31 @@ where <span>
 </span>
 </p>
 <blockquote class="book-hint warning">
-<p>Without loss of generalization we ignore the bias term as it can be incorporated into the feature vector.</p>
+<p>Without loss of generalization we ignore the bias term as it can be incorporated into the feature vector by appending a column of ones to the feature matrix.</p>
 </blockquote>
+<p>We often stack all the <span>
+  \(n\)
+</span>
+ examples into a <em>design matrix</em> <span>
+  \(\mathbf{X} \in \mathbb{R^{n \times d}}\)
+</span>
+, where each row is one instance. The predictions for all the <span>
+  \(n\)
+</span>
+ instances <span>
+  \(\mathbf{y} \in \mathbb{R}^n\)
+</span>
+ can be written conveniently as a matrix-vector product.
+<span>
+  \[
+\mathbf{y} = \sigma(\mathbf{X}\mathbf{w})
+\]
+</span>
+</p>
+<h2 id="likelihood">
+  Likelihood
+  <a class="anchor" href="#likelihood">#</a>
+</h2>
 <p>Given a dataset <span>
   \(\mathcal{D}=\{\mathbf{x}_i \in \mathbb{R}^d,\mathbf{y}_i \in [0,1]\}_{i=1}^N\)
 </span>
@@ -577,12 +590,34 @@ This is referred to as the <strong>Binary Cross Entropy</strong> (BCE) loss. We 
 \]
 </span>
 </p>
+<h2 id="loss-function">
+  Loss function
+  <a class="anchor" href="#loss-function">#</a>
+</h2>
+<p><strong>Binary Cross Entropy</strong> (BCE) loss
+<span>
+  \[
+L(\mathbf{w}) - \sum_{i=1}^{N} \left[ y_i\log(\mu_i) + (1-y_i)\log(1-\mu_i) \right]
+\]
+</span>
+</p>
 <p><a  href="https://pytorch.org/docs/stable/generated/torch.nn.BCELoss.html#torch.nn.BCELoss"   target="_blank" rel="noopener"  class="book-btn">torch.nn.BCELoss</a>
  <a  href="https://pytorch.org/docs/stable/generated/torch.nn.BCEWithLogitsLoss.html#torch.nn.BCEWithLogitsLoss"   target="_blank" rel="noopener"  class="book-btn">torch.nn.BCEWithLogitsLoss</a>
 </p>
-<h2 id="loss-functions">
-  Loss functions
-  <a class="anchor" href="#loss-functions">#</a>
+<h2 id="gradient">
+  Gradient
+  <a class="anchor" href="#gradient">#</a>
+</h2>
+<p>The gradient of the loss function if given by
+<span>
+  \[
+\nabla_{\mathbf{w}} L(\mathbf{w}) = \mathbf{X}^T\left(\sigma(\mathbf{X}\mathbf{w})-\mathbf{y}\right)
+\]
+</span>
+</p>
+<h2 id="collateral">
+  Collateral
+  <a class="anchor" href="#collateral">#</a>
 </h2>
 <p><a href="https://pytorch.org/docs/stable/nn.html#loss-functions">https://pytorch.org/docs/stable/nn.html#loss-functions</a></p>
 </article>
@@ -628,7 +663,10 @@ This is referred to as the <strong>Binary Cross Entropy</strong> (BCE) loss. We 
   <ul>
     <li><a href="#logistic-regression">Logistic Regression</a></li>
     <li><a href="#statistical-model">Statistical model</a></li>
-    <li><a href="#loss-functions">Loss functions</a></li>
+    <li><a href="#likelihood">Likelihood</a></li>
+    <li><a href="#loss-function">Loss function</a></li>
+    <li><a href="#gradient">Gradient</a></li>
+    <li><a href="#collateral">Collateral</a></li>
   </ul>
 </nav>
 

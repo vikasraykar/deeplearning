@@ -16,7 +16,7 @@ stateDiagram-v2
     zi: $$x_i$$
     zM: $$x_d$$
     aj: $$a=\sum_i w_{i} x_i$$
-    zj: $$z=a$$
+    zj: $$z=h(a)=a$$
     z1 --> aj:$$w_{1}$$
     z2 --> aj:$$w_{2}$$
     zi --> aj:$$w_{i}$$
@@ -31,7 +31,7 @@ stateDiagram-v2
 {{</mermaid>}}
 
 
-### Model
+## Model
 
 Linear Regression assumes a **linear relationship** between the target {{< katex >}}y \in \mathbb{R}{{< /katex >}} and the features {{< katex >}}\mathbf{x}\in \mathbb{R}^d{{< /katex >}}.
 {{< katex display=true >}}
@@ -42,14 +42,14 @@ where {{< katex >}}\mathbf{w}\in \mathbb{R}^d{{< /katex >}} is the {{< katex >}}
 Without loss of generalization we can ignore the bias term as it can be subsumed into the design matrix by appending a column of ones.
 {{% /hint %}}
 {{< katex display=true >}}
-\hat{y} = f(\mathbf{x}) = \mathbf{w}^T\mathbf{x}
+y = f(\mathbf{x}) = \mathbf{w}^T\mathbf{x}
 {{< /katex >}}
-We often stack all the {{< katex >}}n{{< /katex >}} examples into a *design matrix* {{< katex >}}\mathbf{X} \in \mathbb{R^{n \times d}}{{< /katex >}}, where each row is one instance. The predictions for all the {{< katex >}}n{{< /katex >}} instances {{< katex >}}\mathbf{\hat{y}} \in \mathbb{R}^n{{< /katex >}} can be written conveniently as a matrix-vector product.
+We often stack all the {{< katex >}}n{{< /katex >}} examples into a *design matrix* {{< katex >}}\mathbf{X} \in \mathbb{R^{n \times d}}{{< /katex >}}, where each row is one instance. The predictions for all the {{< katex >}}n{{< /katex >}} instances {{< katex >}}\mathbf{y} \in \mathbb{R}^n{{< /katex >}} can be written conveniently as a matrix-vector product.
 {{< katex display=true >}}
-\mathbf{\hat{y}} = \mathbf{X}\mathbf{w}
+\mathbf{y} = \mathbf{X}\mathbf{w}
 {{< /katex >}}
 
-### Statistical model
+## Statistical model
 
 The probability of {{< katex >}}y{{< /katex >}} for a given feature vector ({{< katex >}}\mathbf{x}\in \mathbb{R}^d{{< /katex >}}) is modelled as
 {{< katex display=true >}}
@@ -60,24 +60,24 @@ where {{< katex >}}\mathbf{w}\in \mathbb{R}^d{{< /katex >}} are the weights/**pa
 \text{E}[y|\mathbf{x},\mathbf{w}] = \mathbf{w}^T\mathbf{x}
 {{< /katex >}}
 
-### Likelihood
+## Likelihood
 
 Given a dataset {{< katex >}}\mathcal{D}=\{\mathbf{x}_i \in \mathbb{R}^d,\mathbf{y}_i \in \mathbb{R}\}_{i=1}^N{{< /katex >}} containing {{< katex >}}n{{< /katex >}} examples we need to estimate the parameter vector {{< katex >}}\mathbf{w}{{< /katex >}} by maximizing the likelihood of data.
 
 > In practice we minimize the **negative log likelihood**.
 
-Let {{< katex >}} \hat{y}_i = \mathbf{w}^T\mathbf{x}_i{{< /katex >}} be the model prediction for each example in the training dataset. The negative log likelihood (NLL) is given by
+Let {{< katex >}} \mu_i = \mathbf{w}^T\mathbf{x}_i{{< /katex >}} be the model prediction for each example in the training dataset. The negative log likelihood (NLL) is given by
 {{< katex display=true >}}
 \begin{align}
 L(\mathbf{w}) &= - \sum_{i=1}^{N} \log \left[\text{Pr}[y_i|\mathbf{x}_i,\mathbf{w}]\right] \nonumber \\
-                       &= \frac{N}{2} \log(2\pi\sigma^2) + \frac{1}{2\sigma^2} \sum_{i=1}^{N} (y_i-\hat{y}_i)^2 \nonumber \\
+                       &= \frac{N}{2} \log(2\pi\sigma^2) + \frac{1}{2\sigma^2} \sum_{i=1}^{N} (y_i-\mu_i)^2 \nonumber \\
 
 \end{align}
 {{< /katex >}}
 This is equivalent to minimizing the **Mean Squared Error** (MSE) loss.
 {{< katex display=true >}}
 \begin{align}
-L(\mathbf{w}) &= \frac{1}{2N} \sum_{i=1}^{N} (y_i-\hat{y}_i)^2 \nonumber \\
+L(\mathbf{w}) &= \frac{1}{2N} \sum_{i=1}^{N} (y_i-\mu_i)^2 \nonumber \\
 \end{align}
 {{< /katex >}}
 We need to choose the model parameters that optimizes (minimizes) the loss function.
@@ -86,7 +86,7 @@ We need to choose the model parameters that optimizes (minimizes) the loss funct
 {{< /katex >}}
 
 
-### Loss function
+## Loss function
 
 **Mean Squared Error** (MSE)
 {{< katex display=true >}}
@@ -96,7 +96,7 @@ L(\mathbf{w}) = \frac{1}{2N} \sum_{i=1}^{N}  \left(y_i - \mathbf{w}^T\mathbf{x}_
 {{<button href="https://pytorch.org/docs/stable/generated/torch.nn.MSELoss.html#torch.nn.MSELoss">}}torch.nn.MSELoss{{</button>}}
 
 
-### Gradient
+## Gradient
 The loss function using matrix notation can be written as follows.
 {{< katex display=true >}}
 L(\mathbf{w}) = \frac{1}{2} \| \mathbf{y} - \mathbf{X}\mathbf{w} \|^2
@@ -107,7 +107,7 @@ The gradient of the loss function if given by
 {{< /katex >}}
 
 
-### Analytic solution
+## Analytic solution
 
 Taking the derivative of the loss with respect to {{< katex >}}\mathbf{w}{{< /katex >}} and setting it to zero yields:
 {{< katex display=true >}}
