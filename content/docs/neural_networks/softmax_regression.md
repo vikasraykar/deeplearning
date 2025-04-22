@@ -78,36 +78,34 @@ We often stack all the {{< katex >}}n{{< /katex >}} examples into a *design matr
 
 ## Likelihood
 
-Given a dataset {{< katex >}}\mathcal{D}=\{\mathbf{x}_i \in \mathbb{R}^d,\mathbf{y}_i \in [0,1]\}_{i=1}^N{{< /katex >}} containing {{< katex >}}n{{< /katex >}} examples we need to estimate the parameter vector {{< katex >}}\mathbf{w}{{< /katex >}} by maximizing the likelihood of data.
+Given a dataset {{< katex >}}\mathcal{D}=\{\mathbf{x}_i \in \mathbb{R}^d,\mathbf{y}_i \in [1,2,..,k]\}_{i=1}^n{{< /katex >}} containing {{< katex >}}n{{< /katex >}} examples we need to estimate the parameter vector {{< katex >}}\mathbf{W}{{< /katex >}} by maximizing the likelihood of data.
 
 > In practice we minimize the **negative log likelihood**.
 
-Let {{< katex >}} \mu_i = \text{Pr}[y_i=1|\mathbf{x}_i,\mathbf{w}] = \sigma(\mathbf{w}^T\mathbf{x}_i){{< /katex >}} be the model prediction for each example in the training dataset. The the negative log likelihood (NLL) is given by
+Let {{< katex >}}\mu_i^j{{< /katex >}} be the model prediction for class j for each example i in the training dataset.
 {{< katex display=true >}}
-\begin{align}
-L(\mathbf{w}) &= - \sum_{i=1}^{N} \log\left[\mu_i^{y_i}(1-\mu_i)^{1-y_i}\right] \nonumber \\
-                       &= - \sum_{i=1}^{N} \left[ y_i\log(\mu_i) + (1-y_i)\log(1-\mu_i) \right] \nonumber \\
-
-\end{align}
+\mu_i^j = \text{Pr}[y_i=j|\mathbf{x}_i,\mathbf{W}] = \text{softmax}(\mathbf{W}^T\mathbf{x}_i)_j
 {{< /katex >}}
-This is referred to as the **Binary Cross Entropy** (BCE) loss. We need to choose the model parameters that optimizes (minimizes) the loss function.
+Let {{< katex >}}y_i^j{{< /katex >}} be the corresponding true label.
+The negative log likelihood (NLL) is given by
 {{< katex display=true >}}
-\hat{\mathbf{w}} = \argmin_{\mathbf{w}} L(\mathbf{w})
+L(\mathbf{W}) = - \sum_{i=1}^{n} \sum_{j=1}^{k} y_i^j \log \mu_i^j
+{{< /katex >}}
+This is referred to as the **Cross Entropy** loss. We need to choose the model parameters that optimizes (minimizes) the loss function.
+{{< katex display=true >}}
+\hat{\mathbf{W}} = \argmin_{\mathbf{W}} L(\mathbf{W})
 {{< /katex >}}
 
 ## Loss function
 
-**Binary Cross Entropy** (BCE) loss
+**Cross Entropy** loss
 {{< katex display=true >}}
-L(\mathbf{w}) - \sum_{i=1}^{N} \left[ y_i\log(\mu_i) + (1-y_i)\log(1-\mu_i) \right]
+L(\mathbf{W}) = - \sum_{i=1}^{n} \sum_{j=1}^{k} y_i^j \log \mu_i^j
+{{< /katex >}}
+Compare to the earlier **Binary Cross Entropy** loss
+{{< katex display=true >}}
+L(\mathbf{w}) - \sum_{i=1}^{n} \left[ y_i\log(\mu_i) + (1-y_i)\log(1-\mu_i) \right]
 {{< /katex >}}
 
-{{<button href="https://pytorch.org/docs/stable/generated/torch.nn.BCELoss.html#torch.nn.BCELoss">}}torch.nn.BCELoss{{</button>}} {{<button href="https://pytorch.org/docs/stable/generated/torch.nn.BCEWithLogitsLoss.html#torch.nn.BCEWithLogitsLoss">}}torch.nn.BCEWithLogitsLoss{{</button>}}
-
-
-## Gradient
-The gradient of the loss function if given by
-{{< katex display=true >}}
-\nabla_{\mathbf{w}} L(\mathbf{w}) = \mathbf{X}^T\left(\sigma(\mathbf{X}\mathbf{w})-\mathbf{y}\right)
-{{< /katex >}}
+{{<button href="https://pytorch.org/docs/stable/generated/torch.nn.CrossEntropyLoss.html#torch.nn.CrossEntropyLoss">}}torch.nn.CrossEntropyLoss{{</button>}}
 

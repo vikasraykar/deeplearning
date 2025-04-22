@@ -11,6 +11,13 @@ Linear Regression is a single layer neural network for regression.
 
 
 
+
+  
+
+
+
+
+
 stateDiagram-v2
     direction LR
     z1: $$x_1$$
@@ -37,6 +44,9 @@ stateDiagram-v2
   #
 
 Linear Regression assumes a linear relationship between the target 
+
+
+
   \(y \in \mathbb{R}\)
 
  and the features 
@@ -75,7 +85,7 @@ stateDiagram-v2 direction LR z1: $$x_1$$ z2: $$x_2$$ zi: $$x_i$$ zM: $$x_d$$ aj:
 <link rel="canonical" href="http://localhost:1313/docs/neural_networks/linear_regression/">
 <link rel="stylesheet" href="/book.min.6c8b9d2a1fc95075ed7da46ca81060b39add8fff6741ac51259f768929281e2c.css" integrity="sha256-bIudKh/JUHXtfaRsqBBgs5rdj/9nQaxRJZ92iSkoHiw=" crossorigin="anonymous">
   <script defer src="/fuse.min.js"></script>
-  <script defer src="/en.search.min.ae67b6a6a7d0ac5e05d3052f66b3d8658cefe195da8e7017b2b5b31a1452dfd7.js" integrity="sha256-rme2pqfQrF4F0wUvZrPYZYzv4ZXajnAXsrWzGhRS39c=" crossorigin="anonymous"></script>
+  <script defer src="/en.search.min.7b1a44f012976c081940070031b998e1f6d5228d7bdac39017a70e234a87e95b.js" integrity="sha256-expE8BKXbAgZQAcAMbmY4fbVIo172sOQF6cOI0qH6Vs=" crossorigin="anonymous"></script>
 <!--
 Made with Book Theme
 https://github.com/alex-shpak/hugo-book
@@ -179,7 +189,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="/docs/neural_networks/mlp/" class="">Multi-layer perceptrons</a>
+    <a href="/docs/neural_networks/mlp/" class="">Multilayer perceptron</a>
   
 
         </li>
@@ -477,6 +487,19 @@ https://github.com/alex-shpak/hugo-book
 <p>Linear Regression is a single layer neural network for regression.</p>
 
 
+<script src="/mermaid.min.js"></script>
+
+  <script>mermaid.initialize({
+  "flowchart": {
+    "useMaxWidth":true
+  },
+  "theme": "default"
+}
+)</script>
+
+
+
+
 <pre class="mermaid">
 stateDiagram-v2
     direction LR
@@ -503,7 +526,10 @@ stateDiagram-v2
   Model
   <a class="anchor" href="#model">#</a>
 </h2>
-<p>Linear Regression assumes a <strong>linear relationship</strong> between the target <span>
+<p>Linear Regression assumes a <strong>linear relationship</strong> between the target 
+<link rel="stylesheet" href="/katex/katex.min.css" />
+<script defer src="/katex/katex.min.js"></script>
+<script defer src="/katex/auto-render.min.js" onload="renderMathInElement(document.body);"></script><span>
   \(y \in \mathbb{R}\)
 </span>
  and the features <span>

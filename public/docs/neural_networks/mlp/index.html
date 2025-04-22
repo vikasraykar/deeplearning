@@ -4,25 +4,128 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="
-  Multi-layer perceptrons
+  Multilayer perceptron
   #
+
+A 3-layer multilayer perceptron.
+
+
+
+
+  \[
+\begin{align}
+\mathbf{X}  &= \mathbf{X}  \nonumber \\
+\mathbf{H}^{(1)} &= g_1\left(\mathbf{X}\mathbf{W}^{(1)}&#43;\mathbf{b}^{(1)}\right) \nonumber \\
+\mathbf{H}^{(2)} &= g_2\left(\mathbf{H}^{(1)}\mathbf{W}^{(2)}&#43;\mathbf{b}^{(2)}\right) \nonumber \\
+\mathbf{O} &= \mathbf{H}^{(2)}\mathbf{W}^{(3)}&#43;\mathbf{b}^{(3)} \nonumber \\
+\end{align}
+\]
+
+
+
+  \(g\)
+
+ is a nonlinear activation function
+
+
+
+
+  
+
+
+
+
+
+stateDiagram-v2
+    direction LR
+    x1: $$x_1$$
+    x2: $$x_2$$
+    x3: $$x_3$$
+    h11: $$h^1_1$$
+    h12: $$h^1_2$$
+    h13: $$h^1_3$$
+    h14: $$h^1_4$$
+    h21: $$h^2_1$$
+    h22: $$h^2_2$$
+    h23: $$h^2_3$$
+    h24: $$h^2_4$$
+    h25: $$h^2_5$$
+    o1: $$o_1$$
+    o2: $$o_2$$
+    o3: $$o_3$$
+    x1 --&gt; h11
+    x1 --&gt; h12
+    x1 --&gt; h13
+    x1 --&gt; h14
+    x2 --&gt; h11
+    x2 --&gt; h12
+    x2 --&gt; h13
+    x2 --&gt; h14
+    x3 --&gt; h11
+    x3 --&gt; h12
+    x3 --&gt; h13
+    x3 --&gt; h14
+    h11 --&gt; h21
+    h11 --&gt; h22
+    h11 --&gt; h23
+    h11 --&gt; h24
+    h11 --&gt; h25
+    h12 --&gt; h21
+    h12 --&gt; h22
+    h12 --&gt; h23
+    h12 --&gt; h24
+    h12 --&gt; h25
+    h13 --&gt; h21
+    h13 --&gt; h22
+    h13 --&gt; h23
+    h13 --&gt; h24
+    h13 --&gt; h25
+    h14 --&gt; h21
+    h14 --&gt; h22
+    h14 --&gt; h23
+    h14 --&gt; h24
+    h14 --&gt; h25
+    h21 --&gt; o1
+    h22 --&gt; o1
+    h23 --&gt; o1
+    h24 --&gt; o1
+    h25 --&gt; o1
+    h21 --&gt; o2
+    h22 --&gt; o2
+    h23 --&gt; o2
+    h24 --&gt; o2
+    h25 --&gt; o2
+    h21 --&gt; o3
+    h22 --&gt; o3
+    h23 --&gt; o3
+    h24 --&gt; o3
+    h25 --&gt; o3
+    o1 --&gt; END1:::hidden
+    o2 --&gt; END2:::hidden
+    o3 --&gt; END3:::hidden
+    note left of x3 : Input layer
+    note left of h14 : Hidden layer 1
+    note left of h25 : Hidden layer 2
+    note left of o1 : Output layer
+    classDef hidden display: none;
 ">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#343a40">
 <meta name="color-scheme" content="light dark"><meta property="og:url" content="http://localhost:1313/docs/neural_networks/mlp/">
   <meta property="og:site_name" content="Deep Learning">
-  <meta property="og:title" content="Multi-layer perceptrons">
-  <meta property="og:description" content="Multi-layer perceptrons #">
+  <meta property="og:title" content="Multilayer perceptron">
+  <meta property="og:description" content="Multilayer perceptron # A 3-layer multilayer perceptron. \[ \begin{align} \mathbf{X} &amp;= \mathbf{X} \nonumber \\ \mathbf{H}^{(1)} &amp;= g_1\left(\mathbf{X}\mathbf{W}^{(1)}&#43;\mathbf{b}^{(1)}\right) \nonumber \\ \mathbf{H}^{(2)} &amp;= g_2\left(\mathbf{H}^{(1)}\mathbf{W}^{(2)}&#43;\mathbf{b}^{(2)}\right) \nonumber \\ \mathbf{O} &amp;= \mathbf{H}^{(2)}\mathbf{W}^{(3)}&#43;\mathbf{b}^{(3)} \nonumber \\ \end{align} \] \(g\) is a nonlinear activation function
+stateDiagram-v2 direction LR x1: $$x_1$$ x2: $$x_2$$ x3: $$x_3$$ h11: $$h^1_1$$ h12: $$h^1_2$$ h13: $$h^1_3$$ h14: $$h^1_4$$ h21: $$h^2_1$$ h22: $$h^2_2$$ h23: $$h^2_3$$ h24: $$h^2_4$$ h25: $$h^2_5$$ o1: $$o_1$$ o2: $$o_2$$ o3: $$o_3$$ x1 --&gt; h11 x1 --&gt; h12 x1 --&gt; h13 x1 --&gt; h14 x2 --&gt; h11 x2 --&gt; h12 x2 --&gt; h13 x2 --&gt; h14 x3 --&gt; h11 x3 --&gt; h12 x3 --&gt; h13 x3 --&gt; h14 h11 --&gt; h21 h11 --&gt; h22 h11 --&gt; h23 h11 --&gt; h24 h11 --&gt; h25 h12 --&gt; h21 h12 --&gt; h22 h12 --&gt; h23 h12 --&gt; h24 h12 --&gt; h25 h13 --&gt; h21 h13 --&gt; h22 h13 --&gt; h23 h13 --&gt; h24 h13 --&gt; h25 h14 --&gt; h21 h14 --&gt; h22 h14 --&gt; h23 h14 --&gt; h24 h14 --&gt; h25 h21 --&gt; o1 h22 --&gt; o1 h23 --&gt; o1 h24 --&gt; o1 h25 --&gt; o1 h21 --&gt; o2 h22 --&gt; o2 h23 --&gt; o2 h24 --&gt; o2 h25 --&gt; o2 h21 --&gt; o3 h22 --&gt; o3 h23 --&gt; o3 h24 --&gt; o3 h25 --&gt; o3 o1 --&gt; END1:::hidden o2 --&gt; END2:::hidden o3 --&gt; END3:::hidden note left of x3 : Input layer note left of h14 : Hidden layer 1 note left of h25 : Hidden layer 2 note left of o1 : Output layer classDef hidden display: none;">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
     <meta property="article:section" content="docs">
-<title>Multi-layer perceptrons | Deep Learning</title>
+<title>Multilayer perceptron | Deep Learning</title>
 <link rel="icon" href="/favicon.png" >
 <link rel="manifest" href="/manifest.json">
 <link rel="canonical" href="http://localhost:1313/docs/neural_networks/mlp/">
 <link rel="stylesheet" href="/book.min.6c8b9d2a1fc95075ed7da46ca81060b39add8fff6741ac51259f768929281e2c.css" integrity="sha256-bIudKh/JUHXtfaRsqBBgs5rdj/9nQaxRJZ92iSkoHiw=" crossorigin="anonymous">
   <script defer src="/fuse.min.js"></script>
-  <script defer src="/en.search.min.ae67b6a6a7d0ac5e05d3052f66b3d8658cefe195da8e7017b2b5b31a1452dfd7.js" integrity="sha256-rme2pqfQrF4F0wUvZrPYZYzv4ZXajnAXsrWzGhRS39c=" crossorigin="anonymous"></script>
+  <script defer src="/en.search.min.7b1a44f012976c081940070031b998e1f6d5228d7bdac39017a70e234a87e95b.js" integrity="sha256-expE8BKXbAgZQAcAMbmY4fbVIo172sOQF6cOI0qH6Vs=" crossorigin="anonymous"></script>
 <!--
 Made with Book Theme
 https://github.com/alex-shpak/hugo-book
@@ -126,7 +229,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="/docs/neural_networks/mlp/" class="active">Multi-layer perceptrons</a>
+    <a href="/docs/neural_networks/mlp/" class="active">Multilayer perceptron</a>
   
 
         </li>
@@ -382,7 +485,7 @@ https://github.com/alex-shpak/hugo-book
     <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
   </label>
 
-  <h3>Multi-layer perceptrons</h3>
+  <h3>Multilayer perceptron</h3>
 
   <label for="toc-control">
     
@@ -398,7 +501,7 @@ https://github.com/alex-shpak/hugo-book
   
 <nav id="TableOfContents">
   <ul>
-    <li><a href="#multi-layer-perceptrons">Multi-layer perceptrons</a></li>
+    <li><a href="#multilayer-perceptron">Multilayer perceptron</a></li>
   </ul>
 </nav>
 
@@ -411,10 +514,119 @@ https://github.com/alex-shpak/hugo-book
 
       
       
-  <article class="markdown book-article"><h2 id="multi-layer-perceptrons">
-  Multi-layer perceptrons
-  <a class="anchor" href="#multi-layer-perceptrons">#</a>
+  <article class="markdown book-article"><h2 id="multilayer-perceptron">
+  Multilayer perceptron
+  <a class="anchor" href="#multilayer-perceptron">#</a>
 </h2>
+<p>A 3-layer multilayer perceptron.
+
+<link rel="stylesheet" href="/katex/katex.min.css" />
+<script defer src="/katex/katex.min.js"></script>
+<script defer src="/katex/auto-render.min.js" onload="renderMathInElement(document.body);"></script><span>
+  \[
+\begin{align}
+\mathbf{X}  &= \mathbf{X}  \nonumber \\
+\mathbf{H}^{(1)} &= g_1\left(\mathbf{X}\mathbf{W}^{(1)}+\mathbf{b}^{(1)}\right) \nonumber \\
+\mathbf{H}^{(2)} &= g_2\left(\mathbf{H}^{(1)}\mathbf{W}^{(2)}+\mathbf{b}^{(2)}\right) \nonumber \\
+\mathbf{O} &= \mathbf{H}^{(2)}\mathbf{W}^{(3)}+\mathbf{b}^{(3)} \nonumber \\
+\end{align}
+\]
+</span>
+</p>
+<p><span>
+  \(g\)
+</span>
+ is a nonlinear <strong>activation function</strong></p>
+
+
+<script src="/mermaid.min.js"></script>
+
+  <script>mermaid.initialize({
+  "flowchart": {
+    "useMaxWidth":true
+  },
+  "theme": "default"
+}
+)</script>
+
+
+
+
+<pre class="mermaid">
+stateDiagram-v2
+    direction LR
+    x1: $$x_1$$
+    x2: $$x_2$$
+    x3: $$x_3$$
+    h11: $$h^1_1$$
+    h12: $$h^1_2$$
+    h13: $$h^1_3$$
+    h14: $$h^1_4$$
+    h21: $$h^2_1$$
+    h22: $$h^2_2$$
+    h23: $$h^2_3$$
+    h24: $$h^2_4$$
+    h25: $$h^2_5$$
+    o1: $$o_1$$
+    o2: $$o_2$$
+    o3: $$o_3$$
+    x1 --> h11
+    x1 --> h12
+    x1 --> h13
+    x1 --> h14
+    x2 --> h11
+    x2 --> h12
+    x2 --> h13
+    x2 --> h14
+    x3 --> h11
+    x3 --> h12
+    x3 --> h13
+    x3 --> h14
+    h11 --> h21
+    h11 --> h22
+    h11 --> h23
+    h11 --> h24
+    h11 --> h25
+    h12 --> h21
+    h12 --> h22
+    h12 --> h23
+    h12 --> h24
+    h12 --> h25
+    h13 --> h21
+    h13 --> h22
+    h13 --> h23
+    h13 --> h24
+    h13 --> h25
+    h14 --> h21
+    h14 --> h22
+    h14 --> h23
+    h14 --> h24
+    h14 --> h25
+    h21 --> o1
+    h22 --> o1
+    h23 --> o1
+    h24 --> o1
+    h25 --> o1
+    h21 --> o2
+    h22 --> o2
+    h23 --> o2
+    h24 --> o2
+    h25 --> o2
+    h21 --> o3
+    h22 --> o3
+    h23 --> o3
+    h24 --> o3
+    h25 --> o3
+    o1 --> END1:::hidden
+    o2 --> END2:::hidden
+    o3 --> END3:::hidden
+    note left of x3 : Input layer
+    note left of h14 : Hidden layer 1
+    note left of h25 : Hidden layer 2
+    note left of o1 : Output layer
+    classDef hidden display: none;
+</pre>
+
 </article>
  
       
@@ -456,7 +668,7 @@ https://github.com/alex-shpak/hugo-book
   
 <nav id="TableOfContents">
   <ul>
-    <li><a href="#multi-layer-perceptrons">Multi-layer perceptrons</a></li>
+    <li><a href="#multilayer-perceptron">Multilayer perceptron</a></li>
   </ul>
 </nav>
 

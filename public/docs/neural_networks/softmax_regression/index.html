@@ -98,7 +98,7 @@ stateDiagram-v2 direction LR x1: $$x_1$$ x2: $$x_2$$ x3: $$x_3$$ xd: $$x_d$$ a1:
 <link rel="canonical" href="http://localhost:1313/docs/neural_networks/softmax_regression/">
 <link rel="stylesheet" href="/book.min.6c8b9d2a1fc95075ed7da46ca81060b39add8fff6741ac51259f768929281e2c.css" integrity="sha256-bIudKh/JUHXtfaRsqBBgs5rdj/9nQaxRJZ92iSkoHiw=" crossorigin="anonymous">
   <script defer src="/fuse.min.js"></script>
-  <script defer src="/en.search.min.ae67b6a6a7d0ac5e05d3052f66b3d8658cefe195da8e7017b2b5b31a1452dfd7.js" integrity="sha256-rme2pqfQrF4F0wUvZrPYZYzv4ZXajnAXsrWzGhRS39c=" crossorigin="anonymous"></script>
+  <script defer src="/en.search.min.7b1a44f012976c081940070031b998e1f6d5228d7bdac39017a70e234a87e95b.js" integrity="sha256-expE8BKXbAgZQAcAMbmY4fbVIo172sOQF6cOI0qH6Vs=" crossorigin="anonymous"></script>
 <!--
 Made with Book Theme
 https://github.com/alex-shpak/hugo-book
@@ -202,7 +202,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="/docs/neural_networks/mlp/" class="">Multi-layer perceptrons</a>
+    <a href="/docs/neural_networks/mlp/" class="">Multilayer perceptron</a>
   
 
         </li>
@@ -478,7 +478,6 @@ https://github.com/alex-shpak/hugo-book
     <li><a href="#statistical-model">Statistical model</a></li>
     <li><a href="#likelihood">Likelihood</a></li>
     <li><a href="#loss-function">Loss function</a></li>
-    <li><a href="#gradient">Gradient</a></li>
   </ul>
 </nav>
 
@@ -640,35 +639,42 @@ We often stack all the <span>
   <a class="anchor" href="#likelihood">#</a>
 </h2>
 <p>Given a dataset <span>
-  \(\mathcal{D}=\{\mathbf{x}_i \in \mathbb{R}^d,\mathbf{y}_i \in [0,1]\}_{i=1}^N\)
+  \(\mathcal{D}=\{\mathbf{x}_i \in \mathbb{R}^d,\mathbf{y}_i \in [1,2,..,k]\}_{i=1}^n\)
 </span>
  containing <span>
   \(n\)
 </span>
  examples we need to estimate the parameter vector <span>
-  \(\mathbf{w}\)
+  \(\mathbf{W}\)
 </span>
  by maximizing the likelihood of data.</p>
 <blockquote>
 <p>In practice we minimize the <strong>negative log likelihood</strong>.</p></blockquote>
 <p>Let <span>
-  \( \mu_i = \text{Pr}[y_i=1|\mathbf{x}_i,\mathbf{w}] = \sigma(\mathbf{w}^T\mathbf{x}_i)\)
+  \(\mu_i^j\)
 </span>
- be the model prediction for each example in the training dataset. The the negative log likelihood (NLL) is given by
+ be the model prediction for class j for each example i in the training dataset.
 <span>
   \[
-\begin{align}
-L(\mathbf{w}) &= - \sum_{i=1}^{N} \log\left[\mu_i^{y_i}(1-\mu_i)^{1-y_i}\right] \nonumber \\
-                       &= - \sum_{i=1}^{N} \left[ y_i\log(\mu_i) + (1-y_i)\log(1-\mu_i) \right] \nonumber \\
-
-\end{align}
+\mu_i^j = \text{Pr}[y_i=j|\mathbf{x}_i,\mathbf{W}] = \text{softmax}(\mathbf{W}^T\mathbf{x}_i)_j
 \]
 </span>
 
-This is referred to as the <strong>Binary Cross Entropy</strong> (BCE) loss. We need to choose the model parameters that optimizes (minimizes) the loss function.
+Let <span>
+  \(y_i^j\)
+</span>
+ be the corresponding true label.
+The negative log likelihood (NLL) is given by
 <span>
   \[
-\hat{\mathbf{w}} = \argmin_{\mathbf{w}} L(\mathbf{w})
+L(\mathbf{W}) = - \sum_{i=1}^{n} \sum_{j=1}^{k} y_i^j \log \mu_i^j
+\]
+</span>
+
+This is referred to as the <strong>Cross Entropy</strong> loss. We need to choose the model parameters that optimizes (minimizes) the loss function.
+<span>
+  \[
+\hat{\mathbf{W}} = \argmin_{\mathbf{W}} L(\mathbf{W})
 \]
 </span>
 </p>
@@ -676,27 +682,22 @@ This is referred to as the <strong>Binary Cross Entropy</strong> (BCE) loss. We 
   Loss function
   <a class="anchor" href="#loss-function">#</a>
 </h2>
-<p><strong>Binary Cross Entropy</strong> (BCE) loss
+<p><strong>Cross Entropy</strong> loss
 <span>
   \[
-L(\mathbf{w}) - \sum_{i=1}^{N} \left[ y_i\log(\mu_i) + (1-y_i)\log(1-\mu_i) \right]
+L(\mathbf{W}) = - \sum_{i=1}^{n} \sum_{j=1}^{k} y_i^j \log \mu_i^j
+\]
+</span>
+
+Compare to the earlier <strong>Binary Cross Entropy</strong> loss
+<span>
+  \[
+L(\mathbf{w}) - \sum_{i=1}^{n} \left[ y_i\log(\mu_i) + (1-y_i)\log(1-\mu_i) \right]
 \]
 </span>
 </p>
-<p><a  href="https://pytorch.org/docs/stable/generated/torch.nn.BCELoss.html#torch.nn.BCELoss"   target="_blank" rel="noopener"  class="book-btn">torch.nn.BCELoss</a>
- <a  href="https://pytorch.org/docs/stable/generated/torch.nn.BCEWithLogitsLoss.html#torch.nn.BCEWithLogitsLoss"   target="_blank" rel="noopener"  class="book-btn">torch.nn.BCEWithLogitsLoss</a>
-</p>
-<h2 id="gradient">
-  Gradient
-  <a class="anchor" href="#gradient">#</a>
-</h2>
-<p>The gradient of the loss function if given by
-<span>
-  \[
-\nabla_{\mathbf{w}} L(\mathbf{w}) = \mathbf{X}^T\left(\sigma(\mathbf{X}\mathbf{w})-\mathbf{y}\right)
-\]
-</span>
-</p>
+<a  href="https://pytorch.org/docs/stable/generated/torch.nn.CrossEntropyLoss.html#torch.nn.CrossEntropyLoss"   target="_blank" rel="noopener"  class="book-btn">torch.nn.CrossEntropyLoss</a>
+
 </article>
  
       
@@ -742,7 +743,6 @@ L(\mathbf{w}) - \sum_{i=1}^{N} \left[ y_i\log(\mu_i) + (1-y_i)\log(1-\mu_i) \rig
     <li><a href="#statistical-model">Statistical model</a></li>
     <li><a href="#likelihood">Likelihood</a></li>
     <li><a href="#loss-function">Loss function</a></li>
-    <li><a href="#gradient">Gradient</a></li>
   </ul>
 </nav>
 
