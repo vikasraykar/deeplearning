@@ -8,7 +8,7 @@ paginate: true
 # Training neural networks
 
 **Vikas Chandrakant Raykar**
-Microsoft AI
+Microsoft
 
 ---
 
@@ -18,12 +18,19 @@ Microsoft AI
 notes - https://vikasraykar.github.io/deeplearning
 code  - https://github.com/vikasraykar/deeplearning-dojo
 
+---
+
+## [IOAI 2025 Syllabus](https://ioai-official.org/wp-content/uploads/2025/01/Syllabus-2025-Final.pdf)
+
+<img src="ioai_syllabus.png" alt="" width="600"/>
 
 ---
 
 # Training neural networks
 
 The goal of training is to find the value of the **parameters** of a neural network **model** to make **effective predictions**.
+
+
 
 ---
 
@@ -32,13 +39,13 @@ The goal of training is to find the value of the **parameters** of a neural netw
 We choose the **model parameters** by **optimizing** a **loss function**.
 
 - Model and parameters
-- Loss function
+- Loss functions
 - Gradient Descent
 - Optimizers
-- Backpropagation and Automatic differenciation
 - Normalization
+- Regularization
 - Training loop
-- Quiz and coding exercises
+- Backpropagation and Automatic differentiation
 
 ---
 
@@ -48,23 +55,49 @@ We choose the **model parameters** by **optimizing** a **loss function**.
 - **Loss function**
 - Gradient Descent
 - Optimizers
-- Backpropagation and Automatic differenciation
 - Normalization
+- Regularization
 - Training loop
-- Quiz and coding exercises
+- Backpropagation and Automatic differentiation
 
 ---
 
 # Single Layer Networks
 
-For simplicity we will mainly discuss single layer networks for regression and classification.
+For simplicity we will discuss single layer networks for regression and classification.
 
 <img src="perceptron.png" alt="" width="600"/>
 
 ---
 
 # Linear Regression
+
+---
+
+# Linear Regression
+
+Linear Regression assumes a **linear relationship** between the target $y \in \mathbb{R}$ and the features $\mathbf{x}\in \mathbb{R}^d$.
+$$
+y = f(\mathbf{x}) = w_1 x_1 + w_2 x_2 + ... + w_d x_d + b = \mathbf{w}^T\mathbf{x} + b,
+$$
+where $\mathbf{w}\in \mathbb{R}^d$ is the $d$-dimensional *weight vector* and $b \in \mathbb{R}$ is the *bias term*.
+
+> Without loss of generalization we can ignore the bias term as it can be subsumed into the feature matrix by appending a column of ones.
+
+$$
+y = f(\mathbf{x}) = \mathbf{w}^T\mathbf{x}
+$$
+
+
+---
+
 Linear Regression is a single layer neural network for regression.
+
+<img src="linear_regression.png" alt="" width="800"/>
+
+---
+
+# Probabilistic model
 
 The probability of $y$ for a given feature vector ($\mathbf{x}\in \mathbb{R}^d$) is modelled as
 $$
@@ -76,8 +109,6 @@ The prediction is given by
 $$
 \text{E}[y|\mathbf{x},\mathbf{w}] = \mathbf{w}^T\mathbf{x}
 $$
-
-> Without loss of generalization we ignore the bias term as it can be incorporated into the feature vector.
 
 ---
 
@@ -100,7 +131,7 @@ $$
 
 This is equivalent to minimizing the **Mean Squared Error** (MSE) loss.
 $$
-L(\mathbf{w}) = \frac{1}{N} \sum_{i=1}^{N} (y_i-\mu_i)^2
+L(\mathbf{w}) = \frac{1}{2N} \sum_{i=1}^{N} (y_i-\mu_i)^2 = \frac{1}{2N} \sum_{i=1}^{N} (y_i-\mathbf{w}^T\mathbf{x}_i)^2
 $$
 We need to choose the model parameters that optimizes (minimizes) the loss function.
 $$
@@ -111,8 +142,45 @@ $$
 
 ---
 
+# Vectorization
+
+We often stack all the $n$ examples into a *design matrix* $\mathbf{X} \in \mathbb{R}^{n \times d}$, where each row is one instance. The predictions for all the $n$ instances $\mathbf{y} \in \mathbb{R}^n$ can be written conveniently as a matrix-vector product.
+$$
+\mathbf{y} = \mathbf{X}\mathbf{w}
+$$
+
+The loss function using matrix notation can be written as follows.
+$$
+L(\mathbf{w}) = \frac{1}{2} \| \mathbf{y} - \mathbf{X}\mathbf{w} \|^2
+$$
+
+> Quiz - *Compute the gradient of the loss function.*
+
+---
+
+# Linear Regression Vectorization
+
+We often stack all the $n$ examples into a *design matrix* $\mathbf{X} \in \mathbb{R}^{n \times d}$, where each row is one instance. The predictions for all the $n$ instances $\mathbf{y} \in \mathbb{R}^n$ can be written conveniently as a matrix-vector product.
+$$
+\mathbf{y} = \mathbf{X}\mathbf{w}
+$$
+The loss function using matrix notation can be written as follows.
+$$
+L(\mathbf{w}) = \frac{1}{2} \| \mathbf{y} - \mathbf{X}\mathbf{w} \|^2
+$$
+The gradient of the loss function if given by
+$$
+\nabla_{\mathbf{w}} L(\mathbf{w}) = \mathbf{X}^T(\mathbf{X}\mathbf{w}-\mathbf{y})
+$$
+> Quiz - *Compute the analytic solution.*
+
+---
+
 # Logistic Regression
-Logistic Regression is a single layer neural network for binary classification.
+
+---
+
+# Logistic Regression
 
 The probability of the positive class ($y=1$) for a given feature vector ($\mathbf{x}\in \mathbb{R}^d$) is given by
 $$
@@ -125,6 +193,14 @@ $$
 
 > Without loss of generalization we ignore the bias term as it can be incorporated into the feature vector.
 
+> Quiz - *Plot the sigmoid function.*
+
+---
+
+Logistic Regression is a single layer neural network for binary classification.
+
+
+<img src="logistic_regression.png" alt="" width="800"/>
 
 ---
 
@@ -159,17 +235,281 @@ $$
 [`torch.nn.BCELoss`](https://pytorch.org/docs/stable/generated/torch.nn.BCELoss.html#torch.nn.BCELoss)
 [`torch.nn.BCEWithLogitsLoss`](https://pytorch.org/docs/stable/generated/torch.nn.BCEWithLogitsLoss.html#torch.nn.BCEWithLogitsLoss)
 
+
+> Quiz - *Why is this called cross entropy ?*
+> Quiz - *Compute the gradient of the loss function.*
+
+---
+
+# Gradient
+
+The gradient of the loss function if given by
+$$
+\nabla_{\mathbf{w}} L(\mathbf{w}) = \mathbf{X}^T\left(\sigma(\mathbf{X}\mathbf{w})-\mathbf{y}\right)
+$$
+Compare with the gradient of linear regression.
+$$
+\nabla_{\mathbf{w}} L(\mathbf{w}) = \mathbf{X}^T(\mathbf{X}\mathbf{w}-\mathbf{y})
+$$
+
+---
+
+# Softmax regression
+
+---
+
+# Multi-class logistic regression
+
+Given $k$ classes the probability of class $i$ for a given feature vector ($\mathbf{x}\in \mathbb{R}^d$) is given by
+$$
+\text{Pr}[y=i|\mathbf{x},(\mathbf{w}_1,\mathbf{w}_2,...,\mathbf{w}_k)] = \frac{\exp(\mathbf{w}_i^T\mathbf{x})}{\sum_{j=1}^{k} \exp(\mathbf{w}_j^T\mathbf{x})}
+$$
+where $\mathbf{w}_1,\mathbf{w}_2,...,\mathbf{w}_k\in \mathbb{R}^d$ are the weight vector or **parameters** of the model for each class.
+
+---
+
+Stacking the weights vectors $\mathbf{w}_1,\mathbf{w}_2,...,\mathbf{w}_k\in \mathbb{R}^d$ into a **weight matrix** $\mathbf{W} \in \mathbb{R}^{d \times k}$ we can write the **pre-activation** vector $\mathbf{a} \in \mathbb{R}^{k}$ as follows.
+$$
+\mathbf{a} = \mathbf{W}^T\mathbf{x}
+$$
+The **activation** vector $\mathbf{z} \in \mathbb{R}^{k}$ is given by
+$$
+\mathbf{z} = \text{softmax}(\mathbf{a})
+$$
+and the **softmax** activation function is defined as
+$$
+\text{softmax}(\mathbf{a})_i = \frac{\exp(\mathbf{a}_i)}{\sum_{j=1}^{k} \exp(\mathbf{a}_j)}
+$$
+Hence
+$$
+\text{Pr}[y=i|\mathbf{x},\mathbf{W}] = \text{softmax}(\mathbf{W}^T\mathbf{x})_i
+$$
+
+---
+
+We often stack all the $n$ examples into a *design matrix* $\mathbf{X} \in \mathbb{R}^{n \times d}$, where each row is one instance. The predictions for all the $n$ instances $\mathbf{y} \in \mathbb{R}^{n \times k}$ can be written conveniently as a matrix-vector product.
+$$
+\mathbf{y} = \text{softmax}(\mathbf{X}\mathbf{W})
+$$
+
+---
+
+Softmax Regression is a single layer neural network for multi-class classification.
+
+<img src="softmax_regression.png" alt="" width="600"/>
+
+---
+
+# Likelihood
+
+Given a dataset $\mathcal{D}=\{\mathbf{x}_i \in \mathbb{R}^d,\mathbf{y}_i \in [1,2,..,k]\}_{i=1}^n$ containing $n$ examples we need to estimate the parameter vector $\mathbf{W}$ by maximizing the likelihood of data.
+
+Let $\mu_i^j$ be the model prediction for class j for each example i in the training dataset.
+$$
+\mu_i^j = \text{Pr}[y_i=j|\mathbf{x}_i,\mathbf{W}] = \text{softmax}(\mathbf{W}^T\mathbf{x}_i)_j
+$$
+Let $y_i^j$ be the corresponding true label.
+The negative log likelihood (NLL) is given by
+$$
+L(\mathbf{W}) = - \sum_{i=1}^{n} \sum_{j=1}^{k} y_i^j \log \mu_i^j
+$$
+
+---
+
+# Loss function
+
+**Cross Entropy** loss
+$$
+L(\mathbf{W}) = - \sum_{i=1}^{n} \sum_{j=1}^{k} y_i^j \log \mu_i^j
+$$
+Compare to the earlier **Binary Cross Entropy** loss
+$$
+L(\mathbf{w}) - \sum_{i=1}^{n} \left[ y_i\log(\mu_i) + (1-y_i)\log(1-\mu_i) \right]
+$$
+
+[torch.nn.CrossEntropyLoss](https://pytorch.org/docs/stable/generated/torch.nn.CrossEntropyLoss.html#torch.nn.CrossEntropyLoss")
+
 ---
 
 # Summary
 
-|   | Linear Regression | Logistic Regression |
-| :- | :- |  :- |
-| Model | $\mu=\mathbf{w}^T\mathbf{x}$ | $\mu = \sigma(\mathbf{w}^T\mathbf{x})$
-| Parameters | $\mathbf{w}\in\mathbb{R}^{d+1}$ | $\mathbf{w}\in\mathbb{R}^{d+1}$
-| Loss function $L(\mathbf{w})$ | MSE $\frac{1}{N} \sum_{i=1}^{N} (y_i-\mu_i)^2$ | BCE $- \sum_{i=1}^{N} \left[ y_i\log(\mu_i) + (1-y_i)\log(1-\mu_i) \right]$
+|  | Model | Parameters | Loss function |
+| :- | :- | :- | :- |
+| Linear Regression |$\mu=\mathbf{w}^T\mathbf{x}$| $\mathbf{w}\in\mathbb{R}^{d+1}$| MSE $\frac{1}{2n} \sum_{i=1}^{N} (y_i-\mu_i)^2$ |
+| Logistic Regression | $\mu = \sigma(\mathbf{w}^T\mathbf{x})$ | $\mathbf{w}\in\mathbb{R}^{d+1}$ | BCE $- \sum_{i=1}^{n} \left[ y_i\log(\mu_i) + (1-y_i)\log(1-\mu_i) \right]$
+| Softmax regression | $\mathbf{\mu} = \text{softmax}(\mathbf{W}^T\mathbf{x})$ | $\mathbf{W}\in\mathbb{R}^{d+1 \times k}$ | CE  $- \sum_{i=1}^{n} \sum_{j=1}^{k} y_i^j \log \mu_i^j$
 
-[Pytorch loss fucnctions](https://pytorch.org/docs/stable/nn.html#loss-functions)
+[Pytorch loss fucctions](https://pytorch.org/docs/stable/nn.html#loss-functions)
+
+> Quiz - *Can we use MSE for Logistic Regression ?*
+
+---
+
+# Multilayer perceptrons
+
+A 3-layer multilayer perceptron.
+$$
+\begin{align}
+\mathbf{X}  &= \mathbf{X}  \nonumber \\
+\mathbf{H}^{(1)} &= g_1\left(\mathbf{X}\mathbf{W}^{(1)}+\mathbf{b}^{(1)}\right) \nonumber \\
+\mathbf{H}^{(2)} &= g_2\left(\mathbf{H}^{(1)}\mathbf{W}^{(2)}+\mathbf{b}^{(2)}\right) \nonumber \\
+\mathbf{O} &= \mathbf{H}^{(2)}\mathbf{W}^{(3)}+\mathbf{b}^{(3)} \nonumber \\
+\end{align}
+$$
+
+$g$ is a nonlinear **activation function**
+
+---
+
+<img src="mlp.png" alt="" width="600"/>
+
+---
+
+# Activation functions
+
+[torch.nn](https://pytorch.org/docs/stable/nn.html#non-linear-activations-weighted-sum-nonlinearity)
+
+
+---
+
+# Sigmoid
+
+Sigmoid/Logistic
+$$
+\sigma(z) = \frac{1}{1+\exp(-z)}
+$$
+<img src="sigmoid.png" alt="" width="400"/>
+
+The derivative is given by $\sigma'(z) = \sigma(z)(1-\sigma(z))$.
+
+---
+
+# ReLU
+
+Rectified Linear Unit (ReLU)
+$$
+\text{ReLU}(z) = \max(z,0)
+$$
+
+<img src="relu.png" alt="" width="400"/>
+
+> Nair and Hinton, 2010
+
+---
+
+# pReLU
+
+parameterized Rectified Linear Unit (pReLU)
+$$
+\text{pReLU}_{\alpha}(z) = \max(z,0) + \alpha \min(z,0)
+$$
+
+<img src="prelu.png" alt="" width="400"/>
+
+
+> He et al., 2015
+
+---
+
+# Tanh
+
+Hyperbolic tangent.
+$$
+\text{tanh}(z) = \frac{1-\exp(-2z)}{1+\exp(-2z)}
+$$
+<img src="tanh.png" alt="" width="400"/>
+
+The derivative is given by $\text{tanh}'(z)= 1- \text{tanh}^2(z)$
+
+---
+
+# GeLU
+Gaussian error Linear Unit/Smooth ReLU
+$$
+\text{GeLU}(z) = z \Phi(z)
+$$
+where $\Phi(z)$ is the standard Gaussian cumulative distribution.
+
+<img src="gelu.png" alt="" width="400"/>
+
+> Hendrycks and Gimpel, 2016
+
+
+
+---
+
+# A brief primer on entropy, cross-entropy and perplexity.
+
+---
+
+#  Entropy
+The **entropy** of a discrete random variable $X$ with $K$ states/categories with distribution $p_k = \text{Pr}(X=k)$ for $k=1,...,K$  is a measure of uncertainty and is defined as follows.
+
+$$H(X) = \sum_{k=1}^{K} p_k \log_2 \frac{1}{p_k} = - \sum_{k=1}^{K} p_k \log_2 p_k $$
+
+The term $\log_2\frac{1}{p}$ quantifies the notion or surprise or uncertainty and hence entropy is the average uncertainty.
+
+The unit is bits ($\in [0,\log_2 K]$) (or nats incase of natural log).
+
+> Quiz : *What is the discrete distribution with maximum entropy?*.
+> Quiz : *What is the discrete distribution with minimum entropy?*.
+
+---
+
+#  Entropy
+The **entropy** of a discrete random variable $X$ with $K$ states/categories with distribution $p_k = \text{Pr}(X=k)$ for $k=1,...,K$  is a measure of uncertainty and is defined as follows.
+
+$$H(X) = \sum_{k=1}^{K} p_k \log_2 \frac{1}{p_k} = - \sum_{k=1}^{K} p_k \log_2 p_k $$
+
+The term $\log_2\frac{1}{p}$ quantifies the notion or surprise or uncertainty and hence entropy is the average uncertainty. The unit is bits ($\in [0,\log_2 K]$) (or nats incase of natural log).
+
+> The discrete distribution with maximum entropy ($\log_2 K$) is uniform.
+
+> The discrete distribution with minimum entropy ($0$) is any delta function which puts all mass on one state/category.
+
+---
+
+# Binary entropy
+
+For a binary random variable $X \in {0,1}$ with $\text{Pr}(X=1) = \theta$ and $\text{Pr}(X=0) = 1-\theta$ the entropy is as follows.
+
+$$H(\theta) = - [ \theta \log_2 \theta + (1-\theta) \log_2 (1-\theta) ]$$
+
+The range is $H(\theta) \in [0,1]$ and is maximum when $\theta=0.5$.
+
+> Quiz : *Plot the binary entropy.*.
+
+---
+
+## Cross entropy
+
+Cross entropy is the average number of bits needed to encode the data from a source $p$ when we model it using $q$.
+
+$$H(p,q) = - \sum_{k=1}^{K} p_k \log_2 q_k $$
+
+---
+
+## Perplexity
+
+$$\text{PPL}(p,q) = 2^{H(p,q)}$$
+
+$$\text{PPL}(p,q) = e^{H(p,q)}$$
+
+---
+
+## KL Divergence
+
+The **Kullback-Leibler** (KL) divergence or **relative entropy** measures the dissimilarity between two probability distributions $p$ and $q$.
+
+$$KL(p,q) = \sum_{k=1}^{K} p_k \log_2 \frac{p_k}{q_k}$$
+
+$$KL(p,q) = H(p,q) - H(p,p) \geq 0$$
+
+---
+
+## Mutual Information
+
+$$I(X,Y) = KL(P(X,Y)\|P(X)P(Y))$$
 
 ---
 
@@ -178,18 +518,18 @@ $$
 # Training neural networks
 
 - **Model and parameters**
-  - Single layer neural networks
-  - Linear Regression
-  - Logistic Regression
-- **Loss function**
-  - Mean Squared Error loss
-  - Binary Cross Entroy loss
+  - Single layer neural networks (Linear Regression, Logistic Regression, Softmax Regression)
+  - Multilayer neural networks
+  - Activation functions (ReLU, pReLU, Sigmoid, Tanh, GeLU)
+- **Loss functions**
+  - Mean Squared Error loss, Binary Cross Entropy loss, Cross Entropy Loss
+  - Concept of entropy and cross entropy
 - **Gradient Descent**
 - Optimizers
-- Backpropagation and Automatic differenciation
 - Normalization
+- Regularization
 - Training loop
-- Quiz and coding exercises
+- Backpropagation and Automatic differentiation
 
 ---
 
@@ -213,13 +553,13 @@ We will do this via **gradient descent**.
 
 > Steepest descent.
 
-Let $\nabla L(\mathbf{w})$ be the **gradient vector**, where each element is the partial derivative of the loss fucntion wrt each parameter.
+Let $\nabla L(\mathbf{w})$ be the **gradient vector**, where each element is the partial derivative of the loss function with respect to each parameter.
 
 The gradient vector points in the **direction of the greatest rate of increase of the loss function**.
 
-So to mimimize the loss function we take small steps in the direction of $-\nabla L(\mathbf{w})$.
+So to minimize the loss function we take small steps in the direction of $-\nabla L(\mathbf{w})$.
 
-At the mimimum $\nabla L(\mathbf{w})=0$.
+At the minimum $\nabla L(\mathbf{w})=0$.
 
 ---
 
@@ -318,8 +658,8 @@ for epoch in range(n_epochs):
 
 # Mini-batch Stochastic Gradient Descent
 
-Mini-batch SGD is the most commonly used method and is sometimes refered to as just SGD.
-- Typical choices of the batch size are B=32,64,128,256,..
+Mini-batch SGD is the most commonly used method and is sometimes referred to as just SGD.
+- Typical choices of the batch size are B=32,64,128,256,.. (power of 2)
 - In practice we do a random shuffle of the data per epoch.
 
 > In practice, mini-batch SGD is the most frequently used variation because it is both computationally cheap and results in more robust convergence.
@@ -337,20 +677,22 @@ optimizer = optim.SGD(model.parameters(), lr=1e-3)
 # Training neural networks
 
 - **Model and parameters**
-  - Single layer neural networks
-  - Linear Regression
-  - Logistic Regression
-- **Loss function**
-  - Mean Squared Error loss
-  - Binary Cross Entroy loss
+  - Single layer neural networks (Linear Regression, Logistic Regression, Softmax Regression)
+  - Multilayer neural networks
+  - Activation functions (ReLU, pReLU, Sigmoid, Tanh, GeLU)
+- **Loss functions**
+  - Mean Squared Error loss, Binary Cross Entropy loss, Cross Entropy Loss
+  - Concept of entropy and cross entropy
 - **Gradient Descent**
   - Batch Gradient Descent
   - Stochastic Gradient Descent
   - Mini-batch Stochastic Gradient Descent
 - **Optimizers**
-- Backpropagation and Automatic differenciation
+- Backpropagation and Automatic differentiation
 - Normalization
+- Regularization
 - Training loop
+
 
 ---
 
@@ -408,6 +750,7 @@ optimizer = optim.SGD(model.parameters(), lr=0.01, momentum=0.9)
 - Momentum can also help us reduce the oscillation of the gradients because the velocity vectors can smooth out these highly changing landscapes.
 - It reduces the noise of the gradients and follows a more direct walk down the landscape.
 
+[Why Momentum Really Works](https://distill.pub/2017/momentum/)
 
 > Ilya Sutskever, James Martens, George Dahl, and Geoffrey Hinton. 2013. [On the importance of initialization and momentum in deep learning.](https://dl.acm.org/doi/10.5555/3042817.3043064) In Proceedings of the 30th International Conference on International Conference on Machine Learning - Volume 28 (ICML'13). JMLR.org, III–1139–III–1147.
 
@@ -638,20 +981,208 @@ Zero-mean Gaussian $\mathcal{N}(0,\epsilon^2)$
 # Training neural networks
 
 - **Model and parameters**
-  - Single layer neural networks, Linear Regression, Logistic Regression
-- **Loss function**
-  - Mean Squared Error loss, Binary Cross Entroy loss
+  - Single layer neural networks (Linear Regression, Logistic Regression, Softmax Regression)
+  - Multilayer neural networks, Activation functions (ReLU, pReLU, Sigmoid, Tanh, GeLU)
+- **Loss functions**
+  - Mean Squared Error loss, Binary Cross Entropy loss, Cross Entropy Loss
+  - Concept of entropy and cross entropy
 - **Gradient Descent**
   - Batch, Stochastic, Mini-batch Stochastic Gradient Descent
 - **Optimizers**
-  - Momentum
-  - Adaptive learning rates (Adagrad,RMSProp,Adam)
+  - Momentum and Adaptive learning rates (Adagrad,RMSProp,Adam)
   - Learning rate schedule
   - Parameter initialization
-- **Backpropagation and Automatic differenciation**
-- Normalization
+- **Normalization**
+- Regularization
 - Training loop
-- Quiz and coding exercises
+- Backpropagation and Automatic differentiation
+
+---
+
+# Normalization
+
+Normalization if sometimes important for effective training and mitigating vanishing and exploding gradients.
+
+- Batch Normalization
+- Layer Normalization
+
+
+---
+
+# Batch normalization
+
+<img src="batch.jpeg" alt="Batch normalization" width="600"/>
+
+
+In batch normalization the mean and variance are computed across the mini-batch separately for each feature/hidden unit.
+
+---
+For a mini-batch of size B
+$$
+\mu_i = \frac{1}{B} \sum_{n=1}^{B} a_{ni}\quad\sigma_i^2 = \frac{1}{B} \sum_{n=1}^{B} (a_{ni}-\mu_i)^2
+$$
+We normalize the pre-activations as follows.
+$$
+\hat{a}_{ni} = \frac{a_{ni}-\mu_i}{\sqrt{\sigma_i^2+\delta}}
+$$
+$$
+\tilde{a}_{ni} = \gamma_i \hat{a}_{ni} + \beta_i
+$$
+
+[`torch.nn.BatchNorm1d`](https://pytorch.org/docs/stable/generated/torch.nn.BatchNorm1d.html#torch.nn.BatchNorm1d)
+
+```python
+m = nn.BatchNorm1d(num_features)
+```
+---
+
+# Layer normalization
+
+<img src="layer.jpeg" alt="Layer normalization" width="300"/>
+
+In layer normalization the mean and variance are computed across the feature/hidden unit for each example separately.
+
+---
+
+$$
+\mu_n = \frac{1}{M} \sum_{i=1}^{M} a_{ni}
+$$
+$$
+\sigma_n^2 = \frac{1}{M} \sum_{i=1}^{M} (a_{ni}-\mu_i)^2
+$$
+We normalize the pre-activations as follows.
+$$
+\hat{a}_{ni} = \frac{a_{ni}-\mu_n}{\sqrt{\sigma_n^2+\delta}}
+$$
+$$
+\tilde{a}_{ni} = \gamma_n \hat{a}_{ni} + \beta_n
+$$
+
+[`torch.nn.LayerNorm`](https://pytorch.org/docs/stable/generated/torch.nn.LayerNorm.html#torch.nn.LayerNorm)
+```python
+layer_norm = nn.LayerNorm(enormalized_shape)
+```
+
+---
+
+# Regularization
+
+---
+
+# Dropout
+
+Dropout is one of the most effective form of regularization that is widely used.
+
+The core idea is to delete nodes from the network, including their connections, at random during training.
+
+Dropout is applied to both hidden and input nodes, but not outputs. It is equivalent to setting the output of a dropped node to zero.
+
+[torch.nn.Dropout](https://pytorch.org/docs/stable/generated/torch.nn.Dropout.html#torch.nn.Dropout)
+
+---
+
+# Early stopping
+
+For good generalization training should be stopped at the point of smallest error with respect to the validation set.
+
+---
+
+<style scoped>section{font-size:20px;}</style>
+
+# Training neural networks
+
+- **Model and parameters**
+  - Single layer neural networks (Linear Regression, Logistic Regression, Softmax Regression)
+  - Multilayer neural networks, Activation functions (ReLU, pReLU, Sigmoid, Tanh, GeLU)
+- **Loss functions**
+  - Mean Squared Error loss, Binary Cross Entropy loss, Cross Entropy Loss
+  - Concept of entropy and cross entropy
+- **Gradient Descent**
+  - Batch, Stochastic, Mini-batch Stochastic Gradient Descent
+- **Optimizers**
+  - Momentum and Adaptive learning rates (Adagrad,RMSProp,Adam)
+  - Learning rate schedule, Parameter initialization
+- **Normalization**
+  - Batch and layer normalization.
+- **Regularization**
+  - Dropout, Early stopping.
+- **Training loop**
+- Backpropagation and Automatic differentiation
+
+---
+
+## Training loop
+
+```python
+# Load the dataset.
+train_dataset = SampleDataset(X_train, y_train)
+
+# Preparing your data for training with DataLoaders.
+batch_size = 64
+train_dataloader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
+
+# Define the model class.
+model = LogisticRegression(num_features=d)
+
+# Loss fucntion.
+loss_fn = nn.BCELoss()
+
+# Optimizer.
+optimizer = SGD(model.parameters(), lr=0.01, momentum=0.9)
+
+# Learning rate scheduler.
+scheduler = ExponentialLR(optimizer, gamma=0.9)
+```
+
+---
+```python
+# Run for a few epochs.
+for epoch in range(n_epochs):
+    # Iterate through the DataLoader to access mini-batches.
+    for batch, (input, target) in enumerate(train_dataloader):
+        # Prediction.
+        output = model(input)
+
+        # Compute loss.
+        loss = loss_fn(output, target)
+
+        # Compute gradient.
+        loss.backward()
+
+        # Gradient descent.
+        optimizer.step()
+
+        # Prevent gradient accumulation
+        optimizer.zero_grad()
+
+    # Adjust learning rate
+    scheduler.step()
+
+```
+
+---
+
+<style scoped>section{font-size:18px;}</style>
+
+# Training neural networks
+
+- **Model and parameters**
+  - Single layer neural networks (Linear Regression, Logistic Regression, Softmax Regression)
+  - Multilayer neural networks, Activation functions (ReLU, pReLU, Sigmoid, Tanh, GeLU)
+- **Loss functions**
+  - Mean Squared Error loss, Binary Cross Entropy loss, Cross Entropy Loss
+  - Concept of entropy and cross entropy
+- **Gradient Descent**
+  - Batch, Stochastic, Mini-batch Stochastic Gradient Descent
+- **Optimizers**
+  - Momentum and Adaptive learning rates (Adagrad,RMSProp,Adam)
+  - Learning rate schedule, Parameter initialization
+- **Normalization**
+  - Batch and layer normalization.
+- **Regularization**
+  - Dropout, Early stopping.
+- **Training loop**
+- **Backpropagation and Automatic differentiation**
 
 ---
 
@@ -892,165 +1423,28 @@ $$
 
 ---
 
-<style scoped>section{font-size:20px;}</style>
+<style scoped>section{font-size:18px;}</style>
 
 # Training neural networks
 
 - **Model and parameters**
-  - Single layer neural networks, Linear Regression, Logistic Regression
-- **Loss function**
-  - Mean Squared Error loss, Binary Cross Entroy loss
+  - Single layer neural networks (Linear Regression, Logistic Regression, Softmax Regression)
+  - Multilayer neural networks, Activation functions (ReLU, pReLU, Sigmoid, Tanh, GeLU)
+- **Loss functions**
+  - Mean Squared Error loss, Binary Cross Entropy loss, Cross Entropy Loss
+  - Concept of entropy and cross entropy
 - **Gradient Descent**
   - Batch, Stochastic, Mini-batch Stochastic Gradient Descent
 - **Optimizers**
-  - Momentum, Adaptive learning rates (Adagrad,RMSProp,Adam), Learning rate schedule, Parameter initialization
-- **Backpropagation and Automatic differenciation**
-  - Backpropagation
-  - Forward mode auto differenciation
-  - Reverse mode auto differentiation
+  - Momentum and Adaptive learning rates (Adagrad,RMSProp,Adam)
+  - Learning rate schedule, Parameter initialization
 - **Normalization**
-- Training loop
-- Quiz and coding exercises
-
----
-
-# Normalization
-
-Normalization if sometimes important for effective training and mitigating vanisihing and exploding gradients.
-
-- Batch Normalization
-- Layer Normalization
-
-
----
-
-# Batch normalization
-
-<img src="batch.jpeg" alt="Batch normalization" width="600"/>
-
-
-In batch normalization the mean and variance are computed across the mini-batch separately for each feature/hidden unit.
-
----
-For a mini-batch of size B
-$$
-\mu_i = \frac{1}{B} \sum_{n=1}^{B} a_{ni}
-$$
-$$
-\sigma_i^2 = \frac{1}{B} \sum_{n=1}^{B} (a_{ni}-\mu_i)^2
-$$
-We normalize the pre-activations as follows.
-$$
-\hat{a}_{ni} = \frac{a_{ni}-\mu_i}{\sqrt{\sigma_i^2+\delta}}
-$$
-$$
-\tilde{a}_{ni} = \gamma_i \hat{a}_{ni} + \beta_i
-$$
-
-[`torch.nn.BatchNorm1d`](https://pytorch.org/docs/stable/generated/torch.nn.BatchNorm1d.html#torch.nn.BatchNorm1d)
-
-```python
-m = nn.BatchNorm1d(num_features)
-```
----
-
-# Layer normalization
-
-<img src="layer.jpeg" alt="Layer normalization" width="300"/>
-
-In layer normalization the mean and variance are computed across the feature/hidden unit for each example separately.
-
----
-
-$$
-\mu_n = \frac{1}{M} \sum_{i=1}^{M} a_{ni}
-$$
-$$
-\sigma_n^2 = \frac{1}{M} \sum_{i=1}^{M} (a_{ni}-\mu_i)^2
-$$
-We normalize the pre-activations as follows.
-$$
-\hat{a}_{ni} = \frac{a_{ni}-\mu_n}{\sqrt{\sigma_n^2+\delta}}
-$$
-$$
-\tilde{a}_{ni} = \gamma_n \hat{a}_{ni} + \beta_n
-$$
-
-[`torch.nn.LayerNorm`](https://pytorch.org/docs/stable/generated/torch.nn.LayerNorm.html#torch.nn.LayerNorm)
-```python
-layer_norm = nn.LayerNorm(enormalized_shape)
-```
-
-
----
-
-<style scoped>section{font-size:25px;}</style>
-
-# Training neural networks
-
-- **Model and parameters**
-  - Single layer neural networks, Linear Regression, Logistic Regression
-- **Loss function**
-  - Mean Squared Error loss, Binary Cross Entroy loss
-- **Gradient Descent**
-  - Batch, Stochastic, Mini-batch Stochastic Gradient Descent
-- **Optimizers**
-  - Momentum, Adaptive learning rates (Adagrad,RMSProp,Adam), Learning rate schedule, Parameter initialization
-- **Backpropagation and Automatic differenciation**
-  - Backpropagation, Forward/reverse mode auto differenciation
-- **Normalization**
+  - Batch and layer normalization.
+- **Regularization**
+  - Dropout, Early stopping.
 - **Training loop**
+- **Backpropagation and Automatic differentiation**
 
----
-
-## Training loop
-
-```python
-# Load the dataset.
-train_dataset = SampleDataset(X_train, y_train)
-
-# Preparing your data for training with DataLoaders.
-batch_size = 64
-train_dataloader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
-
-# Define the model class.
-model = LogisticRegression(num_features=d)
-
-# Loss fucntion.
-loss_fn = nn.BCELoss()
-
-# Optimizer.
-optimizer = SGD(model.parameters(), lr=0.01, momentum=0.9)
-
-# Learning rate scheduler.
-scheduler = ExponentialLR(optimizer, gamma=0.9)
-```
-
----
-```python
-# Run for a few epochs.
-for epoch in range(n_epochs):
-    # Iterate through the DataLoader to access mini-batches.
-    for batch, (input, target) in enumerate(train_dataloader):
-        # Prediction.
-        output = model(input)
-
-        # Compute loss.
-        loss = loss_fn(output, target)
-
-        # Compute gradient.
-        loss.backward()
-
-        # Gradient descent.
-        optimizer.step()
-
-        # Prevent gradient accumulation
-        optimizer.zero_grad()
-
-    # Adjust learning rate
-    scheduler.step()
-
-```
 
 ---
 
@@ -1070,7 +1464,7 @@ https://vikasraykar.github.io/deeplearning/docs/training/quiz/
 
 ### What is the most widely used optimizer ?
 
-What are the typically used parameters of the optimizer ?
+### What are the typically used parameters of the optimizer ?
 
 ---
 
@@ -1080,7 +1474,7 @@ What are the typically used parameters of the optimizer ?
 
 ### In [Attention Is All You Need](https://arxiv.org/abs/1706.03762) paper what is the optimizer and the learning rate scheduler used ?
 
-What are the optimizers used in LLaMA and GPT-3 ?
+### What are the optimizers used in LLaMA and GPT-3 ?
 
 ---
 
@@ -1105,7 +1499,6 @@ https://vikasraykar.github.io/deeplearning/docs/training/coding/
 ---
 
 # Thanks you and any questions ?
-
 
 notes - https://vikasraykar.github.io/deeplearning
 code  - https://github.com/vikasraykar/deeplearning-dojo

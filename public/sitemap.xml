@@ -4,6 +4,8 @@
   <url>
     <loc>http://localhost:1313/docs/rl/basics/</loc>
   </url><url>
+    <loc>http://localhost:1313/docs/training/gradient_descent/</loc>
+  </url><url>
     <loc>http://localhost:1313/docs/neural_networks/linear_regression/</loc>
   </url><url>
     <loc>http://localhost:1313/docs/neural_networks/</loc>
@@ -14,27 +16,27 @@
   </url><url>
     <loc>http://localhost:1313/docs/transformers/alignment/</loc>
   </url><url>
+    <loc>http://localhost:1313/docs/training/backpropagation/</loc>
+  </url><url>
     <loc>http://localhost:1313/docs/neural_networks/logistic_regression/</loc>
   </url><url>
     <loc>http://localhost:1313/docs/transformers/</loc>
   </url><url>
-    <loc>http://localhost:1313/docs/training/gradient_descent/</loc>
+    <loc>http://localhost:1313/docs/training/initialization/</loc>
   </url><url>
     <loc>http://localhost:1313/docs/rl/</loc>
   </url><url>
     <loc>http://localhost:1313/docs/neural_networks/softmax_regression/</loc>
   </url><url>
-    <loc>http://localhost:1313/docs/training/backpropagation/</loc>
-  </url><url>
     <loc>http://localhost:1313/docs/neural_networks/mlp/</loc>
-  </url><url>
-    <loc>http://localhost:1313/docs/neural_networks/activations/</loc>
   </url><url>
     <loc>http://localhost:1313/docs/training/normalization/</loc>
   </url><url>
-    <loc>http://localhost:1313/docs/neural_networks/entropy/</loc>
+    <loc>http://localhost:1313/docs/neural_networks/activations/</loc>
   </url><url>
     <loc>http://localhost:1313/docs/training/regularization/</loc>
+  </url><url>
+    <loc>http://localhost:1313/docs/neural_networks/entropy/</loc>
   </url><url>
     <loc>http://localhost:1313/docs/training/training_loop/</loc>
   </url><url>
