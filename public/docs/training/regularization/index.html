@@ -7,16 +7,25 @@
   Dropout
   #
 
+Dropout is one of the most effective form of regularization that is widely used.
+The core idea is to delete nodes from the network, including their connections, at random during training.
+Dropout is applied to both hidden and input nodes, but not outputs. It is equivalent to setting the output of a dropped node to zero.
+torch.nn.Dropout
+
 
   Early stopping
   #
-">
+
+For good generalization training should be stopped at the point of smallest error with respect to the validation set.">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#343a40">
 <meta name="color-scheme" content="light dark"><meta property="og:url" content="http://localhost:1313/docs/training/regularization/">
   <meta property="og:site_name" content="Deep Learning">
   <meta property="og:title" content="Regularization">
-  <meta property="og:description" content="Dropout # Early stopping #">
+  <meta property="og:description" content="Dropout # Dropout is one of the most effective form of regularization that is widely used.
+The core idea is to delete nodes from the network, including their connections, at random during training.
+Dropout is applied to both hidden and input nodes, but not outputs. It is equivalent to setting the output of a dropped node to zero.
+torch.nn.Dropout Early stopping # For good generalization training should be stopped at the point of smallest error with respect to the validation set.">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
     <meta property="article:section" content="docs">
@@ -26,7 +35,7 @@
 <link rel="canonical" href="http://localhost:1313/docs/training/regularization/">
 <link rel="stylesheet" href="/book.min.6c8b9d2a1fc95075ed7da46ca81060b39add8fff6741ac51259f768929281e2c.css" integrity="sha256-bIudKh/JUHXtfaRsqBBgs5rdj/9nQaxRJZ92iSkoHiw=" crossorigin="anonymous">
   <script defer src="/fuse.min.js"></script>
-  <script defer src="/en.search.min.7b1a44f012976c081940070031b998e1f6d5228d7bdac39017a70e234a87e95b.js" integrity="sha256-expE8BKXbAgZQAcAMbmY4fbVIo172sOQF6cOI0qH6Vs=" crossorigin="anonymous"></script>
+  <script defer src="/en.search.min.22462cbc4fa513fa27fff683ac2978b0dedb5d29603cea377ee611ee9322bb02.js" integrity="sha256-IkYsvE&#43;lE/on//aDrCl4sN7bXSlgPOo3fuYR7pMiuwI=" crossorigin="anonymous"></script>
 <!--
 Made with Book Theme
 https://github.com/alex-shpak/hugo-book
@@ -201,6 +210,19 @@ https://github.com/alex-shpak/hugo-book
 
   
     <a href="/docs/training/backpropagation/" class="">Backpropagation</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/training/initialization/" class="">Initialization</a>
   
 
         </li>
@@ -420,10 +442,16 @@ https://github.com/alex-shpak/hugo-book
   Dropout
   <a class="anchor" href="#dropout">#</a>
 </h2>
+<p>Dropout is one of the most effective form of regularization that is widely used.</p>
+<p>The core idea is to delete nodes from the network, including their connections, at random during training.</p>
+<p>Dropout is applied to both hidden and input nodes, but not outputs. It is equivalent to setting the output of a dropped node to zero.</p>
+<a  href="https://pytorch.org/docs/stable/generated/torch.nn.Dropout.html#torch.nn.Dropout"   target="_blank" rel="noopener"  class="book-btn">torch.nn.Dropout</a>
+
 <h2 id="early-stopping">
   Early stopping
   <a class="anchor" href="#early-stopping">#</a>
 </h2>
+<p>For good generalization training should be stopped at the point of smallest error with respect to the validation set.</p>
 </article>
  
       

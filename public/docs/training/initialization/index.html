@@ -4,82 +4,35 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="
-  Sigmoid
+  Parameter initialization
   #
 
-Sigmoid/Logistic
-
-  \[
-\sigma(z) = \frac{1}{1&#43;\exp(-z)}
-\]
-
-
-The derivative is given by
-
-  \[
-\sigma&#39;(z) = \sigma(z)(1-\sigma(z))
-\]
+Initialization before starting the gradient descent.
+Avoid all parameters set to same value. (symmetry breaking)
+Uniform distribution in the range 
+  \([-\epsilon,\epsilon]\)
 
 
-
-  ReLU
-  #
-
-Rectified Linear Unit (ReLU)
-
-  \[
-\text{ReLU}(z) = \max(z,0)
-\]
+Zero-mean Gaussian 
+  \(\mathcal{N}(0,\epsilon^2)\)
 
 
-
-Nair and Hinton, 2010
-
-  pReLU
-  #
-
-parameterized Rectified Linear Unit (pReLU)
-
-  \[
-\text{pReLU}(z) = \max(z,0) &#43; \alpha \min(z,0)
-\]
-
-
-
-He et al., 2015
-
-  Tanh
-  #
-
-Hyperbolic tangent.
-
-  \[
-\text{tanh}(z) = \frac{1-\exp(-2z)}{1&#43;\exp(-2z)}
-\]
-
-
-The derivative is given by
-
-  \[
-\text{tanh}&#39;(z)= 1- \text{tanh}^2(z)
-\]
-
-">
+nn.init">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#343a40">
-<meta name="color-scheme" content="light dark"><meta property="og:url" content="http://localhost:1313/docs/neural_networks/activations/">
+<meta name="color-scheme" content="light dark"><meta property="og:url" content="http://localhost:1313/docs/training/initialization/">
   <meta property="og:site_name" content="Deep Learning">
-  <meta property="og:title" content="Activation functions">
-  <meta property="og:description" content="Sigmoid # Sigmoid/Logistic \[ \sigma(z) = \frac{1}{1&#43;\exp(-z)} \] The derivative is given by \[ \sigma&#39;(z) = \sigma(z)(1-\sigma(z)) \] ReLU # Rectified Linear Unit (ReLU) \[ \text{ReLU}(z) = \max(z,0) \] Nair and Hinton, 2010
-pReLU # parameterized Rectified Linear Unit (pReLU) \[ \text{pReLU}(z) = \max(z,0) &#43; \alpha \min(z,0) \] He et al., 2015
-Tanh # Hyperbolic tangent. \[ \text{tanh}(z) = \frac{1-\exp(-2z)}{1&#43;\exp(-2z)} \] The derivative is given by \[ \text{tanh}&#39;(z)= 1- \text{tanh}^2(z) \]">
+  <meta property="og:title" content="Initialization">
+  <meta property="og:description" content="Parameter initialization # Initialization before starting the gradient descent.
+Avoid all parameters set to same value. (symmetry breaking)
+Uniform distribution in the range \([-\epsilon,\epsilon]\) Zero-mean Gaussian \(\mathcal{N}(0,\epsilon^2)\) nn.init">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
     <meta property="article:section" content="docs">
-<title>Activation functions | Deep Learning</title>
+<title>Initialization | Deep Learning</title>
 <link rel="icon" href="/favicon.png" >
 <link rel="manifest" href="/manifest.json">
-<link rel="canonical" href="http://localhost:1313/docs/neural_networks/activations/">
+<link rel="canonical" href="http://localhost:1313/docs/training/initialization/">
 <link rel="stylesheet" href="/book.min.6c8b9d2a1fc95075ed7da46ca81060b39add8fff6741ac51259f768929281e2c.css" integrity="sha256-bIudKh/JUHXtfaRsqBBgs5rdj/9nQaxRJZ92iSkoHiw=" crossorigin="anonymous">
   <script defer src="/fuse.min.js"></script>
   <script defer src="/en.search.min.22462cbc4fa513fa27fff683ac2978b0dedb5d29603cea377ee611ee9322bb02.js" integrity="sha256-IkYsvE&#43;lE/on//aDrCl4sN7bXSlgPOo3fuYR7pMiuwI=" crossorigin="anonymous"></script>
@@ -199,7 +152,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="/docs/neural_networks/activations/" class="active">Activation functions</a>
+    <a href="/docs/neural_networks/activations/" class="">Activation functions</a>
   
 
         </li>
@@ -269,7 +222,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="/docs/training/initialization/" class="">Initialization</a>
+    <a href="/docs/training/initialization/" class="active">Initialization</a>
   
 
         </li>
@@ -455,7 +408,7 @@ https://github.com/alex-shpak/hugo-book
     <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
   </label>
 
-  <h3>Activation functions</h3>
+  <h3>Initialization</h3>
 
   <label for="toc-control">
     
@@ -471,15 +424,7 @@ https://github.com/alex-shpak/hugo-book
   
 <nav id="TableOfContents">
   <ul>
-    <li><a href="#sigmoid">Sigmoid</a></li>
-    <li><a href="#relu">ReLU</a></li>
-    <li><a href="#prelu">pReLU</a></li>
-    <li><a href="#tanh">Tanh</a></li>
-    <li><a href="#gelu">GeLU</a></li>
-    <li><a href="#swish">Swish</a></li>
-    <li><a href="#glu">GLU</a></li>
-    <li><a href="#swiglu">SwiGLU</a></li>
-    <li><a href="#collateral">Collateral</a></li>
+    <li><a href="#parameter-initialization">Parameter initialization</a></li>
   </ul>
 </nav>
 
@@ -492,127 +437,22 @@ https://github.com/alex-shpak/hugo-book
 
       
       
-  <article class="markdown book-article"><h2 id="sigmoid">
-  Sigmoid
-  <a class="anchor" href="#sigmoid">#</a>
+  <article class="markdown book-article"><h2 id="parameter-initialization">
+  Parameter initialization
+  <a class="anchor" href="#parameter-initialization">#</a>
 </h2>
-<p>Sigmoid/Logistic
-<span>
-  \[
-\sigma(z) = \frac{1}{1+\exp(-z)}
-\]
+<p>Initialization before starting the gradient descent.</p>
+<p>Avoid all parameters set to same value. (<strong>symmetry breaking</strong>)</p>
+<p>Uniform distribution in the range <span>
+  \([-\epsilon,\epsilon]\)
 </span>
+</p>
+<p>Zero-mean Gaussian <span>
+  \(\mathcal{N}(0,\epsilon^2)\)
+</span>
+</p>
+<a  href="https://pytorch.org/docs/stable/nn.init.html"   target="_blank" rel="noopener"  class="book-btn">nn.init</a>
 
-The derivative is given by
-<span>
-  \[
-\sigma'(z) = \sigma(z)(1-\sigma(z))
-\]
-</span>
-</p>
-<h2 id="relu">
-  ReLU
-  <a class="anchor" href="#relu">#</a>
-</h2>
-<p>Rectified Linear Unit (ReLU)
-<span>
-  \[
-\text{ReLU}(z) = \max(z,0)
-\]
-</span>
-</p>
-<blockquote>
-<p>Nair and Hinton, 2010</p></blockquote>
-<h2 id="prelu">
-  pReLU
-  <a class="anchor" href="#prelu">#</a>
-</h2>
-<p>parameterized Rectified Linear Unit (pReLU)
-<span>
-  \[
-\text{pReLU}(z) = \max(z,0) + \alpha \min(z,0)
-\]
-</span>
-</p>
-<blockquote>
-<p>He et al., 2015</p></blockquote>
-<h2 id="tanh">
-  Tanh
-  <a class="anchor" href="#tanh">#</a>
-</h2>
-<p>Hyperbolic tangent.
-<span>
-  \[
-\text{tanh}(z) = \frac{1-\exp(-2z)}{1+\exp(-2z)}
-\]
-</span>
-
-The derivative is given by
-<span>
-  \[
-\text{tanh}'(z)= 1- \text{tanh}^2(z)
-\]
-</span>
-</p>
-<h2 id="gelu">
-  GeLU
-  <a class="anchor" href="#gelu">#</a>
-</h2>
-<p>Gaussian error Linear Unit/Smooth ReLU
-<span>
-  \[
-\text{GeLU}(z) = z \Phi(z)
-\]
-</span>
-
-where <span>
-  \(\Phi(z)\)
-</span>
- is the standard Gaussian cumulative distribution.</p>
-<blockquote>
-<p>Hendrycks and Gimpel, 2016</p></blockquote>
-<h2 id="swish">
-  Swish
-  <a class="anchor" href="#swish">#</a>
-</h2>
-<span>
-  \[
-\text{Swish}_{\beta}(z) = z \sigma(\beta z)
-\]
-</span>
-
-<blockquote>
-<p>Ramachandran et al. 2017</p></blockquote>
-<h2 id="glu">
-  GLU
-  <a class="anchor" href="#glu">#</a>
-</h2>
-<p>Gated Liner Unit
-<span>
-  \[
-\text{GLU}(z) = z \odot \sigma(wz+b)
-\]
-</span>
-</p>
-<h2 id="swiglu">
-  SwiGLU
-  <a class="anchor" href="#swiglu">#</a>
-</h2>
-<p>Swish Gated Liner Unit
-<span>
-  \[
-\text{Swish}(z) = z \odot \text{Swish}_{\beta}(wz+b)
-\]
-</span>
-</p>
-<h2 id="collateral">
-  Collateral
-  <a class="anchor" href="#collateral">#</a>
-</h2>
-<p><a href="https://pytorch.org/docs/stable/nn.html#non-linear-activations-weighted-sum-nonlinearity">https://pytorch.org/docs/stable/nn.html#non-linear-activations-weighted-sum-nonlinearity</a></p>
-<p><a href="https://arxiv.org/pdf/2002.05202">GLU Variants Improve Transformer</a></p>
-<blockquote>
-<p>We offer no explanation as to why these architectures seem to work; we attribute their success, as all else, to divine benevolence</p></blockquote>
 </article>
  
       
@@ -654,15 +494,7 @@ where <span>
   
 <nav id="TableOfContents">
   <ul>
-    <li><a href="#sigmoid">Sigmoid</a></li>
-    <li><a href="#relu">ReLU</a></li>
-    <li><a href="#prelu">pReLU</a></li>
-    <li><a href="#tanh">Tanh</a></li>
-    <li><a href="#gelu">GeLU</a></li>
-    <li><a href="#swish">Swish</a></li>
-    <li><a href="#glu">GLU</a></li>
-    <li><a href="#swiglu">SwiGLU</a></li>
-    <li><a href="#collateral">Collateral</a></li>
+    <li><a href="#parameter-initialization">Parameter initialization</a></li>
   </ul>
 </nav>
 

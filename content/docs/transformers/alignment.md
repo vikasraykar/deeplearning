@@ -48,7 +48,6 @@ During backward pass we the force the loss corresponding to the instruction to b
 
 ### Soft prompts
 
-
 ## Fine tune LLMs with reward models
 
 ## Alignment during inference

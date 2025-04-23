@@ -1,6 +1,6 @@
 ---
 title: Gradient Descent
-weight: 3
+weight: 1
 bookToc: true
 ---
 

@@ -1,6 +1,6 @@
 ---
 title: Coding
-weight: 9
+weight: 8
 bookToc: true
 ---
 

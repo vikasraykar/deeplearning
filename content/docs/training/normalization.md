@@ -1,6 +1,6 @@
 ---
 title: Normalization
-weight: 5
+weight: 4
 bookToc: true
 ---
 

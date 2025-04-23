@@ -1,6 +1,6 @@
 ---
 title: Backpropagation
-weight: 4
+weight: 2
 bookToc: true
 ---
 

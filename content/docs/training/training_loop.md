@@ -1,6 +1,6 @@
 ---
 title: Training loop
-weight: 7
+weight: 6
 bookToc: true
 ---
 
