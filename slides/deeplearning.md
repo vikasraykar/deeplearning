@@ -10,6 +10,14 @@ paginate: true
 **Vikas Chandrakant Raykar**
 Microsoft
 
+
+---
+
+## [IOAI 2025 Syllabus](https://ioai-official.org/wp-content/uploads/2025/01/Syllabus-2025-Final.pdf)
+
+<img src="ioai_syllabus.png" alt="" width="600"/>
+
+
 ---
 
 # Collateral
@@ -17,12 +25,6 @@ Microsoft
 
 notes - https://vikasraykar.github.io/deeplearning
 code  - https://github.com/vikasraykar/deeplearning-dojo
-
----
-
-## [IOAI 2025 Syllabus](https://ioai-official.org/wp-content/uploads/2025/01/Syllabus-2025-Final.pdf)
-
-<img src="ioai_syllabus.png" alt="" width="600"/>
 
 ---
 
@@ -1188,11 +1190,6 @@ for epoch in range(n_epochs):
 
 # Backpropagation
 
-> Backprop, Error Backpropagation.
-
-**Backpropagation** (or backprop) is an efficient technique to compute the gradient of the loss function.
-
-It boils down to a **local message passing scheme** in which information is sent backwards through the network.
 
 ---
 
@@ -1220,6 +1217,16 @@ $$
 
 ---
 
+# Backpropagation
+
+> Backprop, Error Backpropagation.
+
+**Backpropagation** (or backprop) is an efficient technique to compute the gradient of the loss function.
+
+It boils down to a **local message passing scheme** in which information is sent backwards through the network.
+
+---
+
 # Gradients via chain rule
 
 To compute the gradient of the loss function we use the chain rule.
@@ -1227,10 +1234,23 @@ $$
 \frac{\partial L_n}{\partial w_{ji}} = \frac{\partial L_n}{\partial a_{j}} \frac{\partial a_j}{\partial w_{ji}} = \delta_j z_i
 $$
 where
-$$\frac{\partial L_n}{\partial a_{j}}=\delta_j$$
+$$\frac{\partial L_n}{\partial a_{j}}:=\delta_j$$
 $$\frac{\partial a_j}{\partial w_{ji}} = z_i$$
 
 > $\delta_j$ are referred to as **errors**.
+
+---
+
+# Local computations
+
+The required derivative for $w_{ij}$ is simply obtained by multiplying the value of $\delta_j$ for the unit at the output end of the weight by the value of $z_i$ for the unit at the input end of the weight.
+
+This can be seen as a **local computation** involving the **error signal** at the output end with the **activation signal** at the input end.
+$$
+\frac{\partial L_n}{\partial w_{ji}} = \delta_j z_i
+$$
+
+<img src="backprop_1.png" alt="" width="600"/>
 
 
 ---
@@ -1247,11 +1267,19 @@ $$
 $$
 This tells us that the value of $\delta$ for a particular hidden unit can be obtained by propagating the $\delta$ backward from units higher up in the network.
 
+---
+
+$$
+\delta_j = h^{'}(a_j)\sum_{k} w_{kj} \delta_k
+$$
+
+<img src="backprop_2.png" alt="" width="800"/>
+
 
 ---
 
 
-<img src="backward.png" alt="" width="650"/>
+<img src="backprop_3.png" alt="" width="650"/>
 
 ---
 
@@ -1495,6 +1523,13 @@ https://vikasraykar.github.io/deeplearning/docs/training/quiz/
 # Coding assignment
 
 https://vikasraykar.github.io/deeplearning/docs/training/coding/
+
+---
+
+# Homework
+
+https://github.com/vikasraykar/deeplearning-dojo/blob/main/solutions/musk.ipynb
+
 
 ---
 
