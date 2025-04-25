@@ -22,6 +22,8 @@
   </url><url>
     <loc>http://localhost:1313/docs/transformers/</loc>
   </url><url>
+    <loc>http://localhost:1313/docs/training/autograd/</loc>
+  </url><url>
     <loc>http://localhost:1313/docs/training/initialization/</loc>
   </url><url>
     <loc>http://localhost:1313/docs/rl/</loc>
