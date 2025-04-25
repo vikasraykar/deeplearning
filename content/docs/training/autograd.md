@@ -75,15 +75,15 @@ v_5 = \exp(v_3)
 v_6 = v_3 - v_4
 {{< /katex >}}
 {{< katex display=true >}}
-v7 = v_5 + v_6
+v_7 = v_5 + v_6
 {{< /katex >}}
-Not say we wish to evaluate the derivative {{< katex >}}\partial f/\partial x_1{{< /katex >}}. First we define the tangent variables by
+Now say we wish to evaluate the derivative {{< katex >}}\partial f/\partial x_1{{< /katex >}}. First we define the tangent variables by
 {{< katex display=true >}}\dot{v}_i = \frac{\partial v_i}{\partial x_1}{{< /katex >}}
 Expressions for evaluating these can be constructed automatically using the chain rule of calculus.
 {{< katex display=true >}}
 \dot{v}_i = \frac{\partial v_i}{\partial x_1} = \sum_{j\in\text{parents}(i)} \frac{\partial v_i}{\partial v_j} \frac{\partial v_j}{\partial x_1} = \sum_{j\in\text{parents}(i)} \dot{v}_j \frac{\partial v_i}{\partial v_j}
 {{< /katex >}}
-where {{< katex >}}\text{parents}(i){{< /katex >}} denotes the set of **parents** of node i in the evaluation trace diagram.
+where {{< katex >}}\text{parents}(i){{< /katex >}} denotes the set of **parents** of node {{< katex >}}i{{< /katex >}} in the evaluation trace diagram.
 
 The associated equations and corresponding code for evaluating the tangent variables are generated automatically.
 {{< katex display=true >}}

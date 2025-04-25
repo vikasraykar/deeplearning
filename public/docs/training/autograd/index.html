@@ -60,7 +60,7 @@ Approach Pros Cons Manual derivation of backprop equations. If done carefully ca
 <link rel="canonical" href="http://localhost:1313/docs/training/autograd/">
 <link rel="stylesheet" href="/book.min.6c8b9d2a1fc95075ed7da46ca81060b39add8fff6741ac51259f768929281e2c.css" integrity="sha256-bIudKh/JUHXtfaRsqBBgs5rdj/9nQaxRJZ92iSkoHiw=" crossorigin="anonymous">
   <script defer src="/fuse.min.js"></script>
-  <script defer src="/en.search.min.c422eba31c02361507fe162288213ea25161376781cad6d523707e31d017cddc.js" integrity="sha256-xCLroxwCNhUH/hYiiCE&#43;olFhN2eBytbVI3B&#43;MdAXzdw=" crossorigin="anonymous"></script>
+  <script defer src="/en.search.min.cde1b0268c897b03006007114aaa023eb2c065656657b3f18b7964f1bf55f8c1.js" integrity="sha256-zeGwJoyJewMAYAcRSqoCPrLAZWVmV7Pxi3lk8b9V&#43;ME=" crossorigin="anonymous"></script>
 <!--
 Made with Book Theme
 https://github.com/alex-shpak/hugo-book
@@ -621,11 +621,11 @@ v_6 = v_3 - v_4
 
 <span>
   \[
-v7 = v_5 + v_6
+v_7 = v_5 + v_6
 \]
 </span>
 
-Not say we wish to evaluate the derivative <span>
+Now say we wish to evaluate the derivative <span>
   \(\partial f/\partial x_1\)
 </span>
 . First we define the tangent variables by
@@ -643,7 +643,10 @@ Expressions for evaluating these can be constructed automatically using the chai
 where <span>
   \(\text{parents}(i)\)
 </span>
- denotes the set of <strong>parents</strong> of node i in the evaluation trace diagram.</p>
+ denotes the set of <strong>parents</strong> of node <span>
+  \(i\)
+</span>
+ in the evaluation trace diagram.</p>
 <p>The associated equations and corresponding code for evaluating the tangent variables are generated automatically.
 <span>
   \[
