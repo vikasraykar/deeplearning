@@ -3,23 +3,230 @@
 <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="https://github.com/vikasraykar/wiki/wiki/Transformers-101">
+<meta name="description" content="
+  Transformers 101
+  #
+
+A transformer has 3 main components.
+
+Multi-head scaled self-attention.
+MLP with residual connections and layer normalization.
+Positional encodings.
+
+
+  TLDR
+  #
+
+
+  
+      
+          Transformer
+          Description
+      
+  
+  
+      
+          
+
+
+
+  \(\mathbf{X}\)
+
+
+          embedding matrix
+      
+      
+          
+  \(\mathbf{X} = \mathbf{X} &#43; \mathbf{R}\)
+
+
+          position encoding matrix
+      
+      
+          
+  \(\mathbf{Y} = \text{TransformerLayer}[\mathbf{X}]\)
+
+
+          transformer
+      
+      
+          
+  \(\mathbf{Y} = \text{SoftMax}[\mathbf{X}\mathbf{X}^{T}] \mathbf{X}\)
+
+
+          dot-product self-attention
+      
+      
+          
+  \(\mathbf{Y} = \text{SoftMax}[\mathbf{X} \mathbf{W}^{q}\mathbf{W}^{kT}\mathbf{X}^{T}] \mathbf{X} \mathbf{W}^{v}\)
+
+
+          Query, Key, Value matrices
+      
+      
+          
+  \(\mathbf{Y} = \text{SoftMax}[\mathbf{Q}\mathbf{K}^{T}] \mathbf{V} \)
+
+
+          Query, Key, Value matrices
+      
+      
+          
+  \(\mathbf{Y} = \text{SoftMax}[\frac{\mathbf{Q}\mathbf{K}^{T}}{\sqrt{D}}] \mathbf{V} \)
+
+
+          Scaled dot-product self attention
+      
+      
+          
+  \(\mathbf{Y} = \text{Concat}[\mathbf{H}_1,...,\mathbf{H}_H]\mathbf{W}^o \)
+
+ where 
+  \(\mathbf{H}_h = \text{SoftMax}\left[\frac{\mathbf{Q_h}\mathbf{K_h}^{T}}{\sqrt{D_k}}\right] \mathbf{V_h}\)
+
+
+          Multi-head attention
+      
+      
+          
+  \(\mathbf{Z} = \text{LayerNorm}\left[\mathbf{Y}(\mathbf{X})&#43;\mathbf{X}\right]\)
+
+
+          layer normalization and residual connection
+      
+      
+          
+  \(\mathbf{X^*} = \text{LayerNorm}\left[\text{MLP}(\mathbf{Z})&#43;\mathbf{Z}\right]\)
+
+
+          MLP layer
+      
+  
+
+
+  
+      
+          Parameter
+          Count
+          Description
+      
+  
+  
+      
+          
+  \(\mathbf{E}\)
+
+
+          
+  \(VD\)
+
+
+          The token embedding matrix. 
+  \(V\)
+
+ is the size of the vocabulary and 
+  \(D\)
+
+ is the dimensions of the embeddings.
+      
+      
+          
+  \(\mathbf{W}^q_h\)
+
+ 
+  \(\mathbf{W}^k_h\)
+
+ 
+  \(\mathbf{W}^v_h\)
+
+
+          
+  \(3HD^2\)
+
+
+          The query, key and the value matrices each of dimension 
+  \(D \times D \)
+
+for the 
+  \(H\)
+
+heads.
+      
+      
+          
+  \(\mathbf{W}^o\)
+
+
+          
+  \(HD^2\)
+
+
+          The output matrix of dimension 
+  \(HD \times D \)
+
+.
+      
+      
+          
+  \(\mathbf{W}^{ff}_{1}\)
+
+ 
+  \(\mathbf{W}^{ff}_{2}\)
+
+
+          
+  \(2DD_{ff}\)
+
+
+          The parameters of the two-layer MLP.
+      
+      
+          
+          
+  \(8D^2\)
+
+
+          Typically 
+  \(D_{ff} = 4 D\)
+
+
+      
+      
+          
+          
+          
+  \((4H&#43;8)D^2\)
+
+ total parameters
+      
+  
+
+
+  Multi-head scaled self-attention.
+  #
+
+
+  Tokens
+  #
+
+We will start with the concept of tokens. As token can be">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#343a40">
 <meta name="color-scheme" content="light dark"><meta property="og:url" content="http://localhost:1313/docs/transformers/transformers101/">
   <meta property="og:site_name" content="Deep Learning">
-  <meta property="og:title" content="Transformers">
-  <meta property="og:description" content="https://github.com/vikasraykar/wiki/wiki/Transformers-101">
+  <meta property="og:title" content="Transformers101">
+  <meta property="og:description" content="Transformers 101 # A transformer has 3 main components.
+Multi-head scaled self-attention. MLP with residual connections and layer normalization. Positional encodings. TLDR # Transformer Description \(\mathbf{X}\) embedding matrix \(\mathbf{X} = \mathbf{X} &#43; \mathbf{R}\) position encoding matrix \(\mathbf{Y} = \text{TransformerLayer}[\mathbf{X}]\) transformer \(\mathbf{Y} = \text{SoftMax}[\mathbf{X}\mathbf{X}^{T}] \mathbf{X}\) dot-product self-attention \(\mathbf{Y} = \text{SoftMax}[\mathbf{X} \mathbf{W}^{q}\mathbf{W}^{kT}\mathbf{X}^{T}] \mathbf{X} \mathbf{W}^{v}\) Query, Key, Value matrices \(\mathbf{Y} = \text{SoftMax}[\mathbf{Q}\mathbf{K}^{T}] \mathbf{V} \) Query, Key, Value matrices \(\mathbf{Y} = \text{SoftMax}[\frac{\mathbf{Q}\mathbf{K}^{T}}{\sqrt{D}}] \mathbf{V} \) Scaled dot-product self attention \(\mathbf{Y} = \text{Concat}[\mathbf{H}_1,...,\mathbf{H}_H]\mathbf{W}^o \) where \(\mathbf{H}_h = \text{SoftMax}\left[\frac{\mathbf{Q_h}\mathbf{K_h}^{T}}{\sqrt{D_k}}\right] \mathbf{V_h}\) Multi-head attention \(\mathbf{Z} = \text{LayerNorm}\left[\mathbf{Y}(\mathbf{X})&#43;\mathbf{X}\right]\) layer normalization and residual connection \(\mathbf{X^*} = \text{LayerNorm}\left[\text{MLP}(\mathbf{Z})&#43;\mathbf{Z}\right]\) MLP layer Parameter Count Description \(\mathbf{E}\) \(VD\) The token embedding matrix. \(V\) is the size of the vocabulary and \(D\) is the dimensions of the embeddings. \(\mathbf{W}^q_h\) \(\mathbf{W}^k_h\) \(\mathbf{W}^v_h\) \(3HD^2\) The query, key and the value matrices each of dimension \(D \times D \) for the \(H\) heads. \(\mathbf{W}^o\) \(HD^2\) The output matrix of dimension \(HD \times D \) . \(\mathbf{W}^{ff}_{1}\) \(\mathbf{W}^{ff}_{2}\) \(2DD_{ff}\) The parameters of the two-layer MLP. \(8D^2\) Typically \(D_{ff} = 4 D\) \((4H&#43;8)D^2\) total parameters Multi-head scaled self-attention. # Tokens # We will start with the concept of tokens. As token can be">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
     <meta property="article:section" content="docs">
-<title>Transformers | Deep Learning</title>
+<title>Transformers101 | Deep Learning</title>
 <link rel="icon" href="/favicon.png" >
 <link rel="manifest" href="/manifest.json">
 <link rel="canonical" href="http://localhost:1313/docs/transformers/transformers101/">
 <link rel="stylesheet" href="/book.min.6c8b9d2a1fc95075ed7da46ca81060b39add8fff6741ac51259f768929281e2c.css" integrity="sha256-bIudKh/JUHXtfaRsqBBgs5rdj/9nQaxRJZ92iSkoHiw=" crossorigin="anonymous">
   <script defer src="/fuse.min.js"></script>
-  <script defer src="/en.search.min.cde1b0268c897b03006007114aaa023eb2c065656657b3f18b7964f1bf55f8c1.js" integrity="sha256-zeGwJoyJewMAYAcRSqoCPrLAZWVmV7Pxi3lk8b9V&#43;ME=" crossorigin="anonymous"></script>
+  <script defer src="/en.search.min.fd3018753c6c93d586a3a76f8bd7ce57a76bc7e4a38e2b863f11580aa9b71f1a.js" integrity="sha256-/TAYdTxsk9WGo6dvi9fOV6drx&#43;SjjiuGPxFYCqm3Hxo=" crossorigin="anonymous"></script>
 <!--
 Made with Book Theme
 https://github.com/alex-shpak/hugo-book
@@ -315,7 +522,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="/docs/transformers/transformers101/" class="active">Transformers</a>
+    <a href="/docs/transformers/transformers101/" class="active">Transformers101</a>
   
 
         </li>
@@ -405,7 +612,7 @@ https://github.com/alex-shpak/hugo-book
     <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
   </label>
 
-  <h3>Transformers</h3>
+  <h3>Transformers101</h3>
 
   <label for="toc-control">
     
@@ -419,7 +626,49 @@ https://github.com/alex-shpak/hugo-book
   <aside class="hidden clearfix">
     
   
-<nav id="TableOfContents"></nav>
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#tldr">TLDR</a></li>
+    <li><a href="#multi-head-scaled-self-attention">Multi-head scaled self-attention.</a>
+      <ul>
+        <li><a href="#tokens">Tokens</a></li>
+        <li><a href="#token-embeddings">Token embeddings</a></li>
+        <li><a href="#embedding-matrix">Embedding matrix</a></li>
+        <li><a href="#transformer-layer">Transformer layer</a></li>
+        <li><a href="#attention">Attention</a></li>
+        <li><a href="#self-attention">Self-attention</a></li>
+        <li><a href="#query-key-value">Query, Key, Value</a></li>
+        <li><a href="#dot-product-self-attention">Dot-product self-attention</a></li>
+        <li><a href="#network-parameters">Network parameters</a></li>
+        <li><a href="#query-key-value-matrices">Query, Key, Value matrices</a></li>
+        <li><a href="#recap">Recap</a></li>
+        <li><a href="#scaled-dot-product-self-attention">Scaled dot-product self-attention</a></li>
+        <li><a href="#single-attention-head">Single attention head</a></li>
+        <li><a href="#multi-head-attention">Multi-head attention</a></li>
+        <li><a href="#recap-1">Recap</a></li>
+      </ul>
+    </li>
+    <li><a href="#mlp-layers">MLP layers</a>
+      <ul>
+        <li><a href="#residual-connections">Residual connections</a></li>
+        <li><a href="#layer-normalization">Layer normalization</a></li>
+        <li><a href="#post-norm">Post-norm</a></li>
+        <li><a href="#pre-norm">Pre-norm</a></li>
+        <li><a href="#mlp-layer">MLP layer</a></li>
+        <li><a href="#residual-connection-again">Residual connection again</a></li>
+        <li><a href="#layer-normalization-again">Layer normalization again</a></li>
+        <li><a href="#recap-2">Recap</a></li>
+      </ul>
+    </li>
+    <li><a href="#positional-encodings">Positional encodings</a>
+      <ul>
+        <li><a href="#sinusoidal-functions">Sinusoidal functions</a></li>
+      </ul>
+    </li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
 
 
 
@@ -430,7 +679,1289 @@ https://github.com/alex-shpak/hugo-book
 
       
       
-  <article class="markdown book-article"><p><a href="https://github.com/vikasraykar/wiki/wiki/Transformers-101">https://github.com/vikasraykar/wiki/wiki/Transformers-101</a></p>
+  <article class="markdown book-article"><h1 id="transformers-101">
+  Transformers 101
+  <a class="anchor" href="#transformers-101">#</a>
+</h1>
+<p>A transformer has 3 main components.</p>
+<ol>
+<li>Multi-head scaled self-attention.</li>
+<li>MLP with residual connections and layer normalization.</li>
+<li>Positional encodings.</li>
+</ol>
+<h2 id="tldr">
+  TLDR
+  <a class="anchor" href="#tldr">#</a>
+</h2>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">Transformer</th>
+          <th style="text-align: left">Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">
+<link rel="stylesheet" href="/katex/katex.min.css" />
+<script defer src="/katex/katex.min.js"></script>
+<script defer src="/katex/auto-render.min.js" onload="renderMathInElement(document.body);"></script><span>
+  \(\mathbf{X}\)
+</span>
+</td>
+          <td style="text-align: left">embedding matrix</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><span>
+  \(\mathbf{X} = \mathbf{X} + \mathbf{R}\)
+</span>
+</td>
+          <td style="text-align: left">position encoding matrix</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><span>
+  \(\mathbf{Y} = \text{TransformerLayer}[\mathbf{X}]\)
+</span>
+</td>
+          <td style="text-align: left">transformer</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><span>
+  \(\mathbf{Y} = \text{SoftMax}[\mathbf{X}\mathbf{X}^{T}] \mathbf{X}\)
+</span>
+</td>
+          <td style="text-align: left">dot-product self-attention</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><span>
+  \(\mathbf{Y} = \text{SoftMax}[\mathbf{X} \mathbf{W}^{q}\mathbf{W}^{kT}\mathbf{X}^{T}] \mathbf{X} \mathbf{W}^{v}\)
+</span>
+</td>
+          <td style="text-align: left">Query, Key, Value matrices</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><span>
+  \(\mathbf{Y} = \text{SoftMax}[\mathbf{Q}\mathbf{K}^{T}] \mathbf{V} \)
+</span>
+</td>
+          <td style="text-align: left">Query, Key, Value matrices</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><span>
+  \(\mathbf{Y} = \text{SoftMax}[\frac{\mathbf{Q}\mathbf{K}^{T}}{\sqrt{D}}] \mathbf{V} \)
+</span>
+</td>
+          <td style="text-align: left">Scaled dot-product self attention</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><span>
+  \(\mathbf{Y} = \text{Concat}[\mathbf{H}_1,...,\mathbf{H}_H]\mathbf{W}^o \)
+</span>
+ where <span>
+  \(\mathbf{H}_h = \text{SoftMax}\left[\frac{\mathbf{Q_h}\mathbf{K_h}^{T}}{\sqrt{D_k}}\right] \mathbf{V_h}\)
+</span>
+</td>
+          <td style="text-align: left">Multi-head attention</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><span>
+  \(\mathbf{Z} = \text{LayerNorm}\left[\mathbf{Y}(\mathbf{X})+\mathbf{X}\right]\)
+</span>
+</td>
+          <td style="text-align: left">layer normalization and residual connection</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><span>
+  \(\mathbf{X^*} = \text{LayerNorm}\left[\text{MLP}(\mathbf{Z})+\mathbf{Z}\right]\)
+</span>
+</td>
+          <td style="text-align: left">MLP layer</td>
+      </tr>
+  </tbody>
+</table>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">Parameter</th>
+          <th style="text-align: left">Count</th>
+          <th style="text-align: left">Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><span>
+  \(\mathbf{E}\)
+</span>
+</td>
+          <td style="text-align: left"><span>
+  \(VD\)
+</span>
+</td>
+          <td style="text-align: left">The token embedding matrix. <span>
+  \(V\)
+</span>
+ is the size of the vocabulary and <span>
+  \(D\)
+</span>
+ is the dimensions of the embeddings.</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><span>
+  \(\mathbf{W}^q_h\)
+</span>
+ <span>
+  \(\mathbf{W}^k_h\)
+</span>
+ <span>
+  \(\mathbf{W}^v_h\)
+</span>
+</td>
+          <td style="text-align: left"><span>
+  \(3HD^2\)
+</span>
+</td>
+          <td style="text-align: left">The query, key and the value matrices each of dimension <span>
+  \(D \times D \)
+</span>
+for the <span>
+  \(H\)
+</span>
+heads.</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><span>
+  \(\mathbf{W}^o\)
+</span>
+</td>
+          <td style="text-align: left"><span>
+  \(HD^2\)
+</span>
+</td>
+          <td style="text-align: left">The output matrix of dimension <span>
+  \(HD \times D \)
+</span>
+.</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><span>
+  \(\mathbf{W}^{ff}_{1}\)
+</span>
+ <span>
+  \(\mathbf{W}^{ff}_{2}\)
+</span>
+</td>
+          <td style="text-align: left"><span>
+  \(2DD_{ff}\)
+</span>
+</td>
+          <td style="text-align: left">The parameters of the two-layer MLP.</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"></td>
+          <td style="text-align: left"><span>
+  \(8D^2\)
+</span>
+</td>
+          <td style="text-align: left">Typically <span>
+  \(D_{ff} = 4 D\)
+</span>
+</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"></td>
+          <td style="text-align: left"></td>
+          <td style="text-align: left"><strong><span>
+  \((4H+8)D^2\)
+</span>
+ total parameters</strong></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="multi-head-scaled-self-attention">
+  Multi-head scaled self-attention.
+  <a class="anchor" href="#multi-head-scaled-self-attention">#</a>
+</h2>
+<h3 id="tokens">
+  Tokens
+  <a class="anchor" href="#tokens">#</a>
+</h3>
+<p>We will start with the concept of <strong>tokens</strong>. As token can be</p>
+<ul>
+<li>word</li>
+<li>sub-word</li>
+<li>image patch</li>
+<li>amino acid</li>
+<li>etc.</li>
+</ul>
+<h3 id="token-embeddings">
+  Token embeddings
+  <a class="anchor" href="#token-embeddings">#</a>
+</h3>
+<p>Let <span>
+  \(\mathbf{x}_n \in \mathbb{R}^D\)
+</span>
+ be a column vector of <span>
+  \(D\)
+</span>
+ features corresponding to a token <span>
+  \(n\)
+</span>
+.</p>
+<p>This corresponds to the <span>
+  \(D\)
+</span>
+-dimensional <strong>embedding vector</strong> of the token.</p>
+<h3 id="embedding-matrix">
+  Embedding matrix
+  <a class="anchor" href="#embedding-matrix">#</a>
+</h3>
+<p>We can stack all the embedding vectors <span>
+  \(\left\{\mathbf{x}_n\right\}_{n=1}^{N}\)
+</span>
+ for a <strong>sequence</strong> of <span>
+  \(N\)
+</span>
+ tokens as rows into an embedding matrix <span>
+  \(\mathbf{X}\)
+</span>
+.</p>
+<span>
+  \[\mathbf{X}_{\text{N (tokens)} \times \text{D (features)}}\]
+</span>
+
+<h3 id="transformer-layer">
+  Transformer layer
+  <a class="anchor" href="#transformer-layer">#</a>
+</h3>
+<p>A <strong>transformer</strong> transforms the embedding matrix <span>
+  \(\mathbf{X}\)
+</span>
+ to another matrix <span>
+  \(\mathbf{Y}\)
+</span>
+ of the same dimension.</p>
+<span>
+  \[
+\mathbf{Y}_{N \times D} = \text{TransformerLayer}[\mathbf{X}_{N \times D}]
+\]
+</span>
+
+<p>The goal of transformation is that the new space <span>
+  \(\mathbf{Y}\)
+</span>
+ will have a richer internal representation that is better suited to solve downstream tasks.</p>
+<p>The embeddings are trained to capture elementary semantic properties, words with similar meaning should map to nearby locations in the embedding space.</p>
+<blockquote>
+<p>A transformer can be viewed as a richer form of embedding in which the embedding vector for a token is mapped to a location that depends on the embedding vectors of other tokens in the sequence.</p></blockquote>
+<ol>
+<li>I <em>swam</em> across the <em>river</em> to get to the other <strong>bank</strong>. (bank~water)</li>
+<li>I <em>walked</em> across the road to get <em>cash</em> from the <strong>bank</strong>. (bank~money)</li>
+</ol>
+<h3 id="attention">
+  Attention
+  <a class="anchor" href="#attention">#</a>
+</h3>
+<p>We do this via the notion of attention.</p>
+<p>To determine the appropriate interpretation of the token <strong>bank</strong> the transformer processing a sentence should <strong>attend to</strong> (or give more importance to) specific words from the rest of the sequence.</p>
+<blockquote>
+<p>Originally developed by  Bahdanau, Cho, and Bengio, 2015 <sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup> as an enhancement to RNNs for machine translation. Vaswani <em>et al</em>, 2017 <sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup> later completely eliminated the recurrence structure and instead focussed only on the attention mechanism.</p></blockquote>
+<p>We will do this via the notion of <strong>attention</strong> where we generate the output transformed vector <span>
+  \(\mathbf{y}_n\)
+</span>
+ via a linear combination of all the input vectors, that is, by attending to all the input vectors.</p>
+<span>
+  \[
+\mathbf{y}_n = \sum_{m=1}^{N} a_{nm} \mathbf{x}_m
+\]
+</span>
+
+<p><span>
+  \(a_{nm}\)
+</span>
+ are called <strong>attention weights/coefficients</strong>.</p>
+<p>The attention coefficients should satisfy the following two properties.</p>
+<ul>
+<li><span>
+  \(a_{nm} \geq 0\)
+</span>
+</li>
+<li><span>
+  \(\sum_{m=1}^N a_{nm} =1\)
+</span>
+</li>
+</ul>
+<p>Partition of unity (<span>
+  \(0 \leq a_{nm} \leq 1\)
+</span>
+).</p>
+<h3 id="self-attention">
+  Self-attention
+  <a class="anchor" href="#self-attention">#</a>
+</h3>
+<p>We want to capture the notion of how similar a token is to other tokens.</p>
+<p>This can be done via a dot product between the <strong>query vector</strong> (<span>
+  \(\mathbf{x}_{n}\)
+</span>
+) and the <strong>key vector</strong> (<span>
+  \(\mathbf{x}_{m}\)
+</span>
+).</p>
+<span>
+  \[
+a_{nm} \propto (\mathbf{x}_{n}^T\mathbf{x}_m)
+\]
+</span>
+
+<p>The attention coefficients should satisfy the following two properties.</p>
+<ul>
+<li><span>
+  \(a_{nm} \geq 0\)
+</span>
+</li>
+<li><span>
+  \(\sum_{m=1}^N a_{nm} =1\)
+</span>
+</li>
+</ul>
+<p>This can be achieved by a <strong>soft-max</strong> of the dot products.</p>
+<span>
+  \[
+a_{nm} = \text{SoftMax}(\mathbf{x}_{n}^T\mathbf{x}_m) = \frac{\exp(\mathbf{x}_{n}^T\mathbf{x}_m)}{\sum_{m'=1}^{N} \exp(\mathbf{x}_{n}^T\mathbf{x}_m')}
+\]
+</span>
+
+<span>
+  \[
+\mathbf{y}_n = \sum_{m=1}^{N} \text{SoftMax}(\mathbf{x}_{n}^T\mathbf{x}_m) \mathbf{x}_m
+\]
+</span>
+
+<h3 id="query-key-value">
+  Query, Key, Value
+  <a class="anchor" href="#query-key-value">#</a>
+</h3>
+<p>A bit of terminology taken from the IR literature.</p>
+<ul>
+<li><strong>Query</strong> The search query that the user types on a search engine.</li>
+<li><strong>Key</strong> The feature representation of each document.</li>
+<li><strong>Value</strong> The actual document.</li>
+</ul>
+<p>The <strong>query</strong> is attending to a particular <strong>value</strong> whose key closely matches the <strong>query</strong> (hard attention).
+<span>
+  \[
+\mathbf{y}_n = \sum_{m=1}^{N} \text{SoftMax}(\mathbf{x}_{n}^T\mathbf{x}_m) \mathbf{x}_m
+\]
+</span>
+</p>
+<ul>
+<li><span>
+  \(\mathbf{x}_{n}\)
+</span>
+ is the query.</li>
+<li><span>
+  \(\mathbf{x}_m\)
+</span>
+ (<span>
+  \(m=1,...N\)
+</span>
+) are the keys.</li>
+<li><span>
+  \(\mathbf{x}_m\)
+</span>
+ (<span>
+  \(m=1,...N\)
+</span>
+) are the values.</li>
+</ul>
+<h3 id="dot-product-self-attention">
+  Dot-product self-attention
+  <a class="anchor" href="#dot-product-self-attention">#</a>
+</h3>
+<p>So we now have the first definition of the transformer layer.</p>
+<span>
+  \[
+\mathbf{Y}_{N \times D} = \text{TransformerLayer}[\mathbf{X}_{N \times D}]
+\]
+</span>
+
+<span>
+  \[\mathbf{Y} = \text{SoftMax}[\mathbf{X}\mathbf{X}^{T}] \mathbf{X}\]
+</span>
+
+<span>
+  \[\mathbf{Y}_{N \times D} = \text{SoftMax}[\mathbf{X}_{N \times D} \mathbf{X}^{T}_{D \times N} ] \mathbf{X}_{N \times D} \]
+</span>
+
+<blockquote>
+<p>Other than the embedding matrix this has no no learnable parameters yet.</p></blockquote>
+<table>
+  <thead>
+      <tr>
+          <th>Parameter</th>
+          <th>Count</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><span>
+  \(\mathbf{E}\)
+</span>
+</td>
+          <td><span>
+  \(VD\)
+</span>
+</td>
+          <td>The token embedding matrix. <span>
+  \(V\)
+</span>
+ is the size of the vocabulary and <span>
+  \(D\)
+</span>
+ is the dimensions of the mebeddings.</td>
+      </tr>
+  </tbody>
+</table>
+<blockquote>
+<p><span>
+  \(\mathcal{O}(2N^2D)\)
+</span>
+ computations.</p></blockquote>
+<h3 id="network-parameters">
+  Network parameters
+  <a class="anchor" href="#network-parameters">#</a>
+</h3>
+<p>The above has no learnable parameters.</p>
+<p>Each feature value <span>
+  \(x_{ni}\)
+</span>
+ is equally important in the dot product.</p>
+<p>We will introduce a <span>
+  \(D \times D\)
+</span>
+ matrix <span>
+  \(\mathbf{U}\)
+</span>
+ of <strong>learnable weights</strong>.</p>
+<span>
+  \[\mathbf{X^{*}}_{N \times D}=\mathbf{X}_{N \times D}\mathbf{U}_{D \times D}\]
+</span>
+
+<p>With this we have the second iteration of the transformer layer.</p>
+<span>
+  \[\mathbf{Y} = \text{SoftMax}[\mathbf{X}\mathbf{U}\mathbf{U}^{T}\mathbf{X}^{T}] \mathbf{X}\mathbf{U}\]
+</span>
+
+<blockquote>
+<p>We now have <span>
+  \(D^2\)
+</span>
+ learnable parameters.
+<span>
+  \(\mathcal{O}(2N^2D+ND^2)\)
+</span>
+ computations</p></blockquote>
+<p>While this has more flexibility the matrix <span>
+  \(\mathbf{X}\mathbf{U}\mathbf{U}^{T}\mathbf{X}^{T}\)
+</span>
+ is symmetric, whereas we would like the attention matrix to support significant asymmetry.</p>
+<ul>
+<li>The word <em>chisel</em> should be strongly associated with <em>tool</em> since every chisel is a tool.</li>
+<li>The word <em>tool</em> should be weakly associated with the word <em>chisel</em> since there are many other kinds of tools besides chisel.</li>
+</ul>
+<h3 id="query-key-value-matrices">
+  Query, Key, Value matrices
+  <a class="anchor" href="#query-key-value-matrices">#</a>
+</h3>
+<p>To overcome these limitations, we introduce separate Query, Key, Value matrices each having their own independent linear transformations.</p>
+<p><span>
+  \[\mathbf{Q} = \mathbf{X} \mathbf{W}^{q}\]
+</span>
+
+<span>
+  \[\mathbf{K} = \mathbf{X} \mathbf{W}^{k}\]
+</span>
+
+<span>
+  \[\mathbf{V} = \mathbf{X} \mathbf{W}^{v}\]
+</span>
+</p>
+<p>Let&rsquo;s check the dimensions.</p>
+<p><span>
+  \[\mathbf{Q}_{N \times D_q} = \mathbf{X}_{N \times D} \mathbf{W}^{q}_{D \times D_q}\]
+</span>
+
+<span>
+  \[\mathbf{K}_{N \times D_k} = \mathbf{X}_{N \times D} \mathbf{W}^{k}_{D \times D_k}\]
+</span>
+
+<span>
+  \[\mathbf{V}_{N \times D_v} = \mathbf{X}_{N \times D} \mathbf{W}^{v}_{D \times D_v}\]
+</span>
+</p>
+<p>Typically <span>
+  \(D_q=D_k\)
+</span>
+</p>
+<p><span>
+  \[\mathbf{Q}_{N \times D_k} = \mathbf{X}_{N \times D} \mathbf{W}^{q}_{D \times D_k}\]
+</span>
+
+<span>
+  \[\mathbf{K}_{N \times D_k} = \mathbf{X}_{N \times D} \mathbf{W}^{k}_{D \times D_k}\]
+</span>
+
+<span>
+  \[\mathbf{V}_{N \times D_v} = \mathbf{X}_{N \times D} \mathbf{W}^{v}_{D \times D_v}\]
+</span>
+</p>
+<p>With this we have the third iteration of the transformer layer.</p>
+<span>
+  \[\mathbf{Y} = \text{SoftMax}[\mathbf{Q}\mathbf{K}^{T}] \mathbf{V}\]
+</span>
+
+<p>Let&rsquo;s check the dimensions once.</p>
+<span>
+  \[\mathbf{Y}_{N \times D_v} = \text{SoftMax}[\mathbf{Q}_{N \times D_k}\mathbf{K}^{T}_{D_k \times N}] \mathbf{V}_{N \times D_v}\]
+</span>
+
+<p>A common choice is <span>
+  \(D_k=D_v=D\)
+</span>
+. This also makes the output dimension same as the input and helps later to add residual connections.</p>
+<span>
+  \[\mathbf{Y}_{N \times D} = \text{SoftMax}[\mathbf{Q}_{N \times D}\mathbf{K}^{T}_{D \times N}] \mathbf{V}_{N \times D}\]
+</span>
+
+<blockquote>
+<p>We now have <span>
+  \(3D^2\)
+</span>
+ learnable parameters.</p></blockquote>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">Parameter</th>
+          <th style="text-align: left">Count</th>
+          <th style="text-align: left">Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><span>
+  \(\mathbf{E}\)
+</span>
+</td>
+          <td style="text-align: left"><span>
+  \(VD\)
+</span>
+</td>
+          <td style="text-align: left">The token embedding matrix. <span>
+  \(V\)
+</span>
+ is the size of the vocabulary and <span>
+  \(D\)
+</span>
+ is the dimensions of the embeddings.</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><span>
+  \(\mathbf{W}^q\)
+</span>
+ <span>
+  \(\mathbf{W}^k\)
+</span>
+ <span>
+  \(\mathbf{W}^v\)
+</span>
+</td>
+          <td style="text-align: left"><span>
+  \(3D^2\)
+</span>
+</td>
+          <td style="text-align: left">The query, key and the value matrices each of dimension <span>
+  \(D \times D\)
+</span>
+</td>
+      </tr>
+  </tbody>
+</table>
+<blockquote>
+<p><span>
+  \(\mathcal{O}(2N^2D+3ND^2)\)
+</span>
+ computations</p></blockquote>
+<h3 id="recap">
+  Recap
+  <a class="anchor" href="#recap">#</a>
+</h3>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">Transformer</th>
+          <th style="text-align: left">Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><span>
+  \(\mathbf{Y} = \text{TransformerLayer}[\mathbf{X}]\)
+</span>
+</td>
+          <td style="text-align: left">transformer</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><span>
+  \(\mathbf{Y} = \text{SoftMax}[\mathbf{X}\mathbf{X}^{T}] \mathbf{X}\)
+</span>
+</td>
+          <td style="text-align: left">dot-product self-attention</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><span>
+  \(\mathbf{Y} = \text{SoftMax}[\mathbf{X}\mathbf{U}\mathbf{U}^{T}\mathbf{X}^{T}] \mathbf{X}\mathbf{U}\)
+</span>
+</td>
+          <td style="text-align: left">learnable parameters</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><span>
+  \(\mathbf{Y} = \text{SoftMax}[\mathbf{X} \mathbf{W}^{q}\mathbf{W}^{kT}\mathbf{X}^{T}] \mathbf{X} \mathbf{W}^{v}\)
+</span>
+</td>
+          <td style="text-align: left">Query, Key, Value matrices</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><span>
+  \(\mathbf{Y} = \text{SoftMax}[\mathbf{Q}\mathbf{K}^{T}] \mathbf{V} \)
+</span>
+</td>
+          <td style="text-align: left">Query, Key, Value matrices</td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="scaled-dot-product-self-attention">
+  Scaled dot-product self-attention
+  <a class="anchor" href="#scaled-dot-product-self-attention">#</a>
+</h3>
+<p>The gradients of the soft-max become exponentially small for inputs of high magnitude.</p>
+<p>Hence we scale it as follows.</p>
+<span>
+  \[\mathbf{Y} = \text{SoftMax}\left[\frac{\mathbf{Q}\mathbf{K}^{T}}{\sqrt{D_k}}\right] \mathbf{V}\]
+</span>
+
+<p><span>
+  \(D_k\)
+</span>
+ which is the variance of the dot-product.</p>
+<blockquote>
+<p>If the elements of the query and key vectors were all independent random variables with zero mean and unit variance, then the variance of the dot product would be <span>
+  \(D_k\)
+</span>
+</p></blockquote>
+<h3 id="single-attention-head">
+  Single attention head
+  <a class="anchor" href="#single-attention-head">#</a>
+</h3>
+<p>This is known a s single attention head.
+<span>
+  \[\mathbf{Y} = \text{SoftMax}\left[\frac{\mathbf{Q}\mathbf{K}^{T}}{\sqrt{D_k}}\right] \mathbf{V}\]
+</span>
+</p>
+<h3 id="multi-head-attention">
+  Multi-head attention
+  <a class="anchor" href="#multi-head-attention">#</a>
+</h3>
+<p>Capture multiple patterns of attention (for example, tense, vocabulary etc.).</p>
+<blockquote>
+<p>Sort of similar to using multiple different filters in each layer of a convolutional neural network.</p></blockquote>
+<p>We have <span>
+  \(H\)
+</span>
+ attention heads indexed by <span>
+  \(h=1,...,H\)
+</span>
+.</p>
+<span>
+  \[\mathbf{H}_h = \text{Attention}(\mathbf{Q_h},\mathbf{K_h},\mathbf{V_h}) = \text{SoftMax}\left[\frac{\mathbf{Q_h}\mathbf{K_h}^{T}}{\sqrt{D_k}}\right] \mathbf{V_h}\]
+</span>
+
+<p><span>
+  \[\mathbf{Q}_h = \mathbf{X} \mathbf{W}^{q}_h\]
+</span>
+
+<span>
+  \[\mathbf{K}_h = \mathbf{X} \mathbf{W}^{k}_h\]
+</span>
+
+<span>
+  \[\mathbf{V}_h = \mathbf{X} \mathbf{W}^{v}_h\]
+</span>
+</p>
+<p>The output from each heads are first concatenated into a single matrix and then linearly transformed using another matrix.</p>
+<span>
+  \[\mathbf{Y}(\mathbf{X}) =\text{Concat}[\mathbf{H}_1,...,\mathbf{H}_H]\mathbf{W}^o\]
+</span>
+
+<p>Let&rsquo;s check the dimensions</p>
+<span>
+  \[\mathbf{Y}_{N \times D} =\text{Concat}[\mathbf{H}_1,...,\mathbf{H}_H]_{N \times HD_v} \mathbf{W}^o_{HD_v \times D}\]
+</span>
+
+<p>Typically <span>
+  \(D_v = D/H\)
+</span>
+.</p>
+<blockquote>
+<p>We now have <span>
+  \(3HD^2\)
+</span>
+ learnable parameters.</p></blockquote>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">Parameter</th>
+          <th style="text-align: left">Count</th>
+          <th style="text-align: left">Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><span>
+  \(\mathbf{E}\)
+</span>
+</td>
+          <td style="text-align: left"><span>
+  \(VD\)
+</span>
+</td>
+          <td style="text-align: left">The token embedding matrix. <span>
+  \(V\)
+</span>
+ is the size of the vocabulary and <span>
+  \(D\)
+</span>
+ is the dimensions of the embeddings.</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><span>
+  \(\mathbf{W}^q_h\)
+</span>
+ <span>
+  \(\mathbf{W}^k_h\)
+</span>
+ <span>
+  \(\mathbf{W}^v_h\)
+</span>
+</td>
+          <td style="text-align: left"><span>
+  \(3HD^2\)
+</span>
+</td>
+          <td style="text-align: left">The query, key and the value matrices each of dimension <span>
+  \(D \times D \)
+</span>
+for the <span>
+  \(H\)
+</span>
+heads.</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><span>
+  \(\mathbf{W}^o\)
+</span>
+</td>
+          <td style="text-align: left"><span>
+  \(HD^2\)
+</span>
+</td>
+          <td style="text-align: left">The output matrix of dimension <span>
+  \(HD \times D \)
+</span>
+.</td>
+      </tr>
+  </tbody>
+</table>
+<blockquote>
+<p><span>
+  \(\mathcal{O}(2HN^2D+4HND^2)\)
+</span>
+ computations</p></blockquote>
+<h3 id="recap-1">
+  Recap
+  <a class="anchor" href="#recap-1">#</a>
+</h3>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">Transformer</th>
+          <th style="text-align: left">Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><span>
+  \(\mathbf{Y} = \text{TransformerLayer}[\mathbf{X}]\)
+</span>
+</td>
+          <td style="text-align: left">transformer</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><span>
+  \(\mathbf{Y} = \text{SoftMax}[\mathbf{X}\mathbf{X}^{T}] \mathbf{X}\)
+</span>
+</td>
+          <td style="text-align: left">dot-product self-attention</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><span>
+  \(\mathbf{Y} = \text{SoftMax}[\mathbf{X}\mathbf{U}\mathbf{U}^{T}\mathbf{X}^{T}] \mathbf{X}\mathbf{U}\)
+</span>
+</td>
+          <td style="text-align: left">learnable parameters</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><span>
+  \(\mathbf{Y} = \text{SoftMax}[\mathbf{X} \mathbf{W}^{q}\mathbf{W}^{kT}\mathbf{X}^{T}] \mathbf{X} \mathbf{W}^{v}\)
+</span>
+</td>
+          <td style="text-align: left">Query, Key, Value matrices</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><span>
+  \(\mathbf{Y} = \text{SoftMax}[\mathbf{Q}\mathbf{K}^{T}] \mathbf{V} \)
+</span>
+</td>
+          <td style="text-align: left">Query, Key, Value matrices</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><span>
+  \(\mathbf{Y} = \text{SoftMax}[\frac{\mathbf{Q}\mathbf{K}^{T}}{\sqrt{D}}] \mathbf{V} \)
+</span>
+</td>
+          <td style="text-align: left">Scaled dot-product self attention</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><span>
+  \(\mathbf{Y} = \text{Concat}[\mathbf{H}_1,...,\mathbf{H}_H]\mathbf{W}^o \)
+</span>
+ where <span>
+  \(\mathbf{H}_h = \text{SoftMax}\left[\frac{\mathbf{Q_h}\mathbf{K_h}^{T}}{\sqrt{D_k}}\right] \mathbf{V_h}\)
+</span>
+</td>
+          <td style="text-align: left">Multi-head attention</td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="mlp-layers">
+  MLP layers
+  <a class="anchor" href="#mlp-layers">#</a>
+</h2>
+<h3 id="residual-connections">
+  Residual connections
+  <a class="anchor" href="#residual-connections">#</a>
+</h3>
+<p>To improve training efficiency we introduce residual connections that bypass the multi-head structure.</p>
+<span>
+  \[\mathbf{Y}(\mathbf{X}) = \text{TransformerLayer}[\mathbf{X}]\]
+</span>
+
+<span>
+  \[\mathbf{Z} = \mathbf{Y}(\mathbf{X})+\mathbf{X}\]
+</span>
+
+<h3 id="layer-normalization">
+  Layer normalization
+  <a class="anchor" href="#layer-normalization">#</a>
+</h3>
+<p>Layer normalization is then added also to improve training efficiency (Bao, Kiros, and Hinton 2016)</p>
+<h3 id="post-norm">
+  Post-norm
+  <a class="anchor" href="#post-norm">#</a>
+</h3>
+<span>
+  \[\mathbf{Z} = \text{LayerNorm}\left[\mathbf{Y}(\mathbf{X})+\mathbf{X}\right]\]
+</span>
+
+<h3 id="pre-norm">
+  Pre-norm
+  <a class="anchor" href="#pre-norm">#</a>
+</h3>
+<span>
+  \[\mathbf{Z} = \mathbf{Y}(\text{LayerNorm}\left[\mathbf{X}\right])+\mathbf{X}\]
+</span>
+
+<blockquote>
+<p>Pre-norm is most widely used these days while the original paper used post-norm.</p></blockquote>
+<h3 id="mlp-layer">
+  MLP layer
+  <a class="anchor" href="#mlp-layer">#</a>
+</h3>
+<p>We further add a MLP layer, for example, a two layer fully connected network with ReLU hidden units (typically bias is excluded).</p>
+<span>
+  \[\mathbf{X^*} = \text{MLP}(\mathbf{Z})=\text{R/GeLU}(\mathbf{Z}\mathbf{W}^{ff}_{1})\mathbf{W}^{ff}_2\]
+</span>
+
+<p>Let&rsquo;s check the dimensions.</p>
+<span>
+  \[\mathbf{X^*} = \text{R/GeLU}(\mathbf{Z}_{N\times D}{\mathbf{W}^{ff1}_{1}}_{D \times D_{ff}}){\mathbf{W}^{ff}_{2}}_{D_{ff} \times D}\]
+</span>
+
+<blockquote>
+<p>Typically <span>
+  \(D_{ff} = 4 D\)
+</span>
+</p></blockquote>
+<h3 id="residual-connection-again">
+  Residual connection again
+  <a class="anchor" href="#residual-connection-again">#</a>
+</h3>
+<span>
+  \[\mathbf{X^*} = \text{MLP}(\mathbf{Z})+\mathbf{Z}\]
+</span>
+
+<h3 id="layer-normalization-again">
+  Layer normalization again
+  <a class="anchor" href="#layer-normalization-again">#</a>
+</h3>
+<span>
+  \[\mathbf{X^*} = \text{LayerNorm}\left[\text{MLP}(\mathbf{Z})+\mathbf{Z}\right]\]
+</span>
+
+<blockquote>
+<p>We now have <span>
+  \(2DD_{ff}\)
+</span>
+ learnable parameters.</p></blockquote>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">Parameter</th>
+          <th style="text-align: left">Count</th>
+          <th style="text-align: left">Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><span>
+  \(\mathbf{E}\)
+</span>
+</td>
+          <td style="text-align: left"><span>
+  \(VD\)
+</span>
+</td>
+          <td style="text-align: left">The token embedding matrix. <span>
+  \(V\)
+</span>
+ is the size of the vocabulary and <span>
+  \(D\)
+</span>
+ is the dimensions of the embeddings.</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><span>
+  \(\mathbf{W}^q_h\)
+</span>
+ <span>
+  \(\mathbf{W}^k_h\)
+</span>
+ <span>
+  \(\mathbf{W}^v_h\)
+</span>
+</td>
+          <td style="text-align: left"><span>
+  \(3HD^2\)
+</span>
+</td>
+          <td style="text-align: left">The query, key and the value matrices each of dimension <span>
+  \(D \times D \)
+</span>
+for the <span>
+  \(H\)
+</span>
+heads.</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><span>
+  \(\mathbf{W}^o\)
+</span>
+</td>
+          <td style="text-align: left"><span>
+  \(HD^2\)
+</span>
+</td>
+          <td style="text-align: left">The output matrix of dimension <span>
+  \(HD \times D \)
+</span>
+.</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><span>
+  \(\mathbf{W}^{ff}_{1}\)
+</span>
+ <span>
+  \(\mathbf{W}^{ff}_{2}\)
+</span>
+</td>
+          <td style="text-align: left"><span>
+  \(2DD_{ff}\)
+</span>
+</td>
+          <td style="text-align: left">The parameters of the two-layer MLP.</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"></td>
+          <td style="text-align: left"><span>
+  \(8D^2\)
+</span>
+</td>
+          <td style="text-align: left">Typically <span>
+  \(D_{ff} = 4 D\)
+</span>
+</td>
+      </tr>
+  </tbody>
+</table>
+<blockquote>
+<p><span>
+  \(\mathcal{O}(2HN^2D+4HND^2+2NDD_{ff})\)
+</span>
+ computations</p></blockquote>
+<blockquote>
+<p><span>
+  \(\mathcal{O}(2HN^2D+4HND^2+8ND^2)\)
+</span>
+ computations</p></blockquote>
+<h3 id="recap-2">
+  Recap
+  <a class="anchor" href="#recap-2">#</a>
+</h3>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">Transformer</th>
+          <th style="text-align: left">Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><span>
+  \(\mathbf{Y} = \text{TransformerLayer}[\mathbf{X}]\)
+</span>
+</td>
+          <td style="text-align: left">transformer</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><span>
+  \(\mathbf{Y} = \text{SoftMax}[\mathbf{X}\mathbf{X}^{T}] \mathbf{X}\)
+</span>
+</td>
+          <td style="text-align: left">dot-product self-attention</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><span>
+  \(\mathbf{Y} = \text{SoftMax}[\mathbf{X} \mathbf{W}^{q}\mathbf{W}^{kT}\mathbf{X}^{T}] \mathbf{X} \mathbf{W}^{v}\)
+</span>
+</td>
+          <td style="text-align: left">Query, Key, Value matrices</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><span>
+  \(\mathbf{Y} = \text{SoftMax}[\mathbf{Q}\mathbf{K}^{T}] \mathbf{V} \)
+</span>
+</td>
+          <td style="text-align: left">Query, Key, Value matrices</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><span>
+  \(\mathbf{Y} = \text{SoftMax}[\frac{\mathbf{Q}\mathbf{K}^{T}}{\sqrt{D}}] \mathbf{V} \)
+</span>
+</td>
+          <td style="text-align: left">Scaled dot-product self attention</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><span>
+  \(\mathbf{Y} = \text{Concat}[\mathbf{H}_1,...,\mathbf{H}_H]\mathbf{W}^o \)
+</span>
+ where <span>
+  \(\mathbf{H}_h = \text{SoftMax}\left[\frac{\mathbf{Q_h}\mathbf{K_h}^{T}}{\sqrt{D_k}}\right] \mathbf{V_h}\)
+</span>
+</td>
+          <td style="text-align: left">Multi-head attention</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><span>
+  \(\mathbf{Z} = \text{LayerNorm}\left[\mathbf{Y}(\mathbf{X})+\mathbf{X}\right]\)
+</span>
+</td>
+          <td style="text-align: left">layer normalization and residual connection</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><span>
+  \(\mathbf{X^*} = \text{LayerNorm}\left[\text{MLP}(\mathbf{Z})+\mathbf{Z}\right]\)
+</span>
+</td>
+          <td style="text-align: left">MLP layer</td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="positional-encodings">
+  Positional encodings
+  <a class="anchor" href="#positional-encodings">#</a>
+</h2>
+<p>A transformer is equivariant with respect to input permutation, that is, it does not depend on the order of the tokens.</p>
+<ul>
+<li>The food was bad, not good at all.</li>
+<li>The food was good, not bad at all.</li>
+</ul>
+<p>We need to find a way to inject the token order information.</p>
+<p>We add a <strong>position encoding vector</strong> (<span>
+  \(\mathbf{r}_n\)
+</span>
+) to each token vector (<span>
+  \(\mathbf{x}_n\)
+</span>
+).</p>
+<span>
+  \[\mathbf{x}_n^* = \mathbf{x}_n + \mathbf{r}_n\]
+</span>
+
+<p>We could associate an integer 1, 2, 3&hellip; with each position.</p>
+<ul>
+<li>Magnitude of the value may increase without bound and corrupt the embedding vector.</li>
+<li>Will not generalize well the new input sequences longer than the training data.</li>
+</ul>
+<p>Desiderata (Dufter, Schmitt, and Schutze, 2021)</p>
+<ul>
+<li>Unique representation for each token.</li>
+<li>Should be bounded.</li>
+<li>Generalize to longer sequences.</li>
+<li>Compute relative position of tokens.</li>
+</ul>
+<h3 id="sinusoidal-functions">
+  Sinusoidal functions
+  <a class="anchor" href="#sinusoidal-functions">#</a>
+</h3>
+<p>For a given position <span>
+  \(n\)
+</span>
+ the position encoding vector has components <span>
+  \(\mathbf{r}_{ni}\)
+</span>
+ given by sinusoids of steadily increasing wavelengths.</p>
+<p><span>
+  \[\mathbf{r}_{ni} = \text{sin}\left(\frac{n}{L^{i/D}}\right) \text{if i is even}\]
+</span>
+
+<span>
+  \[\mathbf{r}_{ni} = \text{cos}\left(\frac{n}{L^{(i-1)/D}}\right) \text{if i is odd}\]
+</span>
+</p>
+<blockquote>
+<p>Sort of binary representation of numbers.</p></blockquote>
+<h2 id="summary">
+  Summary
+  <a class="anchor" href="#summary">#</a>
+</h2>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">Transformer</th>
+          <th style="text-align: left">Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><span>
+  \(\mathbf{X}\)
+</span>
+</td>
+          <td style="text-align: left">embedding matrix</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><span>
+  \(\mathbf{X} = \mathbf{X} + \mathbf{R}\)
+</span>
+</td>
+          <td style="text-align: left">position encoding matrix</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><span>
+  \(\mathbf{Y} = \text{TransformerLayer}[\mathbf{X}]\)
+</span>
+</td>
+          <td style="text-align: left">transformer</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><span>
+  \(\mathbf{Y} = \text{SoftMax}[\mathbf{X}\mathbf{X}^{T}] \mathbf{X}\)
+</span>
+</td>
+          <td style="text-align: left">dot-product self-attention</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><span>
+  \(\mathbf{Y} = \text{SoftMax}[\mathbf{X} \mathbf{W}^{q}\mathbf{W}^{kT}\mathbf{X}^{T}] \mathbf{X} \mathbf{W}^{v}\)
+</span>
+</td>
+          <td style="text-align: left">Query, Key, Value matrices</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><span>
+  \(\mathbf{Y} = \text{SoftMax}[\mathbf{Q}\mathbf{K}^{T}] \mathbf{V} \)
+</span>
+</td>
+          <td style="text-align: left">Query, Key, Value matrices</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><span>
+  \(\mathbf{Y} = \text{SoftMax}[\frac{\mathbf{Q}\mathbf{K}^{T}}{\sqrt{D}}] \mathbf{V} \)
+</span>
+</td>
+          <td style="text-align: left">Scaled dot-product self attention</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><span>
+  \(\mathbf{Y} = \text{Concat}[\mathbf{H}_1,...,\mathbf{H}_H]\mathbf{W}^o \)
+</span>
+ where <span>
+  \(\mathbf{H}_h = \text{SoftMax}\left[\frac{\mathbf{Q_h}\mathbf{K_h}^{T}}{\sqrt{D_k}}\right] \mathbf{V_h}\)
+</span>
+</td>
+          <td style="text-align: left">Multi-head attention</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><span>
+  \(\mathbf{Z} = \text{LayerNorm}\left[\mathbf{Y}(\mathbf{X})+\mathbf{X}\right]\)
+</span>
+</td>
+          <td style="text-align: left">layer normalization and residual connection</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><span>
+  \(\mathbf{X^*} = \text{LayerNorm}\left[\text{MLP}(\mathbf{Z})+\mathbf{Z}\right]\)
+</span>
+</td>
+          <td style="text-align: left">MLP layer</td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="references">
+  References
+  <a class="anchor" href="#references">#</a>
+</h2>
+<div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p><a href="https://arxiv.org/abs/1409.0473">Neural Machine Translation by Jointly Learning to Align and Translate</a>, D. Bahdanau, K. Cho, Y. Bengio, ICLR 2015.&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:2">
+<p><a href="https://arxiv.org/abs/1706.03762">Attention Is All You Need</a>, A. Vaswani, N. Shazeer, N. Parmar, J. Uszkoreit, L. Jones, A. N. Gomez, L. Kaiser, I. Polosukhin, NeurIPS 2017.&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div>
 </article>
  
       
@@ -470,7 +2001,49 @@ https://github.com/alex-shpak/hugo-book
       <div class="book-toc-content">
         
   
-<nav id="TableOfContents"></nav>
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#tldr">TLDR</a></li>
+    <li><a href="#multi-head-scaled-self-attention">Multi-head scaled self-attention.</a>
+      <ul>
+        <li><a href="#tokens">Tokens</a></li>
+        <li><a href="#token-embeddings">Token embeddings</a></li>
+        <li><a href="#embedding-matrix">Embedding matrix</a></li>
+        <li><a href="#transformer-layer">Transformer layer</a></li>
+        <li><a href="#attention">Attention</a></li>
+        <li><a href="#self-attention">Self-attention</a></li>
+        <li><a href="#query-key-value">Query, Key, Value</a></li>
+        <li><a href="#dot-product-self-attention">Dot-product self-attention</a></li>
+        <li><a href="#network-parameters">Network parameters</a></li>
+        <li><a href="#query-key-value-matrices">Query, Key, Value matrices</a></li>
+        <li><a href="#recap">Recap</a></li>
+        <li><a href="#scaled-dot-product-self-attention">Scaled dot-product self-attention</a></li>
+        <li><a href="#single-attention-head">Single attention head</a></li>
+        <li><a href="#multi-head-attention">Multi-head attention</a></li>
+        <li><a href="#recap-1">Recap</a></li>
+      </ul>
+    </li>
+    <li><a href="#mlp-layers">MLP layers</a>
+      <ul>
+        <li><a href="#residual-connections">Residual connections</a></li>
+        <li><a href="#layer-normalization">Layer normalization</a></li>
+        <li><a href="#post-norm">Post-norm</a></li>
+        <li><a href="#pre-norm">Pre-norm</a></li>
+        <li><a href="#mlp-layer">MLP layer</a></li>
+        <li><a href="#residual-connection-again">Residual connection again</a></li>
+        <li><a href="#layer-normalization-again">Layer normalization again</a></li>
+        <li><a href="#recap-2">Recap</a></li>
+      </ul>
+    </li>
+    <li><a href="#positional-encodings">Positional encodings</a>
+      <ul>
+        <li><a href="#sinusoidal-functions">Sinusoidal functions</a></li>
+      </ul>
+    </li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
 
 
  
