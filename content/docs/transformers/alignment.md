@@ -1,6 +1,6 @@
 ---
 title: Alignment
-weight: 2
+weight: 3
 bookToc: true
 ---
 

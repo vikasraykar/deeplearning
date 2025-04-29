@@ -14,13 +14,15 @@
   </url><url>
     <loc>http://localhost:1313/docs/transformers/transformers101/</loc>
   </url><url>
-    <loc>http://localhost:1313/docs/transformers/alignment/</loc>
-  </url><url>
     <loc>http://localhost:1313/docs/training/backpropagation/</loc>
   </url><url>
     <loc>http://localhost:1313/docs/neural_networks/logistic_regression/</loc>
   </url><url>
+    <loc>http://localhost:1313/docs/transformers/tokenizers/</loc>
+  </url><url>
     <loc>http://localhost:1313/docs/transformers/</loc>
+  </url><url>
+    <loc>http://localhost:1313/docs/transformers/alignment/</loc>
   </url><url>
     <loc>http://localhost:1313/docs/training/autograd/</loc>
   </url><url>
