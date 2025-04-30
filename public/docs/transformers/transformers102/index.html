@@ -829,7 +829,7 @@ th row is <span>
 </h3>
 <p>The transformer can simply learn to copy the next input directly to the output, which is not available during decoding.</p>
 <p>Set to zero all attention weights that correspond to a token attending to any later token in the sequence.</p>
-<img src="/img/mask.png"  width="300"/>
+<img src="../img/mask.png"  width="300"/>
 <span>
   \[\mathbf{Y} = \text{SoftMax}[\mathbf{Q}\mathbf{K}^{T}] \mathbf{V}\]
 </span>
@@ -936,7 +936,7 @@ BERT (Bidirectional Encoder Representations from Transformers)</p></blockquote>
 <li>Fine-tuning</li>
 </ul>
 <p>The first token of every input sequence is given by a special token <code>&lt;class&gt;</code>.</p>
-<img src="/img/encoder.png"  width="600"/>
+<img src="../img/encoder.png"  width="600"/>
 <h3 id="pre-training">
   Pre-training
   <a class="anchor" href="#pre-training">#</a>
@@ -964,8 +964,8 @@ BERT (Bidirectional Encoder Representations from Transformers)</p></blockquote>
 T5</p></blockquote>
 <p>An encoder is used to map the input token sequence to a suitable internal representation.</p>
 <p>Cross-attention - Same as self-attention but the key and the value vectors come from the encoder representation.</p>
-<img src="/img/crossattention.png"  width="200"/>
-<img src="/img/encoderdecoder.png"  width="600"/>
+<img src="../img/crossattention.png"  width="200"/>
+<img src="../img/encoderdecoder.png"  width="600"/>
 </article>
  
       

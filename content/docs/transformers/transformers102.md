@@ -100,7 +100,7 @@ The transformer can simply learn to copy the next input directly to the output, 
 
 Set to zero all attention weights that correspond to a token attending to any later token in the sequence.
 
-<img src="/img/mask.png"  width="300"/>
+<img src="../img/mask.png"  width="300"/>
 
 {{< katex display=true >}}\mathbf{Y} = \text{SoftMax}[\mathbf{Q}\mathbf{K}^{T}] \mathbf{V}{{< /katex >}}
 
@@ -162,7 +162,7 @@ Take sequence of tokens as input and produce fixed-length vectors to be used for
 
 The first token of every input sequence is given by a special token `<class>`.
 
-<img src="/img/encoder.png"  width="600"/>
+<img src="../img/encoder.png"  width="600"/>
 
 ### Pre-training
 
@@ -192,7 +192,7 @@ An encoder is used to map the input token sequence to a suitable internal repres
 
 Cross-attention - Same as self-attention but the key and the value vectors come from the encoder representation.
 
-<img src="/img/crossattention.png"  width="200"/>
+<img src="../img/crossattention.png"  width="200"/>
 
-<img src="/img/encoderdecoder.png"  width="600"/>
+<img src="../img/encoderdecoder.png"  width="600"/>
 

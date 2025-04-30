@@ -30,7 +30,7 @@ In general, actions can be any decisions we want to learn how to make, and the s
 - *One time step later*, as a result of the action {{< katex >}}A_t{{< /katex >}} the agent receives a scalar **reward**,  {{< katex >}}R_{t+1} \in \mathcal{R} \subset \mathbb{R}{{< /katex >}}.
 - The agent then observes a new state {{< katex >}}S_{t+1}{{< /katex >}}.
 
-<img src="/img/rl.jpg"  width="600"/>
+<img src="../img/rl.jpg"  width="600"/>
 
 ## Policy
 
