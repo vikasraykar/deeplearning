@@ -81,6 +81,10 @@ We do this via the notion of attention.
 
 To determine the appropriate interpretation of the token **bank** the transformer processing a sentence should **attend to** (or give more importance to) specific words from the rest of the sequence.
 
+<img src="../img/attention_example.png"  width="600"/>
+
+
+
 > Originally developed by  Bahdanau, Cho, and Bengio, 2015 [^nmt_iclr2015] as an enhancement to RNNs for machine translation. Vaswani _et al_, 2017 [^attention_iclr2015] later completely eliminated the recurrence structure and instead focussed only on the attention mechanism.
 
 We will do this via the notion of **attention** where we generate the output transformed vector {{< katex >}}\mathbf{y}_n{{< /katex >}} via a linear combination of all the input vectors, that is, by attending to all the input vectors.
@@ -215,6 +219,10 @@ A common choice is {{< katex >}}D_k=D_v=D{{< /katex >}}. This also makes the out
 
 > We now have {{< katex >}}3D^2{{< /katex >}} learnable parameters.
 
+<img src="../img/qkv.png"  width="600"/>
+
+
+
 | Parameter| Count | Description |
 |:-- | :-- | :-- |
 | {{< katex >}}\mathbf{E}{{< /katex >}} |  {{< katex >}}VD{{< /katex >}}   | The token embedding matrix. {{< katex >}}V{{< /katex >}} is the size of the vocabulary and {{< katex >}}D{{< /katex >}} is the dimensions of the embeddings.
@@ -250,6 +258,8 @@ Hence we scale it as follows.
 This is known a s single attention head.
 {{< katex display=true >}}\mathbf{Y} = \text{SoftMax}\left[\frac{\mathbf{Q}\mathbf{K}^{T}}{\sqrt{D_k}}\right] \mathbf{V}{{< /katex >}}
 
+<img src="../img/singlehead.png"  width="200"/>
+
 
 ### Multi-head attention
 
@@ -276,6 +286,9 @@ Let's check the dimensions
 Typically {{< katex >}}D_v = D/H{{< /katex >}}.
 
 > We now have {{< katex >}}3HD^2{{< /katex >}} learnable parameters.
+
+<img src="../img/multiplehead.png"  width="400"/>
+
 
 | Parameter| Count | Description |
 |:-- | :-- | :-- |
@@ -316,6 +329,9 @@ Layer normalization is then added also to improve training efficiency (Bao, Kiro
 
 {{< katex display=true >}}\mathbf{Z} = \text{LayerNorm}\left[\mathbf{Y}(\mathbf{X})+\mathbf{X}\right]{{< /katex >}}
 
+
+
+
 ### Pre-norm
 
 {{< katex display=true >}}\mathbf{Z} = \mathbf{Y}(\text{LayerNorm}\left[\mathbf{X}\right])+\mathbf{X}{{< /katex >}}
@@ -342,6 +358,10 @@ Let's check the dimensions.
 {{< katex display=true >}}\mathbf{X^*} = \text{LayerNorm}\left[\text{MLP}(\mathbf{Z})+\mathbf{Z}\right]{{< /katex  >}}
 
 > We now have {{< katex >}}2DD_{ff}{{< /katex >}} learnable parameters.
+
+<img src="../img/mlp.png"  width="200"/>
+
+
 
 | Parameter| Count | Description |
 |:-- | :-- | :-- |
@@ -400,6 +420,9 @@ For a given position {{< katex >}}n{{< /katex >}} the position encoding vector h
 {{< katex display=true >}}\mathbf{r}_{ni} = \text{cos}\left(\frac{n}{L^{(i-1)/D}}\right) \text{if i is odd}{{< /katex  >}}
 
 >Sort of binary representation of numbers.
+
+<img src="../img/pe.png"  width="300"/>
+
 
 ## Summary
 

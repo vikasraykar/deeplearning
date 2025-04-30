@@ -989,6 +989,7 @@ heads.</td>
 </h3>
 <p>We do this via the notion of attention.</p>
 <p>To determine the appropriate interpretation of the token <strong>bank</strong> the transformer processing a sentence should <strong>attend to</strong> (or give more importance to) specific words from the rest of the sequence.</p>
+<img src="../img/attention_example.png"  width="600"/>
 <blockquote>
 <p>Originally developed by  Bahdanau, Cho, and Bengio, 2015 <sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup> as an enhancement to RNNs for machine translation. Vaswani <em>et al</em>, 2017 <sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup> later completely eliminated the recurrence structure and instead focussed only on the attention mechanism.</p></blockquote>
 <p>We will do this via the notion of <strong>attention</strong> where we generate the output transformed vector <span>
@@ -1264,6 +1265,7 @@ a_{nm} = \text{SoftMax}(\mathbf{x}_{n}^T\mathbf{x}_m) = \frac{\exp(\mathbf{x}_{n
   \(3D^2\)
 </span>
  learnable parameters.</p></blockquote>
+<img src="../img/qkv.png"  width="600"/>
 <table>
   <thead>
       <tr>
@@ -1394,6 +1396,7 @@ a_{nm} = \text{SoftMax}(\mathbf{x}_{n}^T\mathbf{x}_m) = \frac{\exp(\mathbf{x}_{n
   \[\mathbf{Y} = \text{SoftMax}\left[\frac{\mathbf{Q}\mathbf{K}^{T}}{\sqrt{D_k}}\right] \mathbf{V}\]
 </span>
 </p>
+<img src="../img/singlehead.png"  width="200"/>
 <h3 id="multi-head-attention">
   Multi-head attention
   <a class="anchor" href="#multi-head-attention">#</a>
@@ -1443,6 +1446,7 @@ a_{nm} = \text{SoftMax}(\mathbf{x}_{n}^T\mathbf{x}_m) = \frac{\exp(\mathbf{x}_{n
   \(3HD^2\)
 </span>
  learnable parameters.</p></blockquote>
+<img src="../img/multiplehead.png"  width="400"/>
 <table>
   <thead>
       <tr>
@@ -1659,6 +1663,7 @@ heads.</td>
   \(2DD_{ff}\)
 </span>
  learnable parameters.</p></blockquote>
+<img src="../img/mlp.png"  width="200"/>
 <table>
   <thead>
       <tr>
@@ -1886,6 +1891,7 @@ heads.</td>
 </p>
 <blockquote>
 <p>Sort of binary representation of numbers.</p></blockquote>
+<img src="../img/pe.png"  width="300"/>
 <h2 id="summary">
   Summary
   <a class="anchor" href="#summary">#</a>
