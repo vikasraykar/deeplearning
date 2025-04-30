@@ -76,7 +76,7 @@ Add a linear-softmax layer.
 
 Each softmax output unit has an associated cross-entropy loss.
 
-<img src="/img/decoder.png"  width="600"/>
+<img src="../img/decoder.png"  width="600"/>
 
 ### Self-supervised training
 
