@@ -1,6 +1,6 @@
 ---
 title: Tokenizers
-weight: 2
+weight: 1
 bookToc: true
 ---
 

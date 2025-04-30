@@ -22,6 +22,8 @@
   </url><url>
     <loc>http://localhost:1313/docs/transformers/</loc>
   </url><url>
+    <loc>http://localhost:1313/docs/transformers/transformers102/</loc>
+  </url><url>
     <loc>http://localhost:1313/docs/transformers/alignment/</loc>
   </url><url>
     <loc>http://localhost:1313/docs/training/autograd/</loc>

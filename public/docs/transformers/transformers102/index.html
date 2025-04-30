@@ -1,0 +1,1064 @@
+<!DOCTYPE html>
+<html lang="en-us" dir="ltr">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="
+  Transformer Language Models
+  #
+
+
+  
+      
+          category
+          task
+          example
+          sample use case
+      
+  
+  
+      
+          Decoder
+          vec2seq
+          GPT
+          chat, image captioning
+      
+      
+          Encoder
+          seq2vec
+          BERT
+          sentiment analysis
+      
+      
+          Encoder-Decoder
+          seq2seq
+          T5
+          machine translation
+      
+  
+
+
+  Auto-regressive models
+  #
+
+Decompose the distribution over sequence of tokens into a product of conditional distributions.
+
+
+
+
+  \[p(x_1,...,x_N)=\prod_{n=1}^{N} p(x_n|x_1,...,x_{n-1})\]
+
+
+
+  Markov models
+  #
+
+Assume the conditional distribution is independent of all previous tokens except the 
+  \(L\)
+
+ most recent tokens (known as 
+  \(n\)
+
+-gram models).">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#343a40">
+<meta name="color-scheme" content="light dark"><meta property="og:url" content="http://localhost:1313/docs/transformers/transformers102/">
+  <meta property="og:site_name" content="Deep Learning">
+  <meta property="og:title" content="Transformers102">
+  <meta property="og:description" content="Transformer Language Models # category task example sample use case Decoder vec2seq GPT chat, image captioning Encoder seq2vec BERT sentiment analysis Encoder-Decoder seq2seq T5 machine translation Auto-regressive models # Decompose the distribution over sequence of tokens into a product of conditional distributions.
+\[p(x_1,...,x_N)=\prod_{n=1}^{N} p(x_n|x_1,...,x_{n-1})\] Markov models # Assume the conditional distribution is independent of all previous tokens except the \(L\) most recent tokens (known as \(n\) -gram models).">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="docs">
+<title>Transformers102 | Deep Learning</title>
+<link rel="icon" href="/favicon.png" >
+<link rel="manifest" href="/manifest.json">
+<link rel="canonical" href="http://localhost:1313/docs/transformers/transformers102/">
+<link rel="stylesheet" href="/book.min.6c8b9d2a1fc95075ed7da46ca81060b39add8fff6741ac51259f768929281e2c.css" integrity="sha256-bIudKh/JUHXtfaRsqBBgs5rdj/9nQaxRJZ92iSkoHiw=" crossorigin="anonymous">
+  <script defer src="/fuse.min.js"></script>
+  <script defer src="/en.search.min.2278aef6649c55731b255d6239a1ee0f836067a31393d66602c23a127ecd7dbc.js" integrity="sha256-Iniu9mScVXMbJV1iOaHuD4NgZ6MTk9ZmAsI6En7Nfbw=" crossorigin="anonymous"></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><span>Deep Learning</span>
+  </a>
+</h2>
+
+
+<div class="book-search hidden">
+  <input type="text" id="book-search-input" placeholder="Search" aria-label="Search" maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+<script>document.querySelector(".book-search").classList.remove("hidden")</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <ul>
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <a href="/docs/neural_networks/" class="">Neural Networks</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/neural_networks/linear_regression/" class="">Linear Regression</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/neural_networks/logistic_regression/" class="">Logistic Regression</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/neural_networks/softmax_regression/" class="">Softmax Regression</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/neural_networks/mlp/" class="">Multilayer perceptron</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/neural_networks/activations/" class="">Activation functions</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/neural_networks/entropy/" class="">Entropy</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <a href="/docs/training/" class="">Training neural networks</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/training/gradient_descent/" class="">Gradient Descent</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/training/backpropagation/" class="">Backpropagation</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/training/autograd/" class="">Automatic Differentiation</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/training/initialization/" class="">Initialization</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/training/normalization/" class="">Normalization</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/training/regularization/" class="">Regularization</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/training/training_loop/" class="">Training loop</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/training/quiz/" class="">Quiz</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/training/coding/" class="">Coding</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <a href="/docs/transformers/" class="">Transformers</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/transformers/tokenizers/" class="">Tokenizers</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/transformers/transformers101/" class="">Transformers101</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/transformers/transformers102/" class="active">Transformers102</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/transformers/alignment/" class="">Alignment</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <a href="/docs/rl/" class="">Reinforcement Learning</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/rl/basics/" class="">Basics</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <h3>Transformers102</h3>
+
+  <label for="toc-control">
+    
+    <img src="/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#transformer-language-models">Transformer Language Models</a></li>
+    <li><a href="#auto-regressive-models">Auto-regressive models</a>
+      <ul>
+        <li><a href="#markov-models">Markov models</a></li>
+        <li><a href="#bi-gram-model">Bi-gram model</a></li>
+        <li><a href="#tri-gram-model">Tri-gram model</a></li>
+      </ul>
+    </li>
+    <li><a href="#decoder-transformers">Decoder transformers</a>
+      <ul>
+        <li><a href="#decoding-at-a-high-level">Decoding at a high level</a></li>
+        <li><a href="#add-a-linear-softmax-layer">Add a linear-softmax layer</a></li>
+        <li><a href="#self-supervised-training">Self-supervised training</a></li>
+        <li><a href="#masked-attention">Masked attention</a></li>
+        <li><a href="#sampling-strategies">Sampling strategies</a></li>
+        <li><a href="#greedy-search">Greedy search</a></li>
+        <li><a href="#beam-search">Beam search</a></li>
+        <li><a href="#sampling-from-softmax">Sampling from softmax</a></li>
+        <li><a href="#top-k-sampling">Top-k sampling</a></li>
+        <li><a href="#top-p-samplingnucleus-sampling">Top-p sampling/Nucleus sampling</a></li>
+        <li><a href="#soft-top-k-sampling">Soft top-k sampling</a></li>
+      </ul>
+    </li>
+    <li><a href="#encoder-transformers">Encoder transformers</a>
+      <ul>
+        <li><a href="#pre-training">Pre-training</a></li>
+        <li><a href="#fine-tuning">Fine-tuning</a></li>
+      </ul>
+    </li>
+    <li><a href="#encoder-decoder-transformers">Encoder-Decoder transformers</a></li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown book-article"><h2 id="transformer-language-models">
+  Transformer Language Models
+  <a class="anchor" href="#transformer-language-models">#</a>
+</h2>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">category</th>
+          <th style="text-align: left">task</th>
+          <th style="text-align: left">example</th>
+          <th style="text-align: left">sample use case</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><strong>Decoder</strong></td>
+          <td style="text-align: left"><code>vec2seq</code></td>
+          <td style="text-align: left">GPT</td>
+          <td style="text-align: left">chat, image captioning</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>Encoder</strong></td>
+          <td style="text-align: left"><code>seq2vec</code></td>
+          <td style="text-align: left">BERT</td>
+          <td style="text-align: left">sentiment analysis</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>Encoder-Decoder</strong></td>
+          <td style="text-align: left"><code>seq2seq</code></td>
+          <td style="text-align: left">T5</td>
+          <td style="text-align: left">machine translation</td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="auto-regressive-models">
+  Auto-regressive models
+  <a class="anchor" href="#auto-regressive-models">#</a>
+</h2>
+<p>Decompose the distribution over sequence of tokens into a product of conditional distributions.</p>
+
+<link rel="stylesheet" href="/katex/katex.min.css" />
+<script defer src="/katex/katex.min.js"></script>
+<script defer src="/katex/auto-render.min.js" onload="renderMathInElement(document.body);"></script><span>
+  \[p(x_1,...,x_N)=\prod_{n=1}^{N} p(x_n|x_1,...,x_{n-1})\]
+</span>
+
+<h3 id="markov-models">
+  Markov models
+  <a class="anchor" href="#markov-models">#</a>
+</h3>
+<p>Assume the conditional distribution is independent of all previous tokens except the <span>
+  \(L\)
+</span>
+ most recent tokens (known as <span>
+  \(n\)
+</span>
+-gram models).</p>
+<h3 id="bi-gram-model">
+  Bi-gram model
+  <a class="anchor" href="#bi-gram-model">#</a>
+</h3>
+<p><span>
+  \(L=1\)
+</span>
+ bi-gram model</p>
+<span>
+  \[p(x_1,...,x_N)=p(x_1)p(x_2|x_1)\prod_{n=3}^{N} p(x_n|x_{n-1})\]
+</span>
+
+<h3 id="tri-gram-model">
+  Tri-gram model
+  <a class="anchor" href="#tri-gram-model">#</a>
+</h3>
+<p><span>
+  \(L=2\)
+</span>
+ tri-gram model</p>
+<span>
+  \[p(x_1,...,x_N)=p(x_1)p(x_2|x_1)p(x_3|x_1,x_2)\prod_{n=4}^{N} p(x_n|x_{n-1},x_{n-2})\]
+</span>
+
+<h2 id="decoder-transformers">
+  Decoder transformers
+  <a class="anchor" href="#decoder-transformers">#</a>
+</h2>
+<blockquote>
+<p><code>vec2seq</code> - Generative models that output sequence of tokens.
+GPT (Generative Pre-trained Transformer)</p></blockquote>
+<p>Use the transformer architecture to construct an auto-regressive model.</p>
+<span>
+  \[p(x_1,...,x_N)=\prod_{n=1}^{N} p(x_n|x_1,...,x_{n-1})\]
+</span>
+
+<p><em>The conditional distribution <span>
+  \(p(x_n|x_1,...,x_{n-1})\)
+</span>
+ is modelled using a transformer.</em></p>
+<h3 id="decoding-at-a-high-level">
+  Decoding at a high level
+  <a class="anchor" href="#decoding-at-a-high-level">#</a>
+</h3>
+<ul>
+<li>The model takes as input a sequence of the first <span>
+  \(n-1\)
+</span>
+ tokens.</li>
+<li>The output represents the conditional distribution for token <span>
+  \(n\)
+</span>
+.</li>
+<li>Draw a sample from this distribution to extend the sequence now to <span>
+  \(n\)
+</span>
+ tokens.</li>
+<li>This new sequence can now be fed back to the model to generate a distribution over token <span>
+  \(n+1\)
+</span>
+.</li>
+<li>&hellip;</li>
+</ul>
+<h3 id="add-a-linear-softmax-layer">
+  Add a linear-softmax layer
+  <a class="anchor" href="#add-a-linear-softmax-layer">#</a>
+</h3>
+<p>Input is a sequence of <span>
+  \(N\)
+</span>
+ tokens <span>
+  \(x_1,...,x_N\)
+</span>
+ each of dimensionality <span>
+  \(D\)
+</span>
+.</p>
+<p>Transformer layer
+<span>
+  \[\mathbf{\widetilde{X}} = \text{TransformerLayer}[\mathbf{X}]\]
+</span>
+</p>
+<p>Output  is a sequence of <span>
+  \(N\)
+</span>
+ tokens <span>
+  \(\widetilde{x}_1,...,\widetilde{x}_N\)
+</span>
+ each of dimensionality <span>
+  \(D\)
+</span>
+.</p>
+<p>Each output needs to be a probability distribution over the vocabulary of <span>
+  \(K\)
+</span>
+ tokens.</p>
+<p>Add a linear-softmax layer.</p>
+<span>
+  \[\mathbf{Y}_{N \times K} = \text{SoftMax}(\mathbf{\widetilde{X}}_{N \times D} {\mathbf{W}^p}_{D \times K})\]
+</span>
+
+<p><span>
+  \(\mathbf{Y}\)
+</span>
+ is matrix whose <span>
+  \(n\)
+</span>
+th row is <span>
+  \(y_n^{T}\)
+</span>
+.</p>
+<p>Each softmax output unit has an associated cross-entropy loss.</p>
+<img src="/img/decoder.png"  width="600"/>
+<h3 id="self-supervised-training">
+  Self-supervised training
+  <a class="anchor" href="#self-supervised-training">#</a>
+</h3>
+<p>The model can be trained using a large corpus of unlabelled natural language data in a self-supervised fashion.</p>
+<p>(input) <span>
+  \(x_1,...,x_n\)
+</span>
+ -&gt; (output) <span>
+  \(x_{n+1}\)
+</span>
+</p>
+<p>Each example can be processed independently.</p>
+<p>We can actually process the entire sequence. <strong>Shift the input sequence right by one step</strong> so that each token acts both as a target value for the sequence of previous tokens and as an input value for subsequent tokens,</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left"></th>
+          <th style="text-align: left"></th>
+          <th style="text-align: left"></th>
+          <th style="text-align: left"></th>
+          <th style="text-align: left"></th>
+          <th style="text-align: left"></th>
+          <th style="text-align: left"></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><code>INPUT</code></td>
+          <td style="text-align: left"><code>&lt;start&gt;</code></td>
+          <td style="text-align: left"><span>
+  \(x_1\)
+</span>
+</td>
+          <td style="text-align: left"><span>
+  \(x_2\)
+</span>
+</td>
+          <td style="text-align: left"><span>
+  \(x_3\)
+</span>
+</td>
+          <td style="text-align: left"><span>
+  \(...\)
+</span>
+</td>
+          <td style="text-align: left"><span>
+  \(x_n\)
+</span>
+</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>OUPUT</code></td>
+          <td style="text-align: left"><span>
+  \(y_1\)
+</span>
+</td>
+          <td style="text-align: left"><span>
+  \(y_2\)
+</span>
+</td>
+          <td style="text-align: left"><span>
+  \(y_3\)
+</span>
+</td>
+          <td style="text-align: left"><span>
+  \(y_4\)
+</span>
+</td>
+          <td style="text-align: left"><span>
+  \(...\)
+</span>
+</td>
+          <td style="text-align: left"><span>
+  \(y_{n+1}\)
+</span>
+</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>TARGET</code></td>
+          <td style="text-align: left"><span>
+  \(x_1\)
+</span>
+</td>
+          <td style="text-align: left"><span>
+  \(x_2\)
+</span>
+</td>
+          <td style="text-align: left"><span>
+  \(x_3\)
+</span>
+</td>
+          <td style="text-align: left"><span>
+  \(x_4\)
+</span>
+</td>
+          <td style="text-align: left"><span>
+  \(...\)
+</span>
+</td>
+          <td style="text-align: left"><span>
+  \(x_{n+1}\)
+</span>
+</td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="masked-attention">
+  Masked attention
+  <a class="anchor" href="#masked-attention">#</a>
+</h3>
+<p>The transformer can simply learn to copy the next input directly to the output, which is not available during decoding.</p>
+<p>Set to zero all attention weights that correspond to a token attending to any later token in the sequence.</p>
+<img src="/img/mask.png"  width="300"/>
+<span>
+  \[\mathbf{Y} = \text{SoftMax}[\mathbf{Q}\mathbf{K}^{T}] \mathbf{V}\]
+</span>
+
+<blockquote>
+<p>In practice we set the pre-activation values to <span>
+  \(-\infty\)
+</span>
+ so that softmax evaluates to zero for the associated outputs. and also takes care of normalization across non-zero outputs.</p></blockquote>
+<h3 id="sampling-strategies">
+  Sampling strategies
+  <a class="anchor" href="#sampling-strategies">#</a>
+</h3>
+<p>The output of the trained model is a probability distribution over the space of tokens, given by the softmax activation function, which represents the probability of the next token given the current token sequence.</p>
+<h3 id="greedy-search">
+  Greedy search
+  <a class="anchor" href="#greedy-search">#</a>
+</h3>
+<p>Select the token with the highest probability.</p>
+<p>Deterministic.</p>
+<blockquote>
+<span>
+  \(\mathcal{O}(KN)\)
+</span>
+</blockquote>
+<h3 id="beam-search">
+  Beam search
+  <a class="anchor" href="#beam-search">#</a>
+</h3>
+<ul>
+<li>Instead of choosing the single most probable token value at each step, we maintain a set of <span>
+  \(B\)
+</span>
+ (<em>beam width</em>) hypothesis, each consisting of a sequence of token values up to step <span>
+  \(n\)
+</span>
+.</li>
+<li>We then feed all these sequences through the network and for each sequence we find the <span>
+  \(B\)
+</span>
+ most probable token values, thereby creating <span>
+  \(B^2\)
+</span>
+ possible hypothesis.</li>
+<li>This list is then pruned by selecting the most probable <span>
+  \(B\)
+</span>
+ hypotheses according to the total probability of the extended sequence.</li>
+</ul>
+<blockquote>
+<span>
+  \(\mathcal{O}(BKN)\)
+</span>
+</blockquote>
+<h3 id="sampling-from-softmax">
+  Sampling from softmax
+  <a class="anchor" href="#sampling-from-softmax">#</a>
+</h3>
+<p>Sampling from the softmax distribution at each step.</p>
+<p>Can lead to nonsensical sequences sometime due to large vocabulary</p>
+<h3 id="top-k-sampling">
+  Top-k sampling
+  <a class="anchor" href="#top-k-sampling">#</a>
+</h3>
+<p>Consider only the states having a top-<span>
+  \(k\)
+</span>
+ probabilities and sample from these according to their renormalized probabilities.</p>
+<h3 id="top-p-samplingnucleus-sampling">
+  Top-p sampling/Nucleus sampling
+  <a class="anchor" href="#top-p-samplingnucleus-sampling">#</a>
+</h3>
+<p>Calculates the cumulative probability of the top outputs until a threshold is reached and then samples from this restricted set of tokens.</p>
+<h3 id="soft-top-k-sampling">
+  Soft top-k sampling
+  <a class="anchor" href="#soft-top-k-sampling">#</a>
+</h3>
+<p>Introduce a parameter <span>
+  \(T\)
+</span>
+ called temperature  into the definition of softmax function.</p>
+<span>
+  \[y_i=\frac{\exp(a_i/T)}{\sum_j \exp(a_j/T)}\]
+</span>
+
+<p><span>
+  \(T=0\)
+</span>
+ Greedy sampling</p>
+<p><span>
+  \(T=1\)
+</span>
+ Softmax sampling</p>
+<h2 id="encoder-transformers">
+  Encoder transformers
+  <a class="anchor" href="#encoder-transformers">#</a>
+</h2>
+<blockquote>
+<p><code>seq2vec</code> - Generative models that output sequence of tokens.
+BERT (Bidirectional Encoder Representations from Transformers)</p></blockquote>
+<p>Take sequence of tokens as input and produce fixed-length vectors to be used for various downstream tasks.</p>
+<ul>
+<li>Pre-training</li>
+<li>Fine-tuning</li>
+</ul>
+<p>The first token of every input sequence is given by a special token <code>&lt;class&gt;</code>.</p>
+<img src="/img/encoder.png"  width="600"/>
+<h3 id="pre-training">
+  Pre-training
+  <a class="anchor" href="#pre-training">#</a>
+</h3>
+<p>A randomly chosen subset of tokens (say 15%) is replaced with a special token denoted by <code>&lt;mask&gt;</code>.</p>
+<p>The transformer is trained to predict the missing tokens at the corresponding output nodes.</p>
+<p>Of the masked tokens</p>
+<ul>
+<li>80% are replaced with <code>&lt;mask&gt;</code></li>
+<li>10% are replaced with a random token.</li>
+<li>10% the original token is retained.</li>
+</ul>
+<h3 id="fine-tuning">
+  Fine-tuning
+  <a class="anchor" href="#fine-tuning">#</a>
+</h3>
+<p>Once the encoder is trained it can then be fine-tuned for a task.</p>
+<p>Typically a new layer is built on top of the embedding for the <code>&lt;class&gt;</code> token.</p>
+<h2 id="encoder-decoder-transformers">
+  Encoder-Decoder transformers
+  <a class="anchor" href="#encoder-decoder-transformers">#</a>
+</h2>
+<blockquote>
+<p><code>seq2seq</code>
+T5</p></blockquote>
+<p>An encoder is used to map the input token sequence to a suitable internal representation.</p>
+<p>Cross-attention - Same as self-attention but the key and the value vectors come from the encoder representation.</p>
+<img src="/img/crossattention.png"  width="200"/>
+<img src="/img/encoderdecoder.png"  width="600"/>
+</article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+
+</div>
+
+
+
+  <script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){if(window.getSelection().toString())return;e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script>
+
+
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#transformer-language-models">Transformer Language Models</a></li>
+    <li><a href="#auto-regressive-models">Auto-regressive models</a>
+      <ul>
+        <li><a href="#markov-models">Markov models</a></li>
+        <li><a href="#bi-gram-model">Bi-gram model</a></li>
+        <li><a href="#tri-gram-model">Tri-gram model</a></li>
+      </ul>
+    </li>
+    <li><a href="#decoder-transformers">Decoder transformers</a>
+      <ul>
+        <li><a href="#decoding-at-a-high-level">Decoding at a high level</a></li>
+        <li><a href="#add-a-linear-softmax-layer">Add a linear-softmax layer</a></li>
+        <li><a href="#self-supervised-training">Self-supervised training</a></li>
+        <li><a href="#masked-attention">Masked attention</a></li>
+        <li><a href="#sampling-strategies">Sampling strategies</a></li>
+        <li><a href="#greedy-search">Greedy search</a></li>
+        <li><a href="#beam-search">Beam search</a></li>
+        <li><a href="#sampling-from-softmax">Sampling from softmax</a></li>
+        <li><a href="#top-k-sampling">Top-k sampling</a></li>
+        <li><a href="#top-p-samplingnucleus-sampling">Top-p sampling/Nucleus sampling</a></li>
+        <li><a href="#soft-top-k-sampling">Soft top-k sampling</a></li>
+      </ul>
+    </li>
+    <li><a href="#encoder-transformers">Encoder transformers</a>
+      <ul>
+        <li><a href="#pre-training">Pre-training</a></li>
+        <li><a href="#fine-tuning">Fine-tuning</a></li>
+      </ul>
+    </li>
+    <li><a href="#encoder-decoder-transformers">Encoder-Decoder transformers</a></li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
