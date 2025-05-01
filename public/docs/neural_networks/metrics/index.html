@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="en-us" dir="ltr">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="
+Some core evaluation metrics. To be revised.
+
+  Binary Classification
+  #
+
+
+  True Positive Rate
+  #
+
+
+Recall, Sensitivity.
+
+  \[\text{TPR} = \text{Pr}[y_{pred}=1|y=1] = \frac{TP}{TP&#43;FN} = \frac{TP}{N_{&#43;}}\]
+
+
+
+  False Positive Rate
+  #
+
+
+1-Specificity
+
+  \[\text{FPR} = \text{Pr}[y_{pred}=1|y=0] = \frac{FP}{FP&#43;TN} = \frac{FP}{N_{-}}\]
+
+
+
+  ROC Curve
+  #
+
+x-axis is FPR and y-axis is TPR
+
+  AUC
+  #
+
+Area under the ROC Curve.
+
+  \[\text{AUC}=\text{Pr}[y^{&#43;} &gt; y^{-}]\]
+
+
+
+  Accuracy
+  #
+
+
+  \[\text{Accuracy}=\frac{TP&#43;TN}{TP&#43;FP&#43;TN&#43;FN}\]
+
+
+
+  Precision
+  #
+
+Precision is the fraction of predicted positives that are actually positive.">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#343a40">
+<meta name="color-scheme" content="light dark"><meta property="og:url" content="http://localhost:1313/docs/neural_networks/metrics/">
+  <meta property="og:site_name" content="Deep Learning">
+  <meta property="og:title" content="Metrics">
+  <meta property="og:description" content="Some core evaluation metrics. To be revised.
+Binary Classification # True Positive Rate # Recall, Sensitivity.
+\[\text{TPR} = \text{Pr}[y_{pred}=1|y=1] = \frac{TP}{TP&#43;FN} = \frac{TP}{N_{&#43;}}\] False Positive Rate # 1-Specificity
+\[\text{FPR} = \text{Pr}[y_{pred}=1|y=0] = \frac{FP}{FP&#43;TN} = \frac{FP}{N_{-}}\] ROC Curve # x-axis is FPR and y-axis is TPR
+AUC # Area under the ROC Curve.
+\[\text{AUC}=\text{Pr}[y^{&#43;} &gt; y^{-}]\] Accuracy # \[\text{Accuracy}=\frac{TP&#43;TN}{TP&#43;FP&#43;TN&#43;FN}\] Precision # Precision is the fraction of predicted positives that are actually positive.">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="docs">
+<title>Metrics | Deep Learning</title>
+<link rel="icon" href="/favicon.png" >
+<link rel="manifest" href="/manifest.json">
+<link rel="canonical" href="http://localhost:1313/docs/neural_networks/metrics/">
+<link rel="stylesheet" href="/book.min.6c8b9d2a1fc95075ed7da46ca81060b39add8fff6741ac51259f768929281e2c.css" integrity="sha256-bIudKh/JUHXtfaRsqBBgs5rdj/9nQaxRJZ92iSkoHiw=" crossorigin="anonymous">
+  <script defer src="/fuse.min.js"></script>
+  <script defer src="/en.search.min.ccc770c0ea7bbf19edc675c8e258db0d273ecf96a72562c74e342deacaa1c850.js" integrity="sha256-zMdwwOp7vxntxnXI4ljbDSc&#43;z5anJWLHTjQt6sqhyFA=" crossorigin="anonymous"></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><span>Deep Learning</span>
+  </a>
+</h2>
+
+
+<div class="book-search hidden">
+  <input type="text" id="book-search-input" placeholder="Search" aria-label="Search" maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+<script>document.querySelector(".book-search").classList.remove("hidden")</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <ul>
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <a href="/docs/neural_networks/" class="">Neural Networks</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/neural_networks/linear_regression/" class="">Linear Regression</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/neural_networks/logistic_regression/" class="">Logistic Regression</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/neural_networks/softmax_regression/" class="">Softmax Regression</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/neural_networks/mlp/" class="">Multilayer perceptron</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/neural_networks/activations/" class="">Activation functions</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/neural_networks/entropy/" class="">Entropy</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/neural_networks/metrics/" class="active">Metrics</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <a href="/docs/training/" class="">Training neural networks</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/training/gradient_descent/" class="">Gradient Descent</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/training/backpropagation/" class="">Backpropagation</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/training/autograd/" class="">Automatic Differentiation</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/training/initialization/" class="">Initialization</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/training/normalization/" class="">Normalization</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/training/regularization/" class="">Regularization</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/training/training_loop/" class="">Training loop</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/training/quiz/" class="">Quiz</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/training/coding/" class="">Coding</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <a href="/docs/transformers/" class="">Transformers</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/transformers/tokenizers/" class="">Tokenizers</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/transformers/transformers101/" class="">Transformers101</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/transformers/transformers102/" class="">Transformers102</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/transformers/alignment/" class="">Alignment</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/transformers/models/" class="">Models</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <a href="/docs/rl/" class="">Reinforcement Learning</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/rl/basics/" class="">Basics</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <h3>Metrics</h3>
+
+  <label for="toc-control">
+    
+    <img src="/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#binary-classification">Binary Classification</a>
+      <ul>
+        <li><a href="#true-positive-rate">True Positive Rate</a></li>
+        <li><a href="#false-positive-rate">False Positive Rate</a></li>
+        <li><a href="#roc-curve">ROC Curve</a></li>
+        <li><a href="#auc">AUC</a></li>
+        <li><a href="#accuracy">Accuracy</a></li>
+        <li><a href="#precision">Precision</a></li>
+        <li><a href="#recall">Recall</a></li>
+        <li><a href="#f1-score">F1 Score</a></li>
+        <li><a href="#pr-curve">PR Curve</a></li>
+      </ul>
+    </li>
+    <li><a href="#retrieval">Retrieval</a>
+      <ul>
+        <li><a href="#precisionk">Precision@k</a></li>
+        <li><a href="#average-precision">Average Precision</a></li>
+        <li><a href="#mean-average-precision">Mean Average Precision</a></li>
+        <li><a href="#mrr">MRR</a></li>
+        <li><a href="#ndcg">nDCG</a></li>
+      </ul>
+    </li>
+    <li><a href="#recall-1">Recall</a></li>
+    <li><a href="#precision-1">Precision</a></li>
+    <li><a href="#pr-curve-1">PR Curve</a></li>
+    <li><a href="#avep---average-precision">AveP - Average Precision</a></li>
+    <li><a href="#map---mean-average-precision">MAP - Mean Average Precision</a></li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown book-article"><blockquote>
+<p>Some core evaluation metrics. To be revised.</p></blockquote>
+<h2 id="binary-classification">
+  Binary Classification
+  <a class="anchor" href="#binary-classification">#</a>
+</h2>
+<h3 id="true-positive-rate">
+  True Positive Rate
+  <a class="anchor" href="#true-positive-rate">#</a>
+</h3>
+<blockquote>
+<p>Recall, Sensitivity.</p></blockquote>
+<span>
+  \[\text{TPR} = \text{Pr}[y_{pred}=1|y=1] = \frac{TP}{TP+FN} = \frac{TP}{N_{+}}\]
+</span>
+
+<h3 id="false-positive-rate">
+  False Positive Rate
+  <a class="anchor" href="#false-positive-rate">#</a>
+</h3>
+<blockquote>
+<p>1-Specificity</p></blockquote>
+<span>
+  \[\text{FPR} = \text{Pr}[y_{pred}=1|y=0] = \frac{FP}{FP+TN} = \frac{FP}{N_{-}}\]
+</span>
+
+<h3 id="roc-curve">
+  ROC Curve
+  <a class="anchor" href="#roc-curve">#</a>
+</h3>
+<p>x-axis is FPR and y-axis is TPR</p>
+<h3 id="auc">
+  AUC
+  <a class="anchor" href="#auc">#</a>
+</h3>
+<p>Area under the ROC Curve.</p>
+<span>
+  \[\text{AUC}=\text{Pr}[y^{+} > y^{-}]\]
+</span>
+
+<h3 id="accuracy">
+  Accuracy
+  <a class="anchor" href="#accuracy">#</a>
+</h3>
+<span>
+  \[\text{Accuracy}=\frac{TP+TN}{TP+FP+TN+FN}\]
+</span>
+
+<h3 id="precision">
+  Precision
+  <a class="anchor" href="#precision">#</a>
+</h3>
+<p>Precision is the fraction of predicted positives that are actually positive.</p>
+<span>
+  \[\text{Precision} = \text{Pr}[y=1|y_{pred}=1] = \frac{TP}{TP+FP}\]
+</span>
+
+<h3 id="recall">
+  Recall
+  <a class="anchor" href="#recall">#</a>
+</h3>
+<p>Precision is the fraction of positives that are correctly predicted as positive.</p>
+<span>
+  \[\text{Recall} = \text{Pr}[y_{pred}=1|y=1] = \frac{TP}{TP+FN}\]
+</span>
+
+<h3 id="f1-score">
+  F1 Score
+  <a class="anchor" href="#f1-score">#</a>
+</h3>
+<p>F1 Score is the harmonic mean of precision and recall.</p>
+<span>
+  \[F1=2 \times \frac{\text{Precision}\times\text{Recall}}{\text{Precision}+\text{Recall}}\]
+</span>
+
+<h3 id="pr-curve">
+  PR Curve
+  <a class="anchor" href="#pr-curve">#</a>
+</h3>
+<h2 id="retrieval">
+  Retrieval
+  <a class="anchor" href="#retrieval">#</a>
+</h2>
+<h3 id="precisionk">
+  Precision@k
+  <a class="anchor" href="#precisionk">#</a>
+</h3>
+<h3 id="average-precision">
+  Average Precision
+  <a class="anchor" href="#average-precision">#</a>
+</h3>
+<h3 id="mean-average-precision">
+  Mean Average Precision
+  <a class="anchor" href="#mean-average-precision">#</a>
+</h3>
+<h3 id="mrr">
+  MRR
+  <a class="anchor" href="#mrr">#</a>
+</h3>
+<p>Mean Reciprocal Rank (MRR) is the average of the reciprocal ranks of the ground truth contexts in the retrieved contexts.</p>
+<span>
+  \[MRR = \frac{1}{Q} \sum_{i=1}^{Q} \frac{1}{\text{rank}_i}\]
+</span>
+
+<h3 id="ndcg">
+  nDCG
+  <a class="anchor" href="#ndcg">#</a>
+</h3>
+<p>Normalized Cumulative Discounted Gain is the ratio of the Discounted Cumulative Gain and the ideal DCG.</p>
+<p>DCG is the sum of the discounted relevance scores of the ground truth contexts.</p>
+<span>
+  \[\text{DCG}=\sum_{i}^{N} \frac{\text{rel}_i}{\log_2(i+1)}\]
+</span>
+
+<blockquote>
+<p>For a query given the set of <strong>relevant offers</strong> and the <strong>retrieved offers</strong> we would like to compute the following offline metrics. The metrics are then average over the set of Q queries.</p></blockquote>
+<h2 id="recall-1">
+  Recall
+  <a class="anchor" href="#recall-1">#</a>
+</h2>
+<p>For a given query q, <strong>recall(q)</strong> is the fraction of the offers that are relevant to the query that are successfully retrieved.</p>
+<span>
+  \[\text{recall(q)} = \frac{|\{\text{relevant offers for query q}\} \cap \{\text{retrieved offers for query q}\}|}{|\{\text{relevant offers for query q}\}|}\]
+</span>
+
+<p>It can also be evaluated considering only the top-k results returned by the system using <strong>recall@k</strong>.</p>
+<h2 id="precision-1">
+  Precision
+  <a class="anchor" href="#precision-1">#</a>
+</h2>
+<p>For a given query q, <strong>precision(q)</strong> is the fraction of the offers retrieved that are relevant to the user&rsquo;s query.</p>
+<span>
+  \[\text{precision(q)} = \frac{|\{\text{relevant offers for query q}\} \cap \{\text{retrieved offers for query q}\}|}{|\{\text{retrieved offers for query q}\}|}\]
+</span>
+
+<p>It can also be evaluated considering only the top-k results returned by the system using <strong>precision@k</strong>.</p>
+<h2 id="pr-curve-1">
+  PR Curve
+  <a class="anchor" href="#pr-curve-1">#</a>
+</h2>
+<p>By computing the precision and recall at every position in the ranked sequence of documents (by varying <span>
+  \(k=1,...,n\)
+</span>
+ where <span>
+  \(n\)
+</span>
+ is the total number of retrieved offers), one can plot the Precision-Recall (PR) Curve by plotting precision <span>
+  \(p(r)\)
+</span>
+ on the y-axis as a function of recall <span>
+  \(r\)
+</span>
+ on the x-axis.</p>
+<h2 id="avep---average-precision">
+  AveP - Average Precision
+  <a class="anchor" href="#avep---average-precision">#</a>
+</h2>
+<p>Average precision computes the average value of <span>
+  \(p(r)\)
+</span>
+ over the interval from <span>
+  \(r=0\)
+</span>
+ to <span>
+  \(r=1\)
+</span>
+. This essentially the Area under the PR Curve (PR AUC) computes as
+<span>
+  \[\text{AveP}=\sum_{k=1}^{n}p(k)\Delta r(k)\]
+</span>
+
+where <span>
+  \(k\)
+</span>
+ is the rank in the sequence of retrieved offers, <span>
+  \(n\)
+</span>
+ is the number of retrieved offers, <span>
+  \(p(k)\)
+</span>
+ is the precision at cut-off <span>
+  \(k\)
+</span>
+ in the list, and <span>
+  \(\Delta r(k)\)
+</span>
+ is the change in recall from items <span>
+  \(k-1\)
+</span>
+ to <span>
+  \(k\)
+</span>
+.</p>
+<h2 id="map---mean-average-precision">
+  MAP - Mean Average Precision
+  <a class="anchor" href="#map---mean-average-precision">#</a>
+</h2>
+<p>Mean average precision (MAP) for a set of queries is the mean of the average precision scores for each query.</p>
+<span>
+  \[MAP=\frac{\sum_{q=1}^{Q} \text{AveP}(q)}{Q}\]
+</span>
+
+</article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+
+</div>
+
+
+
+  <script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){if(window.getSelection().toString())return;e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script>
+
+
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#binary-classification">Binary Classification</a>
+      <ul>
+        <li><a href="#true-positive-rate">True Positive Rate</a></li>
+        <li><a href="#false-positive-rate">False Positive Rate</a></li>
+        <li><a href="#roc-curve">ROC Curve</a></li>
+        <li><a href="#auc">AUC</a></li>
+        <li><a href="#accuracy">Accuracy</a></li>
+        <li><a href="#precision">Precision</a></li>
+        <li><a href="#recall">Recall</a></li>
+        <li><a href="#f1-score">F1 Score</a></li>
+        <li><a href="#pr-curve">PR Curve</a></li>
+      </ul>
+    </li>
+    <li><a href="#retrieval">Retrieval</a>
+      <ul>
+        <li><a href="#precisionk">Precision@k</a></li>
+        <li><a href="#average-precision">Average Precision</a></li>
+        <li><a href="#mean-average-precision">Mean Average Precision</a></li>
+        <li><a href="#mrr">MRR</a></li>
+        <li><a href="#ndcg">nDCG</a></li>
+      </ul>
+    </li>
+    <li><a href="#recall-1">Recall</a></li>
+    <li><a href="#precision-1">Precision</a></li>
+    <li><a href="#pr-curve-1">PR Curve</a></li>
+    <li><a href="#avep---average-precision">AveP - Average Precision</a></li>
+    <li><a href="#map---mean-average-precision">MAP - Mean Average Precision</a></li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

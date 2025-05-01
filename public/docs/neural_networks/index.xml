@@ -49,5 +49,12 @@
       <guid>http://localhost:1313/docs/neural_networks/entropy/</guid>
       <description>&lt;blockquote&gt;&#xA;&lt;p&gt;A brief primer on entropy, cross-entropy and perplexity.&lt;/p&gt;&lt;/blockquote&gt;&#xA;&lt;h2 id=&#34;entropy&#34;&gt;&#xA;  Entropy&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#entropy&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h2&gt;&#xA;&lt;p&gt;&#xA;&lt;link rel=&#34;stylesheet&#34; href=&#34;http://localhost:1313/katex/katex.min.css&#34; /&gt;&#xA;&lt;script defer src=&#34;http://localhost:1313/katex/katex.min.js&#34;&gt;&lt;/script&gt;&#xA;&lt;script defer src=&#34;http://localhost:1313/katex/auto-render.min.js&#34; onload=&#34;renderMathInElement(document.body);&#34;&gt;&lt;/script&gt;&lt;span&gt;&#xA;  \(\)&#xA;&lt;/span&gt;&#xA;The &lt;strong&gt;entropy&lt;/strong&gt; of a discrete random variable &lt;span&gt;&#xA;  \(X\)&#xA;&lt;/span&gt;&#xA; with &lt;span&gt;&#xA;  \(K\)&#xA;&lt;/span&gt;&#xA; states/categories with distribution &lt;span&gt;&#xA;  \(p_k = \text{Pr}(X=k)\)&#xA;&lt;/span&gt;&#xA; for &lt;span&gt;&#xA;  \(k=1,...,K\)&#xA;&lt;/span&gt;&#xA;  is a measure of uncertainty and is defined as follows.&#xA;&lt;span&gt;&#xA;  \[H(X) = \sum_{k=1}^{K} p_k \log_2 \frac{1}{p_k} = - \sum_{k=1}^{K} p_k \log_2 p_k \]&#xA;&lt;/span&gt;&#xA;&#xA;&lt;span&gt;&#xA;  \(\)&#xA;&lt;/span&gt;&#xA;&#xA;The term &lt;span&gt;&#xA;  \(\log_2\frac{1}{p}\)&#xA;&lt;/span&gt;&#xA; quantifies the notion or surprise or uncertainty and hence entropy is the average uncertainty.&lt;/p&gt;</description>
     </item>
+    <item>
+      <title>Metrics</title>
+      <link>http://localhost:1313/docs/neural_networks/metrics/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/docs/neural_networks/metrics/</guid>
+      <description></description>
+    </item>
   </channel>
 </rss>

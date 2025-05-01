@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="en-us" dir="ltr">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="https://crfm.stanford.edu/ecosystem-graphs/index.html?mode=table
+
+  
+      
+          year
+          architecture
+          type
+          open
+          # parameters
+          who
+          checkpoint
+          tokenizer
+      
+  
+  
+      
+          2018 Jun
+          GPT
+          decoder
+          
+          110M
+          OpenAI
+          
+          
+      
+      
+          2018 Oct
+          BERT
+          encoder
+          ✅
+          340M
+          Google
+          
+          WordPiece
+      
+      
+          
+          ALBERT
+          encoder
+          ✅
+          
+          
+          
+          
+      
+      
+          
+          ELECTRA
+          encoder
+          ✅
+          
+          
+          
+          
+      
+      
+          
+          RoBERTa
+          encoder
+          ✅
+          
+          
+          
+          
+      
+      
+          2019 Feb
+          GPT-2
+          decoder
+          
+          1.5B
+          OpenAI
+          
+          BPE
+      
+      
+          2019 Oct
+          DistilBERT
+          encoder
+          ✅
+          66 M
+          HuggingFace
+          
+          
+      
+      
+          2019 Oct
+          BART
+          encoder-decoder
+          
+          400M
+          Meta
+          
+          
+      
+      
+          2019 Oct
+          T5
+          encoder-decoder
+          
+          11B
+          Google
+          
+          SentencePiece
+      
+      
+          2020 May
+          GPT-3
+          decoder
+          
+          175 B
+          OpenAI
+          
+          
+      
+      
+          2024
+          GPT-4
+          decoder
+          
+          1.8T
+          OpenAI
+          
+          
+      
+  
+">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#343a40">
+<meta name="color-scheme" content="light dark"><meta property="og:url" content="http://localhost:1313/docs/transformers/models/">
+  <meta property="og:site_name" content="Deep Learning">
+  <meta property="og:title" content="Models">
+  <meta property="og:description" content="https://crfm.stanford.edu/ecosystem-graphs/index.html?mode=table
+year architecture type open # parameters who checkpoint tokenizer 2018 Jun GPT decoder 110M OpenAI 2018 Oct BERT encoder ✅ 340M Google WordPiece ALBERT encoder ✅ ELECTRA encoder ✅ RoBERTa encoder ✅ 2019 Feb GPT-2 decoder 1.5B OpenAI BPE 2019 Oct DistilBERT encoder ✅ 66 M HuggingFace 2019 Oct BART encoder-decoder 400M Meta 2019 Oct T5 encoder-decoder 11B Google SentencePiece 2020 May GPT-3 decoder 175 B OpenAI 2024 GPT-4 decoder 1.8T OpenAI">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="docs">
+<title>Models | Deep Learning</title>
+<link rel="icon" href="/favicon.png" >
+<link rel="manifest" href="/manifest.json">
+<link rel="canonical" href="http://localhost:1313/docs/transformers/models/">
+<link rel="stylesheet" href="/book.min.6c8b9d2a1fc95075ed7da46ca81060b39add8fff6741ac51259f768929281e2c.css" integrity="sha256-bIudKh/JUHXtfaRsqBBgs5rdj/9nQaxRJZ92iSkoHiw=" crossorigin="anonymous">
+  <script defer src="/fuse.min.js"></script>
+  <script defer src="/en.search.min.ccc770c0ea7bbf19edc675c8e258db0d273ecf96a72562c74e342deacaa1c850.js" integrity="sha256-zMdwwOp7vxntxnXI4ljbDSc&#43;z5anJWLHTjQt6sqhyFA=" crossorigin="anonymous"></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><span>Deep Learning</span>
+  </a>
+</h2>
+
+
+<div class="book-search hidden">
+  <input type="text" id="book-search-input" placeholder="Search" aria-label="Search" maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+<script>document.querySelector(".book-search").classList.remove("hidden")</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <ul>
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <a href="/docs/neural_networks/" class="">Neural Networks</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/neural_networks/linear_regression/" class="">Linear Regression</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/neural_networks/logistic_regression/" class="">Logistic Regression</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/neural_networks/softmax_regression/" class="">Softmax Regression</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/neural_networks/mlp/" class="">Multilayer perceptron</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/neural_networks/activations/" class="">Activation functions</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/neural_networks/entropy/" class="">Entropy</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/neural_networks/metrics/" class="">Metrics</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <a href="/docs/training/" class="">Training neural networks</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/training/gradient_descent/" class="">Gradient Descent</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/training/backpropagation/" class="">Backpropagation</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/training/autograd/" class="">Automatic Differentiation</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/training/initialization/" class="">Initialization</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/training/normalization/" class="">Normalization</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/training/regularization/" class="">Regularization</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/training/training_loop/" class="">Training loop</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/training/quiz/" class="">Quiz</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/training/coding/" class="">Coding</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <a href="/docs/transformers/" class="">Transformers</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/transformers/tokenizers/" class="">Tokenizers</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/transformers/transformers101/" class="">Transformers101</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/transformers/transformers102/" class="">Transformers102</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/transformers/alignment/" class="">Alignment</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/transformers/models/" class="active">Models</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <a href="/docs/rl/" class="">Reinforcement Learning</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/rl/basics/" class="">Basics</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <h3>Models</h3>
+
+  <label for="toc-control">
+    
+  </label>
+</div>
+
+
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown book-article"><p><a href="https://crfm.stanford.edu/ecosystem-graphs/index.html?mode=table">https://crfm.stanford.edu/ecosystem-graphs/index.html?mode=table</a></p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">year</th>
+          <th style="text-align: left">architecture</th>
+          <th style="text-align: left">type</th>
+          <th style="text-align: left">open</th>
+          <th style="text-align: left"># parameters</th>
+          <th style="text-align: left">who</th>
+          <th style="text-align: left">checkpoint</th>
+          <th style="text-align: left">tokenizer</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">2018 Jun</td>
+          <td style="text-align: left"><code>GPT</code></td>
+          <td style="text-align: left">decoder</td>
+          <td style="text-align: left"></td>
+          <td style="text-align: left">110M</td>
+          <td style="text-align: left">OpenAI</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">2018 Oct</td>
+          <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/bert"><code>BERT</code></a></td>
+          <td style="text-align: left">encoder</td>
+          <td style="text-align: left">✅</td>
+          <td style="text-align: left">340M</td>
+          <td style="text-align: left">Google</td>
+          <td style="text-align: left"></td>
+          <td style="text-align: left">WordPiece</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"></td>
+          <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/albert"><code>ALBERT</code></a></td>
+          <td style="text-align: left">encoder</td>
+          <td style="text-align: left">✅</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"></td>
+          <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/electra"><code>ELECTRA</code></a></td>
+          <td style="text-align: left">encoder</td>
+          <td style="text-align: left">✅</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"></td>
+          <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/roberta"><code>RoBERTa</code></a></td>
+          <td style="text-align: left">encoder</td>
+          <td style="text-align: left">✅</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">2019 Feb</td>
+          <td style="text-align: left"><code>GPT-2</code></td>
+          <td style="text-align: left">decoder</td>
+          <td style="text-align: left"></td>
+          <td style="text-align: left">1.5B</td>
+          <td style="text-align: left">OpenAI</td>
+          <td style="text-align: left"></td>
+          <td style="text-align: left">BPE</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">2019 Oct</td>
+          <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/distilbert"><code>DistilBERT</code></a></td>
+          <td style="text-align: left">encoder</td>
+          <td style="text-align: left">✅</td>
+          <td style="text-align: left">66 M</td>
+          <td style="text-align: left">HuggingFace</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">2019 Oct</td>
+          <td style="text-align: left"><code>BART</code></td>
+          <td style="text-align: left">encoder-decoder</td>
+          <td style="text-align: left"></td>
+          <td style="text-align: left">400M</td>
+          <td style="text-align: left">Meta</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">2019 Oct</td>
+          <td style="text-align: left"><code>T5</code></td>
+          <td style="text-align: left">encoder-decoder</td>
+          <td style="text-align: left"></td>
+          <td style="text-align: left">11B</td>
+          <td style="text-align: left">Google</td>
+          <td style="text-align: left"></td>
+          <td style="text-align: left">SentencePiece</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">2020 May</td>
+          <td style="text-align: left"><code>GPT-3</code></td>
+          <td style="text-align: left">decoder</td>
+          <td style="text-align: left"></td>
+          <td style="text-align: left">175 B</td>
+          <td style="text-align: left">OpenAI</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">2024</td>
+          <td style="text-align: left"><a href="https://arxiv.org/pdf/2303.08774"><code>GPT-4</code></a></td>
+          <td style="text-align: left">decoder</td>
+          <td style="text-align: left"></td>
+          <td style="text-align: left">1.8T</td>
+          <td style="text-align: left">OpenAI</td>
+          <td style="text-align: left"></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+</article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+
+</div>
+
+
+
+  <script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){if(window.getSelection().toString())return;e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script>
+
+
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
