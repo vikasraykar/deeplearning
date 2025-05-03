@@ -1,6 +1,6 @@
 ---
 title: Metrics
-weight: 7
+weight: 2
 bookToc: true
 ---
 

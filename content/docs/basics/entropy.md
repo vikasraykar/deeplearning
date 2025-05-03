@@ -1,6 +1,6 @@
 ---
 title: Entropy
-weight: 6
+weight: 1
 bookToc: true
 ---
 

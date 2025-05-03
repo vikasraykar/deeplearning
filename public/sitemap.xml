@@ -2,7 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>http://localhost:1313/docs/basics/</loc>
+  </url><url>
     <loc>http://localhost:1313/docs/rl/basics/</loc>
+  </url><url>
+    <loc>http://localhost:1313/docs/basics/entropy/</loc>
+  </url><url>
+    <loc>http://localhost:1313/docs/basics/gpu/</loc>
   </url><url>
     <loc>http://localhost:1313/docs/training/gradient_descent/</loc>
   </url><url>
@@ -17,6 +23,8 @@
     <loc>http://localhost:1313/docs/training/backpropagation/</loc>
   </url><url>
     <loc>http://localhost:1313/docs/neural_networks/logistic_regression/</loc>
+  </url><url>
+    <loc>http://localhost:1313/docs/basics/metrics/</loc>
   </url><url>
     <loc>http://localhost:1313/docs/transformers/</loc>
   </url><url>
@@ -50,15 +58,11 @@
   </url><url>
     <loc>http://localhost:1313/docs/transformers/scaling/</loc>
   </url><url>
-    <loc>http://localhost:1313/docs/neural_networks/entropy/</loc>
-  </url><url>
     <loc>http://localhost:1313/docs/transformers/ssm/</loc>
   </url><url>
     <loc>http://localhost:1313/docs/training/training_loop/</loc>
   </url><url>
     <loc>http://localhost:1313/docs/transformers/datasets/</loc>
-  </url><url>
-    <loc>http://localhost:1313/docs/neural_networks/metrics/</loc>
   </url><url>
     <loc>http://localhost:1313/docs/training/quiz/</loc>
   </url><url>

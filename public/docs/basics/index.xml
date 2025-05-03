@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Basics on Deep Learning</title>
+    <link>http://localhost:1313/docs/basics/</link>
+    <description>Recent content in Basics on Deep Learning</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <atom:link href="http://localhost:1313/docs/basics/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Entropy</title>
+      <link>http://localhost:1313/docs/basics/entropy/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/docs/basics/entropy/</guid>
+      <description>&lt;blockquote&gt;&#xA;&lt;p&gt;A brief primer on entropy, cross-entropy and perplexity.&lt;/p&gt;&lt;/blockquote&gt;&#xA;&lt;h2 id=&#34;entropy&#34;&gt;&#xA;  Entropy&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#entropy&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h2&gt;&#xA;&lt;p&gt;&lt;span&gt;&#xA;  \(\)&#xA;&lt;/span&gt;&#xA;The &lt;strong&gt;entropy&lt;/strong&gt; of a discrete random variable &lt;span&gt;&#xA;  \(X\)&#xA;&lt;/span&gt;&#xA; with &lt;span&gt;&#xA;  \(K\)&#xA;&lt;/span&gt;&#xA; states/categories with distribution &lt;span&gt;&#xA;  \(p_k = \text{Pr}(X=k)\)&#xA;&lt;/span&gt;&#xA; for &lt;span&gt;&#xA;  \(k=1,...,K\)&#xA;&lt;/span&gt;&#xA;  is a measure of uncertainty and is defined as follows.&#xA;&lt;span&gt;&#xA;  \[H(X) = \sum_{k=1}^{K} p_k \log_2 \frac{1}{p_k} = - \sum_{k=1}^{K} p_k \log_2 p_k \]&#xA;&lt;/span&gt;&#xA;&#xA;&lt;span&gt;&#xA;  \(\)&#xA;&lt;/span&gt;&#xA;&#xA;The term &lt;span&gt;&#xA;  \(\log_2\frac{1}{p}\)&#xA;&lt;/span&gt;&#xA; quantifies the notion or surprise or uncertainty and hence entropy is the average uncertainty.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Metrics</title>
+      <link>http://localhost:1313/docs/basics/metrics/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/docs/basics/metrics/</guid>
+      <description>&lt;blockquote&gt;&#xA;&lt;p&gt;Some core evaluation metrics. To be revised.&lt;/p&gt;&lt;/blockquote&gt;&#xA;&lt;h2 id=&#34;binary-classification&#34;&gt;&#xA;  Binary Classification&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#binary-classification&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h2&gt;&#xA;&lt;h3 id=&#34;true-positive-rate&#34;&gt;&#xA;  True Positive Rate&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#true-positive-rate&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h3&gt;&#xA;&lt;blockquote&gt;&#xA;&lt;p&gt;Recall, Sensitivity.&lt;/p&gt;&lt;/blockquote&gt;&#xA;&lt;span&gt;&#xA;  \[\text{TPR} = \text{Pr}[y_{pred}=1|y=1] = \frac{TP}{TP+FN} = \frac{TP}{N_{+}}\]&#xA;&lt;/span&gt;&#xA;&#xA;&lt;h3 id=&#34;false-positive-rate&#34;&gt;&#xA;  False Positive Rate&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#false-positive-rate&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h3&gt;&#xA;&lt;blockquote&gt;&#xA;&lt;p&gt;1-Specificity&lt;/p&gt;&lt;/blockquote&gt;&#xA;&lt;span&gt;&#xA;  \[\text{FPR} = \text{Pr}[y_{pred}=1|y=0] = \frac{FP}{FP+TN} = \frac{FP}{N_{-}}\]&#xA;&lt;/span&gt;&#xA;&#xA;&lt;h3 id=&#34;roc-curve&#34;&gt;&#xA;  ROC Curve&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#roc-curve&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h3&gt;&#xA;&lt;p&gt;x-axis is FPR and y-axis is TPR&lt;/p&gt;&#xA;&lt;h3 id=&#34;auc&#34;&gt;&#xA;  AUC&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#auc&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h3&gt;&#xA;&lt;p&gt;Area under the ROC Curve.&lt;/p&gt;&#xA;&lt;span&gt;&#xA;  \[\text{AUC}=\text{Pr}[y^{+} &gt; y^{-}]\]&#xA;&lt;/span&gt;&#xA;&#xA;&lt;h3 id=&#34;accuracy&#34;&gt;&#xA;  Accuracy&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#accuracy&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h3&gt;&#xA;&lt;span&gt;&#xA;  \[\text{Accuracy}=\frac{TP+TN}{TP+FP+TN+FN}\]&#xA;&lt;/span&gt;&#xA;&#xA;&lt;h3 id=&#34;precision&#34;&gt;&#xA;  Precision&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#precision&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h3&gt;&#xA;&lt;p&gt;Precision is the fraction of predicted positives that are actually positive.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>GPU primer</title>
+      <link>http://localhost:1313/docs/basics/gpu/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/docs/basics/gpu/</guid>
+      <description>&lt;blockquote&gt;&#xA;&lt;p&gt;A short primer on GPUS.&lt;/p&gt;&lt;/blockquote&gt;&#xA;&lt;p&gt;DRAM&lt;/p&gt;&#xA;&lt;p&gt;SRAM&lt;/p&gt;&#xA;&lt;p&gt;Organize computation to maximize utilization of GPUs by minimizing data movement between DRAM and SRAM.&lt;/p&gt;&#xA;&lt;p&gt;Write kernels in&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;CUDA&lt;/li&gt;&#xA;&lt;li&gt;Triton&lt;/li&gt;&#xA;&lt;li&gt;CUTLASS&lt;/li&gt;&#xA;&lt;li&gt;ThunderKittens&lt;/li&gt;&#xA;&lt;/ul&gt;</description>
+    </item>
+  </channel>
+</rss>

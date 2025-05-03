@@ -4,46 +4,35 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="
-Use data from experiments at small scale to predict hyperparameters/loss at large scale.
+A short primer on GPUS.
+DRAM
+SRAM
+Organize computation to maximize utilization of GPUs by minimizing data movement between DRAM and SRAM.
+Write kernels in
 
-  Scaling laws
-  #
-
-Given a FLOPs budget (
-
-
-
-  \(C\)
-
-), use a bigger model (
-  \(N\)
-
-) or train on more tokens (
-  \(D\)
-
-)?
-
-  \[D^* = 20 \times N^*\]
-
-
-https://arxiv.org/pdf/2001.08361
-https://arxiv.org/pdf/2203.15556">
+CUDA
+Triton
+CUTLASS
+ThunderKittens
+">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#343a40">
-<meta name="color-scheme" content="light dark"><meta property="og:url" content="http://localhost:1313/docs/transformers/scaling/">
+<meta name="color-scheme" content="light dark"><meta property="og:url" content="http://localhost:1313/docs/basics/gpu/">
   <meta property="og:site_name" content="Deep Learning">
-  <meta property="og:title" content="Scaling">
-  <meta property="og:description" content="Use data from experiments at small scale to predict hyperparameters/loss at large scale.
-Scaling laws # Given a FLOPs budget ( \(C\) ), use a bigger model ( \(N\) ) or train on more tokens ( \(D\) )?
-\[D^* = 20 \times N^*\] https://arxiv.org/pdf/2001.08361
-https://arxiv.org/pdf/2203.15556">
+  <meta property="og:title" content="GPU primer">
+  <meta property="og:description" content="A short primer on GPUS.
+DRAM
+SRAM
+Organize computation to maximize utilization of GPUs by minimizing data movement between DRAM and SRAM.
+Write kernels in
+CUDA Triton CUTLASS ThunderKittens">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
     <meta property="article:section" content="docs">
-<title>Scaling | Deep Learning</title>
+<title>GPU primer | Deep Learning</title>
 <link rel="icon" href="/favicon.png" >
 <link rel="manifest" href="/manifest.json">
-<link rel="canonical" href="http://localhost:1313/docs/transformers/scaling/">
+<link rel="canonical" href="http://localhost:1313/docs/basics/gpu/">
 <link rel="stylesheet" href="/book.min.6c8b9d2a1fc95075ed7da46ca81060b39add8fff6741ac51259f768929281e2c.css" integrity="sha256-bIudKh/JUHXtfaRsqBBgs5rdj/9nQaxRJZ92iSkoHiw=" crossorigin="anonymous">
   <script defer src="/fuse.min.js"></script>
   <script defer src="/en.search.min.806346de3eb16675e860bc9156ff04165ae8983979413477e43e4270df22612a.js" integrity="sha256-gGNG3j6xZnXoYLyRVv8EFlromDl5QTR35D5CcN8iYSo=" crossorigin="anonymous"></script>
@@ -137,7 +126,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="/docs/basics/gpu/" class="">GPU primer</a>
+    <a href="/docs/basics/gpu/" class="active">GPU primer</a>
   
 
         </li>
@@ -490,7 +479,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="/docs/transformers/scaling/" class="active">Scaling</a>
+    <a href="/docs/transformers/scaling/" class="">Scaling</a>
   
 
         </li>
@@ -593,7 +582,7 @@ https://github.com/alex-shpak/hugo-book
     <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
   </label>
 
-  <h3>Scaling</h3>
+  <h3>GPU primer</h3>
 
   <label for="toc-control">
     
@@ -607,11 +596,7 @@ https://github.com/alex-shpak/hugo-book
   <aside class="hidden clearfix">
     
   
-<nav id="TableOfContents">
-  <ul>
-    <li><a href="#scaling-laws">Scaling laws</a></li>
-  </ul>
-</nav>
+<nav id="TableOfContents"></nav>
 
 
 
@@ -623,30 +608,17 @@ https://github.com/alex-shpak/hugo-book
       
       
   <article class="markdown book-article"><blockquote>
-<p>Use data from experiments at small scale to predict hyperparameters/loss at large scale.</p></blockquote>
-<h2 id="scaling-laws">
-  Scaling laws
-  <a class="anchor" href="#scaling-laws">#</a>
-</h2>
-<p>Given a FLOPs budget (
-<link rel="stylesheet" href="/katex/katex.min.css" />
-<script defer src="/katex/katex.min.js"></script>
-<script defer src="/katex/auto-render.min.js" onload="renderMathInElement(document.body);"></script><span>
-  \(C\)
-</span>
-), use a bigger model (<span>
-  \(N\)
-</span>
-) or train on more tokens (<span>
-  \(D\)
-</span>
-)?</p>
-<span>
-  \[D^* = 20 \times N^*\]
-</span>
-
-<p><a href="https://arxiv.org/pdf/2001.08361">https://arxiv.org/pdf/2001.08361</a></p>
-<p><a href="https://arxiv.org/pdf/2203.15556">https://arxiv.org/pdf/2203.15556</a></p>
+<p>A short primer on GPUS.</p></blockquote>
+<p>DRAM</p>
+<p>SRAM</p>
+<p>Organize computation to maximize utilization of GPUs by minimizing data movement between DRAM and SRAM.</p>
+<p>Write kernels in</p>
+<ul>
+<li>CUDA</li>
+<li>Triton</li>
+<li>CUTLASS</li>
+<li>ThunderKittens</li>
+</ul>
 </article>
  
       
@@ -686,11 +658,7 @@ https://github.com/alex-shpak/hugo-book
       <div class="book-toc-content">
         
   
-<nav id="TableOfContents">
-  <ul>
-    <li><a href="#scaling-laws">Scaling laws</a></li>
-  </ul>
-</nav>
+<nav id="TableOfContents"></nav>
 
 
  
