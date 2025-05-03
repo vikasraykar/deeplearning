@@ -27,6 +27,9 @@ Positional encodings.
   
       
           
+
+
+
   \(\mathbf{X}\)
 
 
@@ -223,7 +226,7 @@ Multi-head scaled self-attention. MLP with residual connections and layer normal
 <link rel="canonical" href="http://localhost:1313/docs/transformers/transformers101/">
 <link rel="stylesheet" href="/book.min.6c8b9d2a1fc95075ed7da46ca81060b39add8fff6741ac51259f768929281e2c.css" integrity="sha256-bIudKh/JUHXtfaRsqBBgs5rdj/9nQaxRJZ92iSkoHiw=" crossorigin="anonymous">
   <script defer src="/fuse.min.js"></script>
-  <script defer src="/en.search.min.ccc770c0ea7bbf19edc675c8e258db0d273ecf96a72562c74e342deacaa1c850.js" integrity="sha256-zMdwwOp7vxntxnXI4ljbDSc&#43;z5anJWLHTjQt6sqhyFA=" crossorigin="anonymous"></script>
+  <script defer src="/en.search.min.8a2e055af9e0aaa67e2dc15b8ae2fc1d9298affa1fe9e6557cc1279374e4d665.js" integrity="sha256-ii4FWvngqqZ&#43;LcFbiuL8HZKYr/of6eZVfMEnk3Tk1mU=" crossorigin="anonymous"></script>
 <!--
 Made with Book Theme
 https://github.com/alex-shpak/hugo-book
@@ -384,7 +387,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="/docs/training/" class="">Training neural networks</a>
+    <a href="/docs/training/" class="">Training</a>
   
 
           
@@ -423,7 +426,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="/docs/training/autograd/" class="">Automatic Differentiation</a>
+    <a href="/docs/training/autograd/" class="">AutoDiff</a>
   
 
         </li>
@@ -584,7 +587,72 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="/docs/transformers/models/" class="">Models</a>
+    <a href="/docs/transformers/attentionvariants/" class="">Attention variants</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/transformers/models/" class="">Frontier models</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/transformers/moe/" class="">MoE</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/transformers/scaling/" class="">Scaling</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/transformers/ssm/" class="">SSM</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/transformers/datasets/" class="">Datasets</a>
   
 
         </li>
@@ -602,7 +670,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="/docs/rl/" class="">Reinforcement Learning</a>
+    <a href="/docs/rl/" class="">Reinforcement</a>
   
 
           
@@ -712,9 +780,11 @@ https://github.com/alex-shpak/hugo-book
     <li><a href="#positional-encodings">Positional encodings</a>
       <ul>
         <li><a href="#sinusoidal-functions">Sinusoidal functions</a></li>
+        <li><a href="#rope">RoPE</a></li>
       </ul>
     </li>
     <li><a href="#summary">Summary</a></li>
+    <li><a href="#final-model">Final model</a></li>
     <li><a href="#references">References</a></li>
   </ul>
 </nav>
@@ -751,7 +821,10 @@ https://github.com/alex-shpak/hugo-book
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left"><span>
+          <td style="text-align: left">
+<link rel="stylesheet" href="/katex/katex.min.css" />
+<script defer src="/katex/katex.min.js"></script>
+<script defer src="/katex/auto-render.min.js" onload="renderMathInElement(document.body);"></script><span>
   \(\mathbf{X}\)
 </span>
 </td>
@@ -1624,7 +1697,10 @@ heads.</td>
   Layer normalization
   <a class="anchor" href="#layer-normalization">#</a>
 </h3>
-<p>Layer normalization is then added also to improve training efficiency (Bao, Kiros, and Hinton 2016)</p>
+<p>Layer normalization is then added also to improve training efficiency.</p>
+<blockquote class="book-hint info">
+<p><a href="https://arxiv.org/abs/1607.06450">Layer Normalization</a>, J. L. Bao, J. R. Kiros, and G. E. Hinton, 2016</p>
+</blockquote>
 <h3 id="post-norm">
   Post-norm
   <a class="anchor" href="#post-norm">#</a>
@@ -1643,6 +1719,9 @@ heads.</td>
 
 <blockquote>
 <p>Pre-norm is most widely used these days while the original paper used post-norm.</p></blockquote>
+<blockquote class="book-hint info">
+<p><a href="https://arxiv.org/abs/2002.04745">On Layer Normalization in the Transformer Architecture</a>, Ruibin Xiong, Yunchang Yang, Di He, Kai Zheng, Shuxin Zheng, Chen Xing, Huishuai Zhang, Yanyan Lan, Liwei Wang, Tie-Yan Liu, ICML 2020.</p>
+</blockquote>
 <h3 id="mlp-layer">
   MLP layer
   <a class="anchor" href="#mlp-layer">#</a>
@@ -1912,6 +1991,11 @@ heads.</td>
 <blockquote>
 <p>Sort of binary representation of numbers.</p></blockquote>
 <img src="../img/pe.png"  width="300"/>
+<h3 id="rope">
+  RoPE
+  <a class="anchor" href="#rope">#</a>
+</h3>
+<p><a href="https://arxiv.org/pdf/2104.09864">https://arxiv.org/pdf/2104.09864</a></p>
 <h2 id="summary">
   Summary
   <a class="anchor" href="#summary">#</a>
@@ -1999,6 +2083,88 @@ heads.</td>
       </tr>
   </tbody>
 </table>
+<h2 id="final-model">
+  Final model
+  <a class="anchor" href="#final-model">#</a>
+</h2>
+<p>
+
+<script src="/mermaid.min.js"></script>
+
+  <script>mermaid.initialize({
+  "flowchart": {
+    "useMaxWidth":true
+  },
+  "theme": "default"
+}
+)</script>
+
+
+
+
+<pre class="mermaid">
+---
+title: Transformer
+---
+stateDiagram-v2
+    direction BT
+    Input: Sequence of token ids
+    Output: Output layers
+    TE: Token Embedding
+    PE: Position Embedding
+    T1: Transformer layer
+    T2: Transformer layer
+    T3: ...
+    T4: Transformer layer
+    Add: Add
+    Dropout: Dropout
+    Norm: Norm
+    Input --> TE
+    Input --> PE
+    TE --> Add
+    PE --> Add
+    Add --> Dropout
+    Dropout --> T1
+    T1 --> T2
+    T2 --> T3
+    T3 --> T4
+    T4 --> Norm
+    Norm --> Output
+</pre>
+
+
+
+<pre class="mermaid">
+---
+title: Transformer layer (pre-norm variant)
+---
+stateDiagram-v2
+    direction BT
+    X: $$\mathbf{X}_{N \times D}$$
+    Y: $$\mathbf{X}^*_{N \times D}$$
+    MHSA: Multi-head self-attention (MHSA)
+    MLP: Multi-layer perceptron (MLP)
+    Norm1: Norm
+    Norm2: Norm
+    Dropout1: Dropout
+    Dropout2: Dropout
+    Add1: Add
+    Add2: Add
+    X --> Norm1
+    Norm1 --> MHSA
+    MHSA --> Dropout1
+    Dropout1 --> Add1
+    X --> Add1
+    Add1 --> Norm2
+    Norm2 --> MLP
+    MLP --> Dropout2
+    Dropout2 --> Add2
+    Add1 --> Add2
+    Add2 --> Y
+    note right of Add1 :  $$Z = \text{MHSA}(\text{Norm}\left[\mathbf{X}\right])+\mathbf{X}$$
+    note right of Add2 :  $$X^* = \text{MLP}(\text{Norm}\left[\mathbf{Z}\right])+\mathbf{Z}$$
+</pre>
+</p>
 <h2 id="references">
   References
   <a class="anchor" href="#references">#</a>
@@ -2090,9 +2256,11 @@ heads.</td>
     <li><a href="#positional-encodings">Positional encodings</a>
       <ul>
         <li><a href="#sinusoidal-functions">Sinusoidal functions</a></li>
+        <li><a href="#rope">RoPE</a></li>
       </ul>
     </li>
     <li><a href="#summary">Summary</a></li>
+    <li><a href="#final-model">Final model</a></li>
     <li><a href="#references">References</a></li>
   </ul>
 </nav>

@@ -1,5 +1,5 @@
 ---
-title: Automatic Differentiation
+title: AutoDiff
 weight: 3
 bookToc: true
 ---

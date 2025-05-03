@@ -323,7 +323,12 @@ To improve training efficiency we introduce residual connections that bypass the
 
 ### Layer normalization
 
-Layer normalization is then added also to improve training efficiency (Bao, Kiros, and Hinton 2016)
+Layer normalization is then added also to improve training efficiency.
+
+{{% hint info %}}
+[Layer Normalization](https://arxiv.org/abs/1607.06450), J. L. Bao, J. R. Kiros, and G. E. Hinton, 2016
+{{% /hint %}}
+
 
 ### Post-norm
 
@@ -337,6 +342,14 @@ Layer normalization is then added also to improve training efficiency (Bao, Kiro
 {{< katex display=true >}}\mathbf{Z} = \mathbf{Y}(\text{LayerNorm}\left[\mathbf{X}\right])+\mathbf{X}{{< /katex >}}
 
 > Pre-norm is most widely used these days while the original paper used post-norm.
+
+{{% hint info %}}
+[On Layer Normalization in the Transformer Architecture](https://arxiv.org/abs/2002.04745), Ruibin Xiong, Yunchang Yang, Di He, Kai Zheng, Shuxin Zheng, Chen Xing, Huishuai Zhang, Yanyan Lan, Liwei Wang, Tie-Yan Liu, ICML 2020.
+{{% /hint %}}
+
+
+
+
 
 ### MLP layer
 
@@ -423,6 +436,9 @@ For a given position {{< katex >}}n{{< /katex >}} the position encoding vector h
 
 <img src="../img/pe.png"  width="300"/>
 
+### RoPE
+
+https://arxiv.org/pdf/2104.09864
 
 ## Summary
 
@@ -438,6 +454,69 @@ For a given position {{< katex >}}n{{< /katex >}} the position encoding vector h
 {{< katex >}}\mathbf{Y} = \text{Concat}[\mathbf{H}_1,...,\mathbf{H}_H]\mathbf{W}^o {{< /katex >}} where {{< katex >}}\mathbf{H}_h = \text{SoftMax}\left[\frac{\mathbf{Q_h}\mathbf{K_h}^{T}}{\sqrt{D_k}}\right] \mathbf{V_h}{{< /katex >}} | Multi-head attention
 {{< katex >}}\mathbf{Z} = \text{LayerNorm}\left[\mathbf{Y}(\mathbf{X})+\mathbf{X}\right]{{< /katex >}} | layer normalization and residual connection
 {{< katex >}}\mathbf{X^*} = \text{LayerNorm}\left[\text{MLP}(\mathbf{Z})+\mathbf{Z}\right]{{< /katex >}} | MLP layer
+
+
+## Final model
+
+{{<mermaid>}}
+---
+title: Transformer
+---
+stateDiagram-v2
+    direction BT
+    Input: Sequence of token ids
+    Output: Output layers
+    TE: Token Embedding
+    PE: Position Embedding
+    T1: Transformer layer
+    T2: Transformer layer
+    T3: ...
+    T4: Transformer layer
+    Add: Add
+    Dropout: Dropout
+    Norm: Norm
+    Input --> TE
+    Input --> PE
+    TE --> Add
+    PE --> Add
+    Add --> Dropout
+    Dropout --> T1
+    T1 --> T2
+    T2 --> T3
+    T3 --> T4
+    T4 --> Norm
+    Norm --> Output
+{{</mermaid>}}
+{{<mermaid>}}
+---
+title: Transformer layer (pre-norm variant)
+---
+stateDiagram-v2
+    direction BT
+    X: $$\mathbf{X}_{N \times D}$$
+    Y: $$\mathbf{X}^*_{N \times D}$$
+    MHSA: Multi-head self-attention (MHSA)
+    MLP: Multi-layer perceptron (MLP)
+    Norm1: Norm
+    Norm2: Norm
+    Dropout1: Dropout
+    Dropout2: Dropout
+    Add1: Add
+    Add2: Add
+    X --> Norm1
+    Norm1 --> MHSA
+    MHSA --> Dropout1
+    Dropout1 --> Add1
+    X --> Add1
+    Add1 --> Norm2
+    Norm2 --> MLP
+    MLP --> Dropout2
+    Dropout2 --> Add2
+    Add1 --> Add2
+    Add2 --> Y
+    note right of Add1 :  $$Z = \text{MHSA}(\text{Norm}\left[\mathbf{X}\right])+\mathbf{X}$$
+    note right of Add2 :  $$X^* = \text{MLP}(\text{Norm}\left[\mathbf{Z}\right])+\mathbf{Z}$$
+{{</mermaid>}}
 
 ## References
 

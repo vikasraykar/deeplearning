@@ -118,7 +118,7 @@ Mini-batch SGD is the most commonly used method and is sometimes refered to as j
 In practice, mini-batch SGD is the most frequently used variation because it is both computationally cheap and results in more robust convergence.
 {{% /hint %}}
 
-
+https://arxiv.org/pdf/1812.06162
 
 ## Adding momentum
 One of the basic improvements over SGD comes from adding a **momentum** term.
@@ -286,9 +286,8 @@ for epoch in range(n_epochs):
 optimizer = optim.Adam(model.parameters(), lr=0.001, betas=(0.9,0.99), eps=1e-08)
 ```
 {{% hint warning %}}
-Kingma, D.P. and Ba, J., 2014. [Adam: A method for stochastic optimization](https://arxiv.org/abs/1412.6980). arXiv preprint arXiv:1412.6980.
+[Adam: A method for stochastic optimization](https://arxiv.org/pdf/1412.6980), D. P. Kingma and J. Ba, ICLR 2015.
 {{% /hint %}}
-
 
 
 ### AdamW
@@ -304,13 +303,28 @@ AdamW proposes a modification to Adam that improves regularization by adding **w
 optimizer = optim.AdamW(model.parameters(), lr=0.001, betas=(0.9,0.99), eps=1e-08, weight_decay=0.01)
 ```
 {{% hint warning %}}
-Ilya Loshchilov, Frank Hutter, [Decoupled Weight Decay Regularization](https://arxiv.org/abs/1711.05101), ICLR 2019.
+[Decoupled Weight Decay Regularization](https://arxiv.org/abs/1711.05101), Ilya Loshchilov and Frank Hutter, ICLR 2019.
 {{% /hint %}}
 
 
 {{% hint danger %}}
 Adam and AdamW are the most widely used optimizers.
 {{% /hint %}}
+
+
+### Muon
+
+{{% hint warning %}}
+[Muon: An optimizer for hidden layers in neural networks](https://kellerjordan.github.io/posts/muon/), Keller Jordan, Yuchen Jin, Vlado Boza, Jiacheng You, Franz Cesista, Laker Newhouse and Jeremy Bernstein, 2024.
+{{% /hint %}}
+
+### SOAP
+
+{{% hint warning %}}
+[SOAP: Improving and Stabilizing Shampoo using Adam](https://arxiv.org/abs/2409.11321), Nikhil Vyas, Depen Morwani, Rosie Zhao, Mujin Kwun, Itai Shapira, David Brandfonbrener, Lucas Janson, Sham Kakade, 2024.
+{{% /hint %}}
+
+
 
 
 
@@ -355,7 +369,9 @@ scheduler = ExponentialLR(optimizer, gamma=0.9)
 ```
 {{<button href="https://pytorch.org/docs/stable/optim.html#how-to-adjust-learning-rate">}}PyTorch{{</button>}}
 
+https://arxiv.org/pdf/1608.03983
 
+https://arxiv.org/pdf/2404.06395
 
 
 ## Collateral

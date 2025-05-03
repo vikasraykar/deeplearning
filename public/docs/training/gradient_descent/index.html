@@ -49,7 +49,7 @@ The gradient vector points in the direction of the greatest rate of increase of 
 <link rel="canonical" href="http://localhost:1313/docs/training/gradient_descent/">
 <link rel="stylesheet" href="/book.min.6c8b9d2a1fc95075ed7da46ca81060b39add8fff6741ac51259f768929281e2c.css" integrity="sha256-bIudKh/JUHXtfaRsqBBgs5rdj/9nQaxRJZ92iSkoHiw=" crossorigin="anonymous">
   <script defer src="/fuse.min.js"></script>
-  <script defer src="/en.search.min.ccc770c0ea7bbf19edc675c8e258db0d273ecf96a72562c74e342deacaa1c850.js" integrity="sha256-zMdwwOp7vxntxnXI4ljbDSc&#43;z5anJWLHTjQt6sqhyFA=" crossorigin="anonymous"></script>
+  <script defer src="/en.search.min.8a2e055af9e0aaa67e2dc15b8ae2fc1d9298affa1fe9e6557cc1279374e4d665.js" integrity="sha256-ii4FWvngqqZ&#43;LcFbiuL8HZKYr/of6eZVfMEnk3Tk1mU=" crossorigin="anonymous"></script>
 <!--
 Made with Book Theme
 https://github.com/alex-shpak/hugo-book
@@ -186,6 +186,17 @@ https://github.com/alex-shpak/hugo-book
       
     
       
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/neural_networks/metrics/" class="">Metrics</a>
+  
+
+        </li>
+      
     
   </ul>
 
@@ -199,7 +210,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="/docs/training/" class="">Training neural networks</a>
+    <a href="/docs/training/" class="">Training</a>
   
 
           
@@ -238,7 +249,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="/docs/training/autograd/" class="">Automatic Differentiation</a>
+    <a href="/docs/training/autograd/" class="">AutoDiff</a>
   
 
         </li>
@@ -392,6 +403,84 @@ https://github.com/alex-shpak/hugo-book
         </li>
       
     
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/transformers/attentionvariants/" class="">Attention variants</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/transformers/models/" class="">Frontier models</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/transformers/moe/" class="">MoE</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/transformers/scaling/" class="">Scaling</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/transformers/ssm/" class="">SSM</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/transformers/datasets/" class="">Datasets</a>
+  
+
+        </li>
+      
+    
   </ul>
 
         </li>
@@ -404,7 +493,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="/docs/rl/" class="">Reinforcement Learning</a>
+    <a href="/docs/rl/" class="">Reinforcement</a>
   
 
           
@@ -493,6 +582,8 @@ https://github.com/alex-shpak/hugo-book
         <li><a href="#rmsprop">RMSProp</a></li>
         <li><a href="#adam">Adam</a></li>
         <li><a href="#adamw">AdamW</a></li>
+        <li><a href="#muon">Muon</a></li>
+        <li><a href="#soap">SOAP</a></li>
       </ul>
     </li>
     <li><a href="#learning-rate-schedule">Learning rate schedule</a></li>
@@ -644,6 +735,7 @@ L(\mathbf{w}) = \sum_{i=1}^{N} L_i(\mathbf{w})
 </ul>
 <p>In practice, mini-batch SGD is the most frequently used variation because it is both computationally cheap and results in more robust convergence.</p>
 </blockquote>
+<p><a href="https://arxiv.org/pdf/1812.06162">https://arxiv.org/pdf/1812.06162</a></p>
 <h2 id="adding-momentum">
   Adding momentum
   <a class="anchor" href="#adding-momentum">#</a>
@@ -866,7 +958,7 @@ Typically we set the <span>
 
 <div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#111">optimizer</span> <span style="color:#f92672">=</span> <span style="color:#111">optim</span><span style="color:#f92672">.</span><span style="color:#111">Adam</span><span style="color:#111">(</span><span style="color:#111">model</span><span style="color:#f92672">.</span><span style="color:#111">parameters</span><span style="color:#111">(),</span> <span style="color:#111">lr</span><span style="color:#f92672">=</span><span style="color:#ae81ff">0.001</span><span style="color:#111">,</span> <span style="color:#111">betas</span><span style="color:#f92672">=</span><span style="color:#111">(</span><span style="color:#ae81ff">0.9</span><span style="color:#111">,</span><span style="color:#ae81ff">0.99</span><span style="color:#111">),</span> <span style="color:#111">eps</span><span style="color:#f92672">=</span><span style="color:#ae81ff">1e-08</span><span style="color:#111">)</span>
 </span></span></code></pre></div><blockquote class="book-hint warning">
-<p>Kingma, D.P. and Ba, J., 2014. <a href="https://arxiv.org/abs/1412.6980">Adam: A method for stochastic optimization</a>. arXiv preprint arXiv:1412.6980.</p>
+<p><a href="https://arxiv.org/pdf/1412.6980">Adam: A method for stochastic optimization</a>, D. P. Kingma and J. Ba, ICLR 2015.</p>
 </blockquote>
 <h3 id="adamw">
   AdamW
@@ -883,10 +975,24 @@ Typically we set the <span>
 
 <div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#111">optimizer</span> <span style="color:#f92672">=</span> <span style="color:#111">optim</span><span style="color:#f92672">.</span><span style="color:#111">AdamW</span><span style="color:#111">(</span><span style="color:#111">model</span><span style="color:#f92672">.</span><span style="color:#111">parameters</span><span style="color:#111">(),</span> <span style="color:#111">lr</span><span style="color:#f92672">=</span><span style="color:#ae81ff">0.001</span><span style="color:#111">,</span> <span style="color:#111">betas</span><span style="color:#f92672">=</span><span style="color:#111">(</span><span style="color:#ae81ff">0.9</span><span style="color:#111">,</span><span style="color:#ae81ff">0.99</span><span style="color:#111">),</span> <span style="color:#111">eps</span><span style="color:#f92672">=</span><span style="color:#ae81ff">1e-08</span><span style="color:#111">,</span> <span style="color:#111">weight_decay</span><span style="color:#f92672">=</span><span style="color:#ae81ff">0.01</span><span style="color:#111">)</span>
 </span></span></code></pre></div><blockquote class="book-hint warning">
-<p>Ilya Loshchilov, Frank Hutter, <a href="https://arxiv.org/abs/1711.05101">Decoupled Weight Decay Regularization</a>, ICLR 2019.</p>
+<p><a href="https://arxiv.org/abs/1711.05101">Decoupled Weight Decay Regularization</a>, Ilya Loshchilov and Frank Hutter, ICLR 2019.</p>
 </blockquote>
 <blockquote class="book-hint danger">
 <p>Adam and AdamW are the most widely used optimizers.</p>
+</blockquote>
+<h3 id="muon">
+  Muon
+  <a class="anchor" href="#muon">#</a>
+</h3>
+<blockquote class="book-hint warning">
+<p><a href="https://kellerjordan.github.io/posts/muon/">Muon: An optimizer for hidden layers in neural networks</a>, Keller Jordan, Yuchen Jin, Vlado Boza, Jiacheng You, Franz Cesista, Laker Newhouse and Jeremy Bernstein, 2024.</p>
+</blockquote>
+<h3 id="soap">
+  SOAP
+  <a class="anchor" href="#soap">#</a>
+</h3>
+<blockquote class="book-hint warning">
+<p><a href="https://arxiv.org/abs/2409.11321">SOAP: Improving and Stabilizing Shampoo using Adam</a>, Nikhil Vyas, Depen Morwani, Rosie Zhao, Mujin Kwun, Itai Shapira, David Brandfonbrener, Lucas Janson, Sham Kakade, 2024.</p>
 </blockquote>
 <h2 id="learning-rate-schedule">
   Learning rate schedule
@@ -901,8 +1007,8 @@ Typically we set the <span>
 </span>
 
 <div class="book-tabs">
-<input type="radio" class="toggle" name="tabs-52" id="tabs-52-0" checked="checked" />
-<label for="tabs-52-0">Linear</label>
+<input type="radio" class="toggle" name="tabs-54" id="tabs-54-0" checked="checked" />
+<label for="tabs-54-0">Linear</label>
 <div class="book-tabs-content markdown-inner"><span>
   \[
 \mathbf{\eta}^t = \left(1-\frac{t}{K}\right) \mathbf{\eta}^0 + \left(\frac{t}{K}\right) \mathbf{\eta}^K
@@ -910,16 +1016,16 @@ Typically we set the <span>
 </span>
 <p>The learning rate reduces linearly over K steps, after which its value is held constant.</p>
 </div>
-<input type="radio" class="toggle" name="tabs-52" id="tabs-52-1"  />
-<label for="tabs-52-1">Power</label>
+<input type="radio" class="toggle" name="tabs-54" id="tabs-54-1"  />
+<label for="tabs-54-1">Power</label>
 <div class="book-tabs-content markdown-inner"><span>
   \[
 \mathbf{\eta}^t = \mathbf{\eta}^0 \left(1+\frac{t}{s}\right)^c
 \]
 </span>
 </div>
-<input type="radio" class="toggle" name="tabs-52" id="tabs-52-2"  />
-<label for="tabs-52-2">Exponential</label>
+<input type="radio" class="toggle" name="tabs-54" id="tabs-54-2"  />
+<label for="tabs-54-2">Exponential</label>
 <div class="book-tabs-content markdown-inner"><span>
   \[
 \mathbf{\eta}^t = \mathbf{\eta}^0 c^\frac{t}{s}\]
@@ -933,6 +1039,8 @@ Typically we set the <span>
 </span></span><span style="display:flex;"><span><span style="color:#111">scheduler</span> <span style="color:#f92672">=</span> <span style="color:#111">ExponentialLR</span><span style="color:#111">(</span><span style="color:#111">optimizer</span><span style="color:#111">,</span> <span style="color:#111">gamma</span><span style="color:#f92672">=</span><span style="color:#ae81ff">0.9</span><span style="color:#111">)</span>
 </span></span></code></pre></div><a  href="https://pytorch.org/docs/stable/optim.html#how-to-adjust-learning-rate"   target="_blank" rel="noopener"  class="book-btn">PyTorch</a>
 
+<p><a href="https://arxiv.org/pdf/1608.03983">https://arxiv.org/pdf/1608.03983</a></p>
+<p><a href="https://arxiv.org/pdf/2404.06395">https://arxiv.org/pdf/2404.06395</a></p>
 <h2 id="collateral">
   Collateral
   <a class="anchor" href="#collateral">#</a>
@@ -996,6 +1104,8 @@ Typically we set the <span>
         <li><a href="#rmsprop">RMSProp</a></li>
         <li><a href="#adam">Adam</a></li>
         <li><a href="#adamw">AdamW</a></li>
+        <li><a href="#muon">Muon</a></li>
+        <li><a href="#soap">SOAP</a></li>
       </ul>
     </li>
     <li><a href="#learning-rate-schedule">Learning rate schedule</a></li>

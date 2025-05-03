@@ -1,7 +1,7 @@
 ---
 weight: 3
 bookFlatSection: true
-title: "Reinforcement Learning"
+title: "Reinforcement"
 ---
 
 > Reinforcement Learning basics.

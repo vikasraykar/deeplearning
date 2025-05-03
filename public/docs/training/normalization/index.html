@@ -86,7 +86,7 @@ We normalize the pre-activations as follows.
 <link rel="canonical" href="http://localhost:1313/docs/training/normalization/">
 <link rel="stylesheet" href="/book.min.6c8b9d2a1fc95075ed7da46ca81060b39add8fff6741ac51259f768929281e2c.css" integrity="sha256-bIudKh/JUHXtfaRsqBBgs5rdj/9nQaxRJZ92iSkoHiw=" crossorigin="anonymous">
   <script defer src="/fuse.min.js"></script>
-  <script defer src="/en.search.min.ccc770c0ea7bbf19edc675c8e258db0d273ecf96a72562c74e342deacaa1c850.js" integrity="sha256-zMdwwOp7vxntxnXI4ljbDSc&#43;z5anJWLHTjQt6sqhyFA=" crossorigin="anonymous"></script>
+  <script defer src="/en.search.min.8a2e055af9e0aaa67e2dc15b8ae2fc1d9298affa1fe9e6557cc1279374e4d665.js" integrity="sha256-ii4FWvngqqZ&#43;LcFbiuL8HZKYr/of6eZVfMEnk3Tk1mU=" crossorigin="anonymous"></script>
 <!--
 Made with Book Theme
 https://github.com/alex-shpak/hugo-book
@@ -223,6 +223,17 @@ https://github.com/alex-shpak/hugo-book
       
     
       
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/neural_networks/metrics/" class="">Metrics</a>
+  
+
+        </li>
+      
     
   </ul>
 
@@ -236,7 +247,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="/docs/training/" class="">Training neural networks</a>
+    <a href="/docs/training/" class="">Training</a>
   
 
           
@@ -275,7 +286,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="/docs/training/autograd/" class="">Automatic Differentiation</a>
+    <a href="/docs/training/autograd/" class="">AutoDiff</a>
   
 
         </li>
@@ -429,6 +440,84 @@ https://github.com/alex-shpak/hugo-book
         </li>
       
     
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/transformers/attentionvariants/" class="">Attention variants</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/transformers/models/" class="">Frontier models</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/transformers/moe/" class="">MoE</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/transformers/scaling/" class="">Scaling</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/transformers/ssm/" class="">SSM</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/transformers/datasets/" class="">Datasets</a>
+  
+
+        </li>
+      
+    
   </ul>
 
         </li>
@@ -441,7 +530,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="/docs/rl/" class="">Reinforcement Learning</a>
+    <a href="/docs/rl/" class="">Reinforcement</a>
   
 
           
@@ -518,6 +607,7 @@ https://github.com/alex-shpak/hugo-book
   <ul>
     <li><a href="#batch-normalization">Batch normalization</a></li>
     <li><a href="#layer-normalization">Layer normalization</a></li>
+    <li><a href="#rmsnorm">RMSNorm</a></li>
     <li><a href="#collateral">Collateral</a></li>
   </ul>
 </nav>
@@ -599,10 +689,20 @@ We normalize the pre-activations as follows.
 \]
 </span>
 </p>
+<blockquote class="book-hint info">
+<p><a href="https://arxiv.org/abs/1607.06450">Layer Normalization</a>, J. L. Bao, J. R. Kiros, and G. E. Hinton, 2016</p>
+</blockquote>
 <a  href="https://pytorch.org/docs/stable/generated/torch.nn.LayerNorm.html#torch.nn.LayerNorm"   target="_blank" rel="noopener"  class="book-btn">PyTorch</a>
 
 <div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#111">layer_norm</span> <span style="color:#f92672">=</span> <span style="color:#111">nn</span><span style="color:#f92672">.</span><span style="color:#111">LayerNorm</span><span style="color:#111">(</span><span style="color:#111">enormalized_shape</span><span style="color:#111">)</span>
-</span></span></code></pre></div><h2 id="collateral">
+</span></span></code></pre></div><h2 id="rmsnorm">
+  RMSNorm
+  <a class="anchor" href="#rmsnorm">#</a>
+</h2>
+<blockquote class="book-hint info">
+<p><a href="https://arxiv.org/abs/1910.07467">Root Mean Square Layer Normalization</a>, B. Zhang, R. Sennrich, NeurIPS 2019.</p>
+</blockquote>
+<h2 id="collateral">
   Collateral
   <a class="anchor" href="#collateral">#</a>
 </h2>
@@ -650,6 +750,7 @@ We normalize the pre-activations as follows.
   <ul>
     <li><a href="#batch-normalization">Batch normalization</a></li>
     <li><a href="#layer-normalization">Layer normalization</a></li>
+    <li><a href="#rmsnorm">RMSNorm</a></li>
     <li><a href="#collateral">Collateral</a></li>
   </ul>
 </nav>

@@ -34,17 +34,29 @@
   </url><url>
     <loc>http://localhost:1313/docs/transformers/alignment/</loc>
   </url><url>
+    <loc>http://localhost:1313/docs/transformers/attentionvariants/</loc>
+  </url><url>
     <loc>http://localhost:1313/docs/neural_networks/mlp/</loc>
   </url><url>
     <loc>http://localhost:1313/docs/training/normalization/</loc>
   </url><url>
     <loc>http://localhost:1313/docs/neural_networks/activations/</loc>
   </url><url>
+    <loc>http://localhost:1313/docs/transformers/models/</loc>
+  </url><url>
+    <loc>http://localhost:1313/docs/transformers/moe/</loc>
+  </url><url>
     <loc>http://localhost:1313/docs/training/regularization/</loc>
+  </url><url>
+    <loc>http://localhost:1313/docs/transformers/scaling/</loc>
   </url><url>
     <loc>http://localhost:1313/docs/neural_networks/entropy/</loc>
   </url><url>
+    <loc>http://localhost:1313/docs/transformers/ssm/</loc>
+  </url><url>
     <loc>http://localhost:1313/docs/training/training_loop/</loc>
+  </url><url>
+    <loc>http://localhost:1313/docs/transformers/datasets/</loc>
   </url><url>
     <loc>http://localhost:1313/docs/neural_networks/metrics/</loc>
   </url><url>

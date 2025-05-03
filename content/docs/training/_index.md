@@ -1,7 +1,7 @@
 ---
 weight: 1
 bookFlatSection: true
-title: "Training neural networks"
+title: "Training"
 ---
 
 The goal of training is to find the value of the parameters of a model to make **effective predictions**.

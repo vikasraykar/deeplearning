@@ -18,6 +18,11 @@ The discrete distribution with maximum entropy ({{< katex >}}\log_2 K{{< /katex 
 
 The discrete distribution with minimum entropy ({{< katex >}}0{{< /katex >}}) is any delta function which puts all mass on one state/category.
 
+{{% hint info %}}
+[Prediction and Entropy of Printed English](https://www.princeton.edu/~wbialek/rome/refs/shannon_51.pdf), C. E. Shannon, 1950.
+{{% /hint %}}
+
+
 ## Binary entropy
 
 {{< katex >}}{{< /katex >}}For a binary random variable {{< katex >}}X \in {0,1}{{< /katex >}} with {{< katex >}}\text{Pr}(X=1) = \theta{{< /katex >}} and {{< katex >}}\text{Pr}(X=0) = 1-\theta{{< /katex >}} the entropy is as follows.

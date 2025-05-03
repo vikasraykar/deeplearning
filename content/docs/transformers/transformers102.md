@@ -38,6 +38,15 @@ Assume the conditional distribution is independent of all previous tokens except
 {{< katex display=true >}}p(x_1,...,x_N)=p(x_1)p(x_2|x_1)p(x_3|x_1,x_2)\prod_{n=4}^{N} p(x_n|x_{n-1},x_{n-2}){{< /katex >}}
 
 
+
+{{% hint info %}}
+[Large Language Models in Machine Translation](https://aclanthology.org/D07-1090.pdf), Thorsten Brants, Ashok C. Popat, Peng Xu, Franz J. Och, Jeffrey Dean, 2007.
+{{% /hint %}}
+
+
+
+
+
 ## Decoder transformers
 
 > `vec2seq` - Generative models that output sequence of tokens.

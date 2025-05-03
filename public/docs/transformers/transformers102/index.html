@@ -43,6 +43,9 @@
 
 Decompose the distribution over sequence of tokens into a product of conditional distributions.
 
+
+
+
   \[p(x_1,...,x_N)=\prod_{n=1}^{N} p(x_n|x_1,...,x_{n-1})\]
 
 
@@ -73,7 +76,7 @@ Assume the conditional distribution is independent of all previous tokens except
 <link rel="canonical" href="http://localhost:1313/docs/transformers/transformers102/">
 <link rel="stylesheet" href="/book.min.6c8b9d2a1fc95075ed7da46ca81060b39add8fff6741ac51259f768929281e2c.css" integrity="sha256-bIudKh/JUHXtfaRsqBBgs5rdj/9nQaxRJZ92iSkoHiw=" crossorigin="anonymous">
   <script defer src="/fuse.min.js"></script>
-  <script defer src="/en.search.min.ccc770c0ea7bbf19edc675c8e258db0d273ecf96a72562c74e342deacaa1c850.js" integrity="sha256-zMdwwOp7vxntxnXI4ljbDSc&#43;z5anJWLHTjQt6sqhyFA=" crossorigin="anonymous"></script>
+  <script defer src="/en.search.min.8a2e055af9e0aaa67e2dc15b8ae2fc1d9298affa1fe9e6557cc1279374e4d665.js" integrity="sha256-ii4FWvngqqZ&#43;LcFbiuL8HZKYr/of6eZVfMEnk3Tk1mU=" crossorigin="anonymous"></script>
 <!--
 Made with Book Theme
 https://github.com/alex-shpak/hugo-book
@@ -234,7 +237,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="/docs/training/" class="">Training neural networks</a>
+    <a href="/docs/training/" class="">Training</a>
   
 
           
@@ -273,7 +276,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="/docs/training/autograd/" class="">Automatic Differentiation</a>
+    <a href="/docs/training/autograd/" class="">AutoDiff</a>
   
 
         </li>
@@ -434,7 +437,72 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="/docs/transformers/models/" class="">Models</a>
+    <a href="/docs/transformers/attentionvariants/" class="">Attention variants</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/transformers/models/" class="">Frontier models</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/transformers/moe/" class="">MoE</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/transformers/scaling/" class="">Scaling</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/transformers/ssm/" class="">SSM</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/transformers/datasets/" class="">Datasets</a>
   
 
         </li>
@@ -452,7 +520,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="/docs/rl/" class="">Reinforcement Learning</a>
+    <a href="/docs/rl/" class="">Reinforcement</a>
   
 
           
@@ -608,7 +676,10 @@ https://github.com/alex-shpak/hugo-book
   <a class="anchor" href="#auto-regressive-models">#</a>
 </h2>
 <p>Decompose the distribution over sequence of tokens into a product of conditional distributions.</p>
-<span>
+
+<link rel="stylesheet" href="/katex/katex.min.css" />
+<script defer src="/katex/katex.min.js"></script>
+<script defer src="/katex/auto-render.min.js" onload="renderMathInElement(document.body);"></script><span>
   \[p(x_1,...,x_N)=\prod_{n=1}^{N} p(x_n|x_1,...,x_{n-1})\]
 </span>
 
@@ -647,6 +718,9 @@ https://github.com/alex-shpak/hugo-book
   \[p(x_1,...,x_N)=p(x_1)p(x_2|x_1)p(x_3|x_1,x_2)\prod_{n=4}^{N} p(x_n|x_{n-1},x_{n-2})\]
 </span>
 
+<blockquote class="book-hint info">
+<p><a href="https://aclanthology.org/D07-1090.pdf">Large Language Models in Machine Translation</a>, Thorsten Brants, Ashok C. Popat, Peng Xu, Franz J. Och, Jeffrey Dean, 2007.</p>
+</blockquote>
 <h2 id="decoder-transformers">
   Decoder transformers
   <a class="anchor" href="#decoder-transformers">#</a>

@@ -75,10 +75,15 @@ Swish Gated Liner Unit
 \text{Swish}(z) = z \odot \text{Swish}_{\beta}(wz+b)
 {{< /katex >}}
 
+{{% hint info %}}
+[GLU Variants Improve Transformer](https://arxiv.org/pdf/2002.05202), Noam Shazeer, 2020.
+
+🤷 *We offer no explanation as to why these architectures seem to work; we attribute their success, as all else, to divine benevolence.*
+{{% /hint %}}
+
+
+
 ## Collateral
 
 https://pytorch.org/docs/stable/nn.html#non-linear-activations-weighted-sum-nonlinearity
 
-[GLU Variants Improve Transformer](https://arxiv.org/pdf/2002.05202)
-
-> We offer no explanation as to why these architectures seem to work; we attribute their success, as all else, to divine benevolence

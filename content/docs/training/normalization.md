@@ -49,10 +49,23 @@ We normalize the pre-activations as follows.
 \tilde{a}_{ni} = \gamma_n \hat{a}_{ni} + \beta_n
 {{< /katex >}}
 
+{{% hint info %}}
+[Layer Normalization](https://arxiv.org/abs/1607.06450), J. L. Bao, J. R. Kiros, and G. E. Hinton, 2016
+{{% /hint %}}
+
+
 {{<button href="https://pytorch.org/docs/stable/generated/torch.nn.LayerNorm.html#torch.nn.LayerNorm">}}PyTorch{{</button>}}
 ```python
 layer_norm = nn.LayerNorm(enormalized_shape)
 ```
+
+## RMSNorm
+
+{{% hint info %}}
+[Root Mean Square Layer Normalization](https://arxiv.org/abs/1910.07467), B. Zhang, R. Sennrich, NeurIPS 2019.
+{{% /hint %}}
+
+
 
 ## Collateral
 
