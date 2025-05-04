@@ -36,11 +36,7 @@ flowchart LR
   Fine tune LLMs with labelled data
   #
 
-
-  Supervised Fine Tuning (SFT)
-  #
-
-Training data is task specific instructions paired with their expected outputs.">
+https://arxiv.org/pdf/2305.11206">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#343a40">
 <meta name="color-scheme" content="light dark"><meta property="og:url" content="http://localhost:1313/docs/transformers/alignment/">
@@ -49,7 +45,7 @@ Training data is task specific instructions paired with their expected outputs."
   <meta property="og:description" content="Alignment # LLMs are typically trained for next-token prediction.
 Pre-trained LLMs may not be able to follow user instructions because they were not trained to do so.
 Pre-trained LLMs may generate harmful content or perpetuate biases inherent in their training data.
---- title: LLM training stages --- flowchart LR subgraph Pre-training A[Pre-training] end subgraph Post-training B[&#34;Instruction Alignment (SFT)&#34;] C[&#34;Preference Alignment (RLHF)&#34;] end subgraph Inference D[Prompt engineering] end A--&gt;B B--&gt;C C--&gt;D Fine tune LLMs with labelled data # Supervised Fine Tuning (SFT) # Training data is task specific instructions paired with their expected outputs.">
+--- title: LLM training stages --- flowchart LR subgraph Pre-training A[Pre-training] end subgraph Post-training B[&#34;Instruction Alignment (SFT)&#34;] C[&#34;Preference Alignment (RLHF)&#34;] end subgraph Inference D[Prompt engineering] end A--&gt;B B--&gt;C C--&gt;D Fine tune LLMs with labelled data # https://arxiv.org/pdf/2305.11206">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
     <meta property="article:section" content="docs">
@@ -59,7 +55,7 @@ Pre-trained LLMs may generate harmful content or perpetuate biases inherent in t
 <link rel="canonical" href="http://localhost:1313/docs/transformers/alignment/">
 <link rel="stylesheet" href="/book.min.6c8b9d2a1fc95075ed7da46ca81060b39add8fff6741ac51259f768929281e2c.css" integrity="sha256-bIudKh/JUHXtfaRsqBBgs5rdj/9nQaxRJZ92iSkoHiw=" crossorigin="anonymous">
   <script defer src="/fuse.min.js"></script>
-  <script defer src="/en.search.min.806346de3eb16675e860bc9156ff04165ae8983979413477e43e4270df22612a.js" integrity="sha256-gGNG3j6xZnXoYLyRVv8EFlromDl5QTR35D5CcN8iYSo=" crossorigin="anonymous"></script>
+  <script defer src="/en.search.min.24e5a6133e2174d2f5691ca2bf8956293d655dd8f57954880046ed507e29f4ec.js" integrity="sha256-JOWmEz4hdNL1aRyiv4lWKT1lXdj1eVSIAEbtUH4p9Ow=" crossorigin="anonymous"></script>
 <!--
 Made with Book Theme
 https://github.com/alex-shpak/hugo-book
@@ -631,7 +627,13 @@ https://github.com/alex-shpak/hugo-book
         <li><a href="#soft-prompts">Soft prompts</a></li>
       </ul>
     </li>
-    <li><a href="#fine-tune-llms-with-reward-models">Fine tune LLMs with reward models</a></li>
+    <li><a href="#fine-tune-llms-with-reward-models">Fine tune LLMs with reward models</a>
+      <ul>
+        <li><a href="#proximal-policy-optimization-ppo">Proximal Policy Optimization (PPO)</a></li>
+        <li><a href="#direct-policy-optimization-dpo">Direct Policy Optimization (DPO)</a></li>
+        <li><a href="#group-relative-preference-optimization-grpo">Group Relative Preference Optimization (GRPO)</a></li>
+      </ul>
+    </li>
     <li><a href="#alignment-during-inference">Alignment during inference</a></li>
   </ul>
 </nav>
@@ -678,6 +680,7 @@ flowchart LR
   Fine tune LLMs with labelled data
   <a class="anchor" href="#fine-tune-llms-with-labelled-data">#</a>
 </h2>
+<p><a href="https://arxiv.org/pdf/2305.11206">https://arxiv.org/pdf/2305.11206</a></p>
 <h3 id="supervised-fine-tuning-sft">
   Supervised Fine Tuning (SFT)
   <a class="anchor" href="#supervised-fine-tuning-sft">#</a>
@@ -704,6 +707,22 @@ flowchart LR
   Fine tune LLMs with reward models
   <a class="anchor" href="#fine-tune-llms-with-reward-models">#</a>
 </h2>
+<h3 id="proximal-policy-optimization-ppo">
+  Proximal Policy Optimization (PPO)
+  <a class="anchor" href="#proximal-policy-optimization-ppo">#</a>
+</h3>
+<p><a href="https://arxiv.org/pdf/1707.06347">https://arxiv.org/pdf/1707.06347</a></p>
+<p><a href="https://arxiv.org/pdf/2203.02155">https://arxiv.org/pdf/2203.02155</a></p>
+<h3 id="direct-policy-optimization-dpo">
+  Direct Policy Optimization (DPO)
+  <a class="anchor" href="#direct-policy-optimization-dpo">#</a>
+</h3>
+<p><a href="https://arxiv.org/pdf/2305.18290">https://arxiv.org/pdf/2305.18290</a></p>
+<h3 id="group-relative-preference-optimization-grpo">
+  Group Relative Preference Optimization (GRPO)
+  <a class="anchor" href="#group-relative-preference-optimization-grpo">#</a>
+</h3>
+<p><a href="https://arxiv.org/pdf/2402.03300">https://arxiv.org/pdf/2402.03300</a></p>
 <h2 id="alignment-during-inference">
   Alignment during inference
   <a class="anchor" href="#alignment-during-inference">#</a>
@@ -759,7 +778,13 @@ flowchart LR
         <li><a href="#soft-prompts">Soft prompts</a></li>
       </ul>
     </li>
-    <li><a href="#fine-tune-llms-with-reward-models">Fine tune LLMs with reward models</a></li>
+    <li><a href="#fine-tune-llms-with-reward-models">Fine tune LLMs with reward models</a>
+      <ul>
+        <li><a href="#proximal-policy-optimization-ppo">Proximal Policy Optimization (PPO)</a></li>
+        <li><a href="#direct-policy-optimization-dpo">Direct Policy Optimization (DPO)</a></li>
+        <li><a href="#group-relative-preference-optimization-grpo">Group Relative Preference Optimization (GRPO)</a></li>
+      </ul>
+    </li>
     <li><a href="#alignment-during-inference">Alignment during inference</a></li>
   </ul>
 </nav>

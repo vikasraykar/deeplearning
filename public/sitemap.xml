@@ -8,8 +8,6 @@
   </url><url>
     <loc>http://localhost:1313/docs/basics/entropy/</loc>
   </url><url>
-    <loc>http://localhost:1313/docs/basics/gpu/</loc>
-  </url><url>
     <loc>http://localhost:1313/docs/training/gradient_descent/</loc>
   </url><url>
     <loc>http://localhost:1313/docs/neural_networks/linear_regression/</loc>
@@ -32,6 +30,8 @@
   </url><url>
     <loc>http://localhost:1313/docs/training/autograd/</loc>
   </url><url>
+    <loc>http://localhost:1313/docs/basics/gpu/</loc>
+  </url><url>
     <loc>http://localhost:1313/docs/training/initialization/</loc>
   </url><url>
     <loc>http://localhost:1313/docs/rl/</loc>
@@ -43,6 +43,8 @@
     <loc>http://localhost:1313/docs/transformers/alignment/</loc>
   </url><url>
     <loc>http://localhost:1313/docs/transformers/attentionvariants/</loc>
+  </url><url>
+    <loc>http://localhost:1313/docs/transformers/inference/</loc>
   </url><url>
     <loc>http://localhost:1313/docs/neural_networks/mlp/</loc>
   </url><url>

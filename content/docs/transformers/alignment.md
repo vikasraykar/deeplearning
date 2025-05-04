@@ -34,6 +34,8 @@ flowchart LR
 
 ## Fine tune LLMs with labelled data
 
+https://arxiv.org/pdf/2305.11206
+
 ### Supervised Fine Tuning (SFT)
 
 Training data is task specific instructions paired with their expected outputs.
@@ -49,6 +51,20 @@ During backward pass we the force the loss corresponding to the instruction to b
 ### Soft prompts
 
 ## Fine tune LLMs with reward models
+
+### Proximal Policy Optimization (PPO)
+
+https://arxiv.org/pdf/1707.06347
+
+https://arxiv.org/pdf/2203.02155
+
+### Direct Policy Optimization (DPO)
+
+https://arxiv.org/pdf/2305.18290
+
+### Group Relative Preference Optimization (GRPO)
+
+https://arxiv.org/pdf/2402.03300
 
 ## Alignment during inference
 

@@ -3,49 +3,42 @@
 <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="class Tokenizer:
-    &#34;&#34;&#34;Tokenizer&#34;&#34;&#34;
+<meta name="description" content="
+  Tokenizers
+  #
+
+A tokenizer converts text (string) to a sequence of tokens (represented as list of integer indices).
+A Tokenizer is a class that implements the encode and decode methods.
+The vocabulary size is number of possible tokens (integers).
+
+Explore various tokenizers here. https://tiktokenizer.vercel.app/
+from abc import ABC
+
+class Tokenizer(ABC):
+    &#34;&#34;&#34;Abstract interface for a tokenizer.&#34;&#34;&#34;
 
     def encode(self, string: str) -&gt; list[int]:
-        &#34;&#34;&#34;Convert a string to a sequence of integers (tokens).&#34;&#34;&#34;
+        &#34;&#34;&#34;Convert a string to a sequence of integer indices (token ids).&#34;&#34;&#34;
         raise NotImplementedError
 
     def decode(self, indices: list[int]) -&gt; str:
-        &#34;&#34;&#34;Convert a sequence of integers (tokens) to a string.&#34;&#34;&#34;
+        &#34;&#34;&#34;Convert a sequence of integer indices (token ids) to a string.&#34;&#34;&#34;
         raise NotImplementedError
-Tokenization pipeline
 
-Normalization
-Pre-tokenization
-Model
-Post-processor
-
-
-  SentencePiece
+  Character tokenizer
   #
 
-https://github.com/google/sentencepiece
-SentencePiece is a tokenization algorithm for the preprocessing of text that you can use with either BPE, WordPiece, or Unigram model.
-
-It considers the text as a sequence of Unicode characters, and replaces spaces with a special character, ▁.
-Used in conjunction with the Unigram algorithm, it doesn’t require a pre-tokenization step, which is very useful for languages where the space character is not used (like Chinese or Japanese).
-SentencePiece is reversible tokenization: since there is no special treatment of spaces, decoding the tokens is done simply by concatenating them and replacing the _s with spaces — this results in the normalized text.
-
-
-  BPE
-  #
-
-
-GPT-2">
+A Unicode string is a sequence of Unicode characters.">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#343a40">
 <meta name="color-scheme" content="light dark"><meta property="og:url" content="http://localhost:1313/docs/transformers/tokenizers/">
   <meta property="og:site_name" content="Deep Learning">
   <meta property="og:title" content="Tokenizers">
-  <meta property="og:description" content="class Tokenizer: &#34;&#34;&#34;Tokenizer&#34;&#34;&#34; def encode(self, string: str) -&gt; list[int]: &#34;&#34;&#34;Convert a string to a sequence of integers (tokens).&#34;&#34;&#34; raise NotImplementedError def decode(self, indices: list[int]) -&gt; str: &#34;&#34;&#34;Convert a sequence of integers (tokens) to a string.&#34;&#34;&#34; raise NotImplementedError Tokenization pipeline
-Normalization Pre-tokenization Model Post-processor SentencePiece # https://github.com/google/sentencepiece
-SentencePiece is a tokenization algorithm for the preprocessing of text that you can use with either BPE, WordPiece, or Unigram model.
-It considers the text as a sequence of Unicode characters, and replaces spaces with a special character, ▁. Used in conjunction with the Unigram algorithm, it doesn’t require a pre-tokenization step, which is very useful for languages where the space character is not used (like Chinese or Japanese). SentencePiece is reversible tokenization: since there is no special treatment of spaces, decoding the tokens is done simply by concatenating them and replacing the _s with spaces — this results in the normalized text. BPE # GPT-2">
+  <meta property="og:description" content="Tokenizers # A tokenizer converts text (string) to a sequence of tokens (represented as list of integer indices).
+A Tokenizer is a class that implements the encode and decode methods.
+The vocabulary size is number of possible tokens (integers).
+Explore various tokenizers here. https://tiktokenizer.vercel.app/
+from abc import ABC class Tokenizer(ABC): &#34;&#34;&#34;Abstract interface for a tokenizer.&#34;&#34;&#34; def encode(self, string: str) -&gt; list[int]: &#34;&#34;&#34;Convert a string to a sequence of integer indices (token ids).&#34;&#34;&#34; raise NotImplementedError def decode(self, indices: list[int]) -&gt; str: &#34;&#34;&#34;Convert a sequence of integer indices (token ids) to a string.&#34;&#34;&#34; raise NotImplementedError Character tokenizer # A Unicode string is a sequence of Unicode characters.">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
     <meta property="article:section" content="docs">
@@ -55,7 +48,7 @@ It considers the text as a sequence of Unicode characters, and replaces spaces w
 <link rel="canonical" href="http://localhost:1313/docs/transformers/tokenizers/">
 <link rel="stylesheet" href="/book.min.6c8b9d2a1fc95075ed7da46ca81060b39add8fff6741ac51259f768929281e2c.css" integrity="sha256-bIudKh/JUHXtfaRsqBBgs5rdj/9nQaxRJZ92iSkoHiw=" crossorigin="anonymous">
   <script defer src="/fuse.min.js"></script>
-  <script defer src="/en.search.min.806346de3eb16675e860bc9156ff04165ae8983979413477e43e4270df22612a.js" integrity="sha256-gGNG3j6xZnXoYLyRVv8EFlromDl5QTR35D5CcN8iYSo=" crossorigin="anonymous"></script>
+  <script defer src="/en.search.min.24e5a6133e2174d2f5691ca2bf8956293d655dd8f57954880046ed507e29f4ec.js" integrity="sha256-JOWmEz4hdNL1aRyiv4lWKT1lXdj1eVSIAEbtUH4p9Ow=" crossorigin="anonymous"></script>
 <!--
 Made with Book Theme
 https://github.com/alex-shpak/hugo-book
@@ -618,11 +611,17 @@ https://github.com/alex-shpak/hugo-book
   
 <nav id="TableOfContents">
   <ul>
-    <li><a href="#sentencepiece">SentencePiece</a></li>
+    <li><a href="#tokenizers">Tokenizers</a></li>
+    <li><a href="#character-tokenizer">Character tokenizer</a></li>
+    <li><a href="#byte-tokenizer">Byte tokenizer</a></li>
+    <li><a href="#word-tokenizer">Word tokenizer</a></li>
+    <li><a href="#pipeline">Pipeline</a></li>
     <li><a href="#bpe">BPE</a></li>
     <li><a href="#wordpiece">WordPiece</a></li>
     <li><a href="#unigram">Unigram</a></li>
     <li><a href="#tokenizer-free-approaches">Tokenizer-free approaches</a></li>
+    <li><a href="#sentencepiece">SentencePiece</a></li>
+    <li><a href="#collateral">Collateral</a></li>
   </ul>
 </nav>
 
@@ -635,33 +634,129 @@ https://github.com/alex-shpak/hugo-book
 
       
       
-  <article class="markdown book-article"><div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#00a8c8">class</span> <span style="color:#75af00">Tokenizer</span><span style="color:#111">:</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#d88200">&#34;&#34;&#34;Tokenizer&#34;&#34;&#34;</span>
+  <article class="markdown book-article"><h2 id="tokenizers">
+  Tokenizers
+  <a class="anchor" href="#tokenizers">#</a>
+</h2>
+<p>A tokenizer converts text (string) to a sequence of tokens (represented as list of integer indices).</p>
+<p>A Tokenizer is a class that implements the <code>encode</code> and <code>decode </code>methods.</p>
+<p>The <strong>vocabulary size</strong> is number of possible tokens (integers).</p>
+<blockquote>
+<p>Explore various tokenizers here. <a href="https://tiktokenizer.vercel.app/">https://tiktokenizer.vercel.app/</a></p></blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> <span style="color:#111">abc</span> <span style="color:#f92672">import</span> <span style="color:#111">ABC</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#00a8c8">class</span> <span style="color:#75af00">Tokenizer</span><span style="color:#111">(</span><span style="color:#111">ABC</span><span style="color:#111">):</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#d88200">&#34;&#34;&#34;Abstract interface for a tokenizer.&#34;&#34;&#34;</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">def</span> <span style="color:#75af00">encode</span><span style="color:#111">(</span><span style="color:#111">self</span><span style="color:#111">,</span> <span style="color:#111">string</span><span style="color:#111">:</span> <span style="color:#111">str</span><span style="color:#111">)</span> <span style="color:#f92672">-&gt;</span> <span style="color:#111">list</span><span style="color:#111">[</span><span style="color:#111">int</span><span style="color:#111">]:</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#d88200">&#34;&#34;&#34;Convert a string to a sequence of integers (tokens).&#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#d88200">&#34;&#34;&#34;Convert a string to a sequence of integer indices (token ids).&#34;&#34;&#34;</span>
 </span></span><span style="display:flex;"><span>        <span style="color:#00a8c8">raise</span> <span style="color:#75af00">NotImplementedError</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">def</span> <span style="color:#75af00">decode</span><span style="color:#111">(</span><span style="color:#111">self</span><span style="color:#111">,</span> <span style="color:#111">indices</span><span style="color:#111">:</span> <span style="color:#111">list</span><span style="color:#111">[</span><span style="color:#111">int</span><span style="color:#111">])</span> <span style="color:#f92672">-&gt;</span> <span style="color:#111">str</span><span style="color:#111">:</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#d88200">&#34;&#34;&#34;Convert a sequence of integers (tokens) to a string.&#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#d88200">&#34;&#34;&#34;Convert a sequence of integer indices (token ids) to a string.&#34;&#34;&#34;</span>
 </span></span><span style="display:flex;"><span>        <span style="color:#00a8c8">raise</span> <span style="color:#75af00">NotImplementedError</span>
-</span></span></code></pre></div><p>Tokenization pipeline</p>
+</span></span></code></pre></div><h2 id="character-tokenizer">
+  Character tokenizer
+  <a class="anchor" href="#character-tokenizer">#</a>
+</h2>
+<p>A Unicode string is a sequence of Unicode characters.</p>
+<p>Version 16.0 of the <a href="https://en.wikipedia.org/wiki/List_of_Unicode_characters">Unicode</a> standard defines <strong>154998 characters</strong> and 168 scripts.</p>
+<p>Each character can be converted into a <strong>code point</strong> (integer) via <code>ord</code>. It can be converted back via <code>chr</code>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#111">ord</span><span style="color:#111">(</span><span style="color:#d88200">&#34;a&#34;</span><span style="color:#111">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">97</span>
+</span></span><span style="display:flex;"><span><span style="color:#111">chr</span><span style="color:#111">(</span><span style="color:#ae81ff">97</span><span style="color:#111">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#d88200">&#34;a&#34;</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#111">ord</span><span style="color:#111">(</span><span style="color:#d88200">&#34;🌍&#34;</span><span style="color:#111">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">127757</span>
+</span></span><span style="display:flex;"><span><span style="color:#111">char</span><span style="color:#111">(</span><span style="color:#ae81ff">127757</span><span style="color:#111">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#d88200">&#34;🌍&#34;</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#00a8c8">class</span> <span style="color:#75af00">CharacterTokenizer</span><span style="color:#111">(</span><span style="color:#111">Tokenizer</span><span style="color:#111">):</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#d88200">&#34;&#34;&#34;Represent a string as a sequence of Unicode code points.&#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">def</span> <span style="color:#75af00">encode</span><span style="color:#111">(</span><span style="color:#111">self</span><span style="color:#111">,</span> <span style="color:#111">string</span><span style="color:#111">:</span> <span style="color:#111">str</span><span style="color:#111">)</span> <span style="color:#f92672">-&gt;</span> <span style="color:#111">list</span><span style="color:#111">[</span><span style="color:#111">int</span><span style="color:#111">]:</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#111">indices</span> <span style="color:#f92672">=</span> <span style="color:#111">list</span><span style="color:#111">(</span><span style="color:#111">map</span><span style="color:#111">(</span><span style="color:#111">ord</span><span style="color:#111">,</span> <span style="color:#111">string</span><span style="color:#111">))</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#00a8c8">return</span> <span style="color:#111">indices</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">def</span> <span style="color:#75af00">decode</span><span style="color:#111">(</span><span style="color:#111">self</span><span style="color:#111">,</span> <span style="color:#111">indices</span><span style="color:#111">:</span> <span style="color:#111">list</span><span style="color:#111">[</span><span style="color:#111">int</span><span style="color:#111">])</span> <span style="color:#f92672">-&gt;</span> <span style="color:#111">str</span><span style="color:#111">:</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#111">string</span> <span style="color:#f92672">=</span> <span style="color:#d88200">&#34;&#34;</span><span style="color:#f92672">.</span><span style="color:#111">join</span><span style="color:#111">(</span><span style="color:#111">list</span><span style="color:#111">(</span><span style="color:#111">map</span><span style="color:#111">(</span><span style="color:#111">chr</span><span style="color:#111">,</span> <span style="color:#111">indices</span><span style="color:#111">)))</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#00a8c8">return</span> <span style="color:#111">string</span>
+</span></span></code></pre></div><pre tabindex="0"><code>Hello, 🌍! 你好!
+[72, 101, 108, 108, 111, 44, 32, 127757, 33, 32, 20320, 22909, 33]
+1.5384615384615385
+</code></pre><ul>
+<li>Very large vocabulary size (~150k).</li>
+<li>Many characters are quite rare.</li>
+</ul>
+<h2 id="byte-tokenizer">
+  Byte tokenizer
+  <a class="anchor" href="#byte-tokenizer">#</a>
+</h2>
+<p>Unicode strings can be represented as a sequence of bytes, which can be represented by integers between 0 and 255.</p>
+<p>The most common Unicode encoding is <a href="https://en.wikipedia.org/wiki/UTF-8">UTF-8</a>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#111">In</span> <span style="color:#111">[</span><span style="color:#ae81ff">20</span><span style="color:#111">]:</span> <span style="color:#111">bytes</span><span style="color:#111">(</span><span style="color:#d88200">&#34;a&#34;</span><span style="color:#111">,</span> <span style="color:#111">encoding</span><span style="color:#f92672">=</span><span style="color:#d88200">&#34;utf-8&#34;</span><span style="color:#111">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#111">Out</span><span style="color:#111">[</span><span style="color:#ae81ff">20</span><span style="color:#111">]:</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;a&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#111">In</span> <span style="color:#111">[</span><span style="color:#ae81ff">21</span><span style="color:#111">]:</span> <span style="color:#111">bytes</span><span style="color:#111">(</span><span style="color:#d88200">&#34;🌍&#34;</span><span style="color:#111">,</span> <span style="color:#111">encoding</span><span style="color:#f92672">=</span><span style="color:#d88200">&#34;utf-8&#34;</span><span style="color:#111">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#111">Out</span><span style="color:#111">[</span><span style="color:#ae81ff">21</span><span style="color:#111">]:</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;</span><span style="color:#8045ff">\xf0\x9f\x8c\x8d</span><span style="color:#d88200">&#39;</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#00a8c8">class</span> <span style="color:#75af00">ByteTokenizer</span><span style="color:#111">(</span><span style="color:#111">Tokenizer</span><span style="color:#111">):</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#d88200">&#34;&#34;&#34;Represent a string as a sequence of bytes.&#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">def</span> <span style="color:#75af00">encode</span><span style="color:#111">(</span><span style="color:#111">self</span><span style="color:#111">,</span> <span style="color:#111">string</span><span style="color:#111">:</span> <span style="color:#111">str</span><span style="color:#111">)</span> <span style="color:#f92672">-&gt;</span> <span style="color:#111">list</span><span style="color:#111">[</span><span style="color:#111">int</span><span style="color:#111">]:</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#111">string_bytes</span> <span style="color:#f92672">=</span> <span style="color:#111">string</span><span style="color:#f92672">.</span><span style="color:#111">encode</span><span style="color:#111">(</span><span style="color:#d88200">&#34;utf-8&#34;</span><span style="color:#111">)</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#111">indices</span> <span style="color:#f92672">=</span> <span style="color:#111">list</span><span style="color:#111">(</span><span style="color:#111">map</span><span style="color:#111">(</span><span style="color:#111">int</span><span style="color:#111">,</span> <span style="color:#111">string_bytes</span><span style="color:#111">))</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#00a8c8">return</span> <span style="color:#111">indices</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">def</span> <span style="color:#75af00">decode</span><span style="color:#111">(</span><span style="color:#111">self</span><span style="color:#111">,</span> <span style="color:#111">indices</span><span style="color:#111">:</span> <span style="color:#111">list</span><span style="color:#111">[</span><span style="color:#111">int</span><span style="color:#111">])</span> <span style="color:#f92672">-&gt;</span> <span style="color:#111">str</span><span style="color:#111">:</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#111">string_bytes</span> <span style="color:#f92672">=</span> <span style="color:#111">bytes</span><span style="color:#111">(</span><span style="color:#111">indices</span><span style="color:#111">)</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#111">string</span> <span style="color:#f92672">=</span> <span style="color:#111">string_bytes</span><span style="color:#f92672">.</span><span style="color:#111">decode</span><span style="color:#111">(</span><span style="color:#d88200">&#34;utf-8&#34;</span><span style="color:#111">)</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#00a8c8">return</span> <span style="color:#111">string</span>
+</span></span></code></pre></div><pre tabindex="0"><code>Hello, 🌍! 你好!
+[72, 101, 108, 108, 111, 44, 32, 240, 159, 140, 141, 33, 32, 228, 189, 160, 229, 165, 189, 33]
+1.0
+</code></pre><ul>
+<li>Vocabulary size is small (255).</li>
+<li>Compression ratio is 1.</li>
+</ul>
+<h2 id="word-tokenizer">
+  Word tokenizer
+  <a class="anchor" href="#word-tokenizer">#</a>
+</h2>
+<p>This was used in classical NLP where we split string into words.</p>
+<div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#00a8c8">class</span> <span style="color:#75af00">WordTokenizer</span><span style="color:#111">(</span><span style="color:#111">Tokenizer</span><span style="color:#111">):</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#d88200">&#34;&#34;&#34;Split a string into words (usually on spaces).&#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">def</span> <span style="color:#111">__init__</span><span style="color:#111">(</span><span style="color:#111">self</span><span style="color:#111">):</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># This regular expression keeps all alphanumeric characters together (words).</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#111">self</span><span style="color:#f92672">.</span><span style="color:#111">regex_pattern</span> <span style="color:#f92672">=</span> <span style="color:#d88200">r</span><span style="color:#d88200">&#34;\w+|.&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">def</span> <span style="color:#75af00">encode</span><span style="color:#111">(</span><span style="color:#111">self</span><span style="color:#111">,</span> <span style="color:#111">string</span><span style="color:#111">:</span> <span style="color:#111">str</span><span style="color:#111">)</span> <span style="color:#f92672">-&gt;</span> <span style="color:#111">list</span><span style="color:#111">[</span><span style="color:#111">str</span><span style="color:#111">]:</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#111">segments</span> <span style="color:#f92672">=</span> <span style="color:#111">regex</span><span style="color:#f92672">.</span><span style="color:#111">findall</span><span style="color:#111">(</span><span style="color:#111">self</span><span style="color:#f92672">.</span><span style="color:#111">regex_pattern</span><span style="color:#111">,</span> <span style="color:#111">string</span><span style="color:#111">)</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#00a8c8">return</span> <span style="color:#111">segments</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">def</span> <span style="color:#75af00">decode</span><span style="color:#111">(</span><span style="color:#111">self</span><span style="color:#111">,</span> <span style="color:#111">segments</span><span style="color:#111">:</span> <span style="color:#111">list</span><span style="color:#111">[</span><span style="color:#111">str</span><span style="color:#111">])</span> <span style="color:#f92672">-&gt;</span> <span style="color:#111">str</span><span style="color:#111">:</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#111">string</span> <span style="color:#f92672">=</span> <span style="color:#d88200">&#34;&#34;</span><span style="color:#f92672">.</span><span style="color:#111">join</span><span style="color:#111">(</span><span style="color:#111">segments</span><span style="color:#111">)</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#00a8c8">return</span> <span style="color:#111">string</span>
+</span></span></code></pre></div><pre tabindex="0"><code>Hello, 🌍! 你好!
+[&#39;Hello&#39;, &#39;,&#39;, &#39; &#39;, &#39;🌍&#39;, &#39;!&#39;, &#39; &#39;, &#39;你好&#39;, &#39;!&#39;]
+2.5
+</code></pre><ul>
+<li>The number of words is huge.</li>
+<li>Many words are rare and the model won&rsquo;t learn much about them.</li>
+<li>New words we haven&rsquo;t seen during training get a special <code>UNK</code> token.</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># GPT2_TOKENIZER_REGEX</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># https://github.com/openai/tiktoken/blob/main/tiktoken_ext/openai_public.py#L23</span>
+</span></span><span style="display:flex;"><span><span style="color:#d88200">r</span><span style="color:#d88200">&#34;&#34;&#34;&#39;(?:[sdmt]|ll|ve|re)| ?\p</span><span style="color:#d88200">{L}</span><span style="color:#d88200">+| ?\p</span><span style="color:#d88200">{N}</span><span style="color:#d88200">+| ?[^\s\p</span><span style="color:#d88200">{L}</span><span style="color:#d88200">\p</span><span style="color:#d88200">{N}</span><span style="color:#d88200">]+|\s+(?!\S)|\s+&#34;&#34;&#34;</span>
+</span></span></code></pre></div><h2 id="pipeline">
+  Pipeline
+  <a class="anchor" href="#pipeline">#</a>
+</h2>
+<p>Tokenization pipeline</p>
 <ul>
 <li>Normalization</li>
 <li>Pre-tokenization</li>
 <li>Model</li>
 <li>Post-processor</li>
-</ul>
-<h2 id="sentencepiece">
-  SentencePiece
-  <a class="anchor" href="#sentencepiece">#</a>
-</h2>
-<p><a href="https://github.com/google/sentencepiece">https://github.com/google/sentencepiece</a></p>
-<p>SentencePiece is a tokenization algorithm for the preprocessing of text that you can use with either BPE, WordPiece, or Unigram model.</p>
-<ul>
-<li>It considers the text as a sequence of Unicode characters, and replaces spaces with a special character, <code>▁</code>.</li>
-<li>Used in conjunction with the Unigram algorithm, it doesn’t require a pre-tokenization step, which is very useful for languages where the space character is not used (like Chinese or Japanese).</li>
-<li>SentencePiece is <strong>reversible tokenization</strong>: since there is no special treatment of spaces, decoding the tokens is done simply by concatenating them and replacing the <code>_</code>s with spaces — this results in the normalized text.</li>
 </ul>
 <h2 id="bpe">
   BPE
@@ -694,6 +789,24 @@ https://github.com/alex-shpak/hugo-book
 <p><a href="https://arxiv.org/pdf/2305.07185">https://arxiv.org/pdf/2305.07185</a></p>
 <p><a href="https://arxiv.org/abs/2412.09871">https://arxiv.org/abs/2412.09871</a></p>
 <p><a href="https://arxiv.org/abs/2406.19223">https://arxiv.org/abs/2406.19223</a></p>
+<h2 id="sentencepiece">
+  SentencePiece
+  <a class="anchor" href="#sentencepiece">#</a>
+</h2>
+<p><a href="https://github.com/google/sentencepiece">https://github.com/google/sentencepiece</a></p>
+<p>SentencePiece is a tokenization algorithm for the preprocessing of text that you can use with either BPE, WordPiece, or Unigram model.</p>
+<ul>
+<li>It considers the text as a sequence of Unicode characters, and replaces spaces with a special character, <code>▁</code>.</li>
+<li>Used in conjunction with the Unigram algorithm, it doesn’t require a pre-tokenization step, which is very useful for languages where the space character is not used (like Chinese or Japanese).</li>
+<li>SentencePiece is <strong>reversible tokenization</strong>: since there is no special treatment of spaces, decoding the tokens is done simply by concatenating them and replacing the <code>_</code>s with spaces — this results in the normalized text.</li>
+</ul>
+<h2 id="collateral">
+  Collateral
+  <a class="anchor" href="#collateral">#</a>
+</h2>
+<ul>
+<li><a href="https://www.youtube.com/watch?v=zduSFxRajkE">Let&rsquo;s build the GPT Tokenizer, Karpathy</a></li>
+</ul>
 </article>
  
       
@@ -735,11 +848,17 @@ https://github.com/alex-shpak/hugo-book
   
 <nav id="TableOfContents">
   <ul>
-    <li><a href="#sentencepiece">SentencePiece</a></li>
+    <li><a href="#tokenizers">Tokenizers</a></li>
+    <li><a href="#character-tokenizer">Character tokenizer</a></li>
+    <li><a href="#byte-tokenizer">Byte tokenizer</a></li>
+    <li><a href="#word-tokenizer">Word tokenizer</a></li>
+    <li><a href="#pipeline">Pipeline</a></li>
     <li><a href="#bpe">BPE</a></li>
     <li><a href="#wordpiece">WordPiece</a></li>
     <li><a href="#unigram">Unigram</a></li>
     <li><a href="#tokenizer-free-approaches">Tokenizer-free approaches</a></li>
+    <li><a href="#sentencepiece">SentencePiece</a></li>
+    <li><a href="#collateral">Collateral</a></li>
   </ul>
 </nav>
 
