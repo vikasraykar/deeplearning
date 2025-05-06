@@ -6,13 +6,9 @@ bookToc: true
 
 ## Tokenizers
 
-A tokenizer converts text (string) to a sequence of tokens (represented as list of integer indices).
+A tokenizer encodes text (represented as a unicode string) to a **sequence of tokens** (represented as list of integer indices).
 
 A Tokenizer is a class that implements the `encode` and `decode `methods.
-
-The **vocabulary size** is number of possible tokens (integers).
-
-> Explore various tokenizers here. https://tiktokenizer.vercel.app/
 
 ```python
 from abc import ABC
@@ -29,27 +25,38 @@ class Tokenizer(ABC):
         raise NotImplementedError
 ```
 
-## Character tokenizer
+The **vocabulary size** is number of possible tokens (integers).
 
-A Unicode string is a sequence of Unicode characters.
+> Explore various tokenizers here. https://tiktokenizer.vercel.app/
 
-Version 16.0 of the [Unicode](https://en.wikipedia.org/wiki/List_of_Unicode_characters) standard defines **154998 characters** and 168 scripts.
+## Character based approaches
 
-Each character can be converted into a **code point** (integer) via `ord`. It can be converted back via `chr`.
+### Unicode standard
+
+A Unicode string is a sequence of Unicode characters. **Unicode** is a text encoding standard that maps characters to integer **code points**. The version 16.0 of the [Unicode](https://en.wikipedia.org/wiki/List_of_Unicode_characters) (September 2004) standard defines **154,998 characters** across 168 scripts.
+
+For example, the character "a" has the code point 97 and  the character "🌍" has the code point 127757.
+
+Each character can be converted into a Unicode **code point** (integer) via `ord()` function. It can be converted back via `chr()` function.
 
 ```python
-ord("a")
+>>> ord("a")
 97
-chr(97)
+>>> chr(97)
 "a"
+>>> ord("🌍")
+127757
+>>> chr(127757)
+"🌍"
+>>> ord('ಕ')
+3221
+>>> chr(3221)
+'ಕ'
 ```
 
-```python
-ord("🌍")
-127757
-char(127757)
-"🌍"
-```
+### Character-level tokenizer
+
+We can encode a string as a sequence of Unicode code points as below.
 
 ```python
 class CharacterTokenizer(Tokenizer):
@@ -70,22 +77,43 @@ Hello, 🌍! 你好!
 1.5384615384615385
 ```
 
-- Very large vocabulary size (~150k).
-- Many characters are quite rare.
+{{% hint danger %}}
+While the Unicode standard defines a mapping from characters to integer code points,
+it is impractical to train tokenizers directly on Unicode code points, since the vocabulary would
+be prohibitively **large** (~150k) and **sparse** (since many characters are quite rare).
+{{% /hint %}}
 
-## Byte tokenizer
+### Unicode encodings
+
+Unicode encoding converts a Unicode character into a **sequence of bytes**. The Unicode standard defines three encodings: UTF-8, UTF-16, and UTF-32, with [UTF-8](https://en.wikipedia.org/wiki/UTF-8) being the dominant encoding for
+most of webpages.
+
+To encode a Unicode string into UTF-8 we use the `encode()` function and and `decode` to convert it back.
+```python
+>>> "a".encode("utf-8")
+>>> b'a'
+>>> "🌍".encode("utf-8")
+>>> b'\xf0\x9f\x8c\x8d'
+>>> "ಕ".encode("utf-8")
+>>> b'\xe0\xb2\x95'
+>>> list(map(int,"ಕ".encode("utf-8")))
+>>> [224, 178, 149]
+```
+{{% hint danger %}}
+One byte does not necessarily correspond to one Unicode character.
+{{% /hint %}}
+```python
+>>> len("ಕ")
+>>> 1
+>>> len("ಕ".encode("utf-8"))
+>>> 3
+```
+
+
+
+### Byte-level tokenizer
 
 Unicode strings can be represented as a sequence of bytes, which can be represented by integers between 0 and 255.
-
-The most common Unicode encoding is [UTF-8](https://en.wikipedia.org/wiki/UTF-8).
-
-```python
-In [20]: bytes("a", encoding="utf-8")
-Out[20]: b'a'
-
-In [21]: bytes("🌍", encoding="utf-8")
-Out[21]: b'\xf0\x9f\x8c\x8d'
-```
 
 ```python
 class ByteTokenizer(Tokenizer):
@@ -108,10 +136,12 @@ Hello, 🌍! 你好!
 1.0
 ```
 
-- Vocabulary size is small (255).
-- Compression ratio is 1.
+{{% hint danger %}}
+By converting our Unicode code points into a sequence of bytes (via the UTF-8 encoding), we are essentially taking a sequence of code points (integers in the range 0 to 154,997) and transforming it into a sequence of of byte values (integers in the range 0 to 255). This 256-length vocabulary is easy to manage. When using byte-level tokenization, we do not worry about out-of-vocabulary tokens, since *any* input text can be encoded as a sequence of integers from 0 to 255. However this can result in extremely long input sequences (Compression ratio is 1).
+{{% /hint %}}
 
-## Word tokenizer
+
+## Word based approaches
 
 This was used in classical NLP where we split string into words.
 
@@ -149,36 +179,56 @@ Hello, 🌍! 你好!
 r"""'(?:[sdmt]|ll|ve|re)| ?\p{L}+| ?\p{N}+| ?[^\s\p{L}\p{N}]+|\s+(?!\S)|\s+"""
 ```
 
-## Pipeline
 
-Tokenization pipeline
-- Normalization
-- Pre-tokenization
-- Model
-- Post-processor
+## Sub-word based approaches
 
+While byte-level tokenizers can alleviate out-of-vocabulary issues faced by word-level tokenizers,
+it results in extremely long input sequences of bytes. This slows model training and inference.
 
+Sub-word tokenization is a midpoint between word-level tokenizers and byte-level tokenizers. A
+sub-word tokenizer trades-off a larger vocabulary size for better compression of input byte sequences.
+For example, if the byte sequence `b'the'` often appears in our rat text training data, assigning it
+an entry in the vocabulary would reduce this 3-token sequence to a single token.
 
-## BPE
+### BPE
 
-> GPT-2
+BPE is a compression algorithm that iteratively replaces (**merges**) the most frequent pair if adjacent bytes/tokens
+with a single new tokens. Intuitively if a word occurs in put text enough times it will be represented a s single sub-word token.
 
-Byte-Pair Encoding (BPE)
+The Byte-Pair Encoding (BPE) algorithm was introduced by Philip Gage in 1994 for [data compression](http://www.pennelynn.com/Documents/CUJ/HTML/94HTML/19940045.HTM) and later it was adapted to NLP for neural machine translation in this paper.
 
 {{% hint info %}}
 [Neural Machine Translation of Rare Words with Subword Units](https://arxiv.org/abs/1508.07909), Rico Sennrich, Barry Haddow, Alexandra Birch, ACL 2016.
 {{% /hint %}}
 
+> Used in GPT-2.
 
+### BPE Tokenizer training
 
+- Vocabulary initialization.
+- Normalization
+- Pre-tokenization
+- Compute BPE merges.
+- Special tokens.
+- Post-processor
 
-## WordPiece
+### WordPiece
 
 > BERT
 
-## Unigram
+### Unigram
 
 > T5
+
+### SentencePiece
+
+https://github.com/google/sentencepiece
+
+SentencePiece is a tokenization algorithm for the preprocessing of text that you can use with either BPE, WordPiece, or Unigram model.
+- It considers the text as a sequence of Unicode characters, and replaces spaces with a special character, `▁`.
+- Used in conjunction with the Unigram algorithm, it doesn’t require a pre-tokenization step, which is very useful for languages where the space character is not used (like Chinese or Japanese).
+- SentencePiece is **reversible tokenization**: since there is no special treatment of spaces, decoding the tokens is done simply by concatenating them and replacing the `_`s with spaces — this results in the normalized text.
+
 
 ## Tokenizer-free approaches
 
@@ -193,15 +243,7 @@ https://arxiv.org/abs/2412.09871
 https://arxiv.org/abs/2406.19223
 
 
-## SentencePiece
-
-https://github.com/google/sentencepiece
-
-SentencePiece is a tokenization algorithm for the preprocessing of text that you can use with either BPE, WordPiece, or Unigram model.
-- It considers the text as a sequence of Unicode characters, and replaces spaces with a special character, `▁`.
-- Used in conjunction with the Unigram algorithm, it doesn’t require a pre-tokenization step, which is very useful for languages where the space character is not used (like Chinese or Japanese).
-- SentencePiece is **reversible tokenization**: since there is no special treatment of spaces, decoding the tokens is done simply by concatenating them and replacing the `_`s with spaces — this results in the normalized text.
-
 ## Collateral
 
 - [Let's build the GPT Tokenizer, Karpathy](https://www.youtube.com/watch?v=zduSFxRajkE)
+- https://tiktokenizer.vercel.app/
