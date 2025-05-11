@@ -1,5 +1,5 @@
 ---
-title: Tokenizers
+title: Basics
 weight: 1
 bookToc: true
 ---
@@ -190,60 +190,3 @@ sub-word tokenizer trades-off a larger vocabulary size for better compression of
 For example, if the byte sequence `b'the'` often appears in our rat text training data, assigning it
 an entry in the vocabulary would reduce this 3-token sequence to a single token.
 
-### BPE
-
-BPE is a compression algorithm that iteratively replaces (**merges**) the most frequent pair if adjacent bytes/tokens
-with a single new tokens. Intuitively if a word occurs in put text enough times it will be represented a s single sub-word token.
-
-The Byte-Pair Encoding (BPE) algorithm was introduced by Philip Gage in 1994 for [data compression](http://www.pennelynn.com/Documents/CUJ/HTML/94HTML/19940045.HTM) and later it was adapted to NLP for neural machine translation in this paper.
-
-{{% hint info %}}
-[Neural Machine Translation of Rare Words with Subword Units](https://arxiv.org/abs/1508.07909), Rico Sennrich, Barry Haddow, Alexandra Birch, ACL 2016.
-{{% /hint %}}
-
-> Used in GPT-2.
-
-### BPE Tokenizer training
-
-- Vocabulary initialization.
-- Normalization
-- Pre-tokenization
-- Compute BPE merges.
-- Special tokens.
-- Post-processor
-
-### WordPiece
-
-> BERT
-
-### Unigram
-
-> T5
-
-### SentencePiece
-
-https://github.com/google/sentencepiece
-
-SentencePiece is a tokenization algorithm for the preprocessing of text that you can use with either BPE, WordPiece, or Unigram model.
-- It considers the text as a sequence of Unicode characters, and replaces spaces with a special character, `▁`.
-- Used in conjunction with the Unigram algorithm, it doesn’t require a pre-tokenization step, which is very useful for languages where the space character is not used (like Chinese or Japanese).
-- SentencePiece is **reversible tokenization**: since there is no special treatment of spaces, decoding the tokens is done simply by concatenating them and replacing the `_`s with spaces — this results in the normalized text.
-
-
-## Tokenizer-free approaches
-
-Use bytes directly, promising, but have not yet been scaled up to the frontier.
-
-https://arxiv.org/abs/2105.13626
-
-https://arxiv.org/pdf/2305.07185
-
-https://arxiv.org/abs/2412.09871
-
-https://arxiv.org/abs/2406.19223
-
-
-## Collateral
-
-- [Let's build the GPT Tokenizer, Karpathy](https://www.youtube.com/watch?v=zduSFxRajkE)
-- https://tiktokenizer.vercel.app/

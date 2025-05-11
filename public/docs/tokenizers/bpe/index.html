@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="en-us" dir="ltr">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="
+  Byte-Pair Encoding tokenizer
+  #
+
+Byte-Pair Encoding (BPE) is a compression algorithm that iteratively replaces (merges) the most frequent pair if adjacent bytes/tokens
+with a single new tokens. Intuitively if a word occurs in put text enough times it will be represented a s single sub-word token.
+The BPE algorithm was introduced by Philip Gage in 1994 for data compression and later it was adapted to NLP for neural machine translation by  Sennrich et al., 2016.">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#343a40">
+<meta name="color-scheme" content="light dark"><meta property="og:url" content="http://localhost:1313/docs/tokenizers/bpe/">
+  <meta property="og:site_name" content="Deep Learning">
+  <meta property="og:title" content="BPE tokenizer">
+  <meta property="og:description" content="Byte-Pair Encoding tokenizer # Byte-Pair Encoding (BPE) is a compression algorithm that iteratively replaces (merges) the most frequent pair if adjacent bytes/tokens with a single new tokens. Intuitively if a word occurs in put text enough times it will be represented a s single sub-word token.
+The BPE algorithm was introduced by Philip Gage in 1994 for data compression and later it was adapted to NLP for neural machine translation by Sennrich et al., 2016.">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="docs">
+<title>BPE tokenizer | Deep Learning</title>
+<link rel="icon" href="/favicon.png" >
+<link rel="manifest" href="/manifest.json">
+<link rel="canonical" href="http://localhost:1313/docs/tokenizers/bpe/">
+<link rel="stylesheet" href="/book.min.6c8b9d2a1fc95075ed7da46ca81060b39add8fff6741ac51259f768929281e2c.css" integrity="sha256-bIudKh/JUHXtfaRsqBBgs5rdj/9nQaxRJZ92iSkoHiw=" crossorigin="anonymous">
+  <script defer src="/fuse.min.js"></script>
+  <script defer src="/en.search.min.8e5693ee7197945738e66794bc0d320966f664b7d81fe0457770249b16515eed.js" integrity="sha256-jlaT7nGXlFc45meUvA0yCWb2ZLfYH&#43;BFd3AkmxZRXu0=" crossorigin="anonymous"></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><span>Deep Learning</span>
+  </a>
+</h2>
+
+
+<div class="book-search hidden">
+  <input type="text" id="book-search-input" placeholder="Search" aria-label="Search" maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+<script>document.querySelector(".book-search").classList.remove("hidden")</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <ul>
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <a href="/docs/basics/" class="">Basics</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/basics/entropy/" class="">Entropy</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/basics/metrics/" class="">Metrics</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/basics/gpu/" class="">GPU primer</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <a href="/docs/neural_networks/" class="">Neural Networks</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/neural_networks/linear_regression/" class="">Linear Regression</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/neural_networks/logistic_regression/" class="">Logistic Regression</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/neural_networks/softmax_regression/" class="">Softmax Regression</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/neural_networks/mlp/" class="">Multilayer perceptron</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/neural_networks/activations/" class="">Activation functions</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <a href="/docs/training/" class="">Training</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/training/gradient_descent/" class="">Gradient Descent</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/training/backpropagation/" class="">Backpropagation</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/training/autograd/" class="">AutoDiff</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/training/initialization/" class="">Initialization</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/training/normalization/" class="">Normalization</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/training/regularization/" class="">Regularization</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/training/training_loop/" class="">Training loop</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/training/quiz/" class="">Quiz</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/training/coding/" class="">Coding</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <a href="/docs/tokenizers/" class="">Tokenizers</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/tokenizers/basics/" class="">Basics</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/tokenizers/bpe/" class="active">BPE tokenizer</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <a href="/docs/transformers/" class="">Transformers</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/transformers/transformers101/" class="">Transformers101</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/transformers/transformers102/" class="">Transformers102</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/transformers/alignment/" class="">Alignment</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/transformers/attentionvariants/" class="">Attention variants</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/transformers/inference/" class="">Inference</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/transformers/models/" class="">Frontier models</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/transformers/moe/" class="">MoE</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/transformers/scaling/" class="">Scaling</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/transformers/ssm/" class="">SSM</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/transformers/datasets/" class="">Datasets</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <a href="/docs/rl/" class="">Reinforcement</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/rl/basics/" class="">Basics</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <h3>BPE tokenizer</h3>
+
+  <label for="toc-control">
+    
+    <img src="/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#byte-pair-encoding-tokenizer">Byte-Pair Encoding tokenizer</a>
+      <ul>
+        <li><a href="#bpe-tokenizer-training">BPE Tokenizer training</a></li>
+        <li><a href="#vocabulary-initialization">Vocabulary initialization</a></li>
+        <li><a href="#pre-tokenization">Pre-tokenization</a></li>
+        <li><a href="#compute-bpe-merges">Compute BPE merges</a></li>
+        <li><a href="#special-tokens">Special tokens</a></li>
+      </ul>
+    </li>
+    <li><a href="#wordpiece">WordPiece</a></li>
+    <li><a href="#unigram">Unigram</a></li>
+    <li><a href="#sentencepiece">SentencePiece</a></li>
+    <li><a href="#tokenizer-free-approaches">Tokenizer-free approaches</a></li>
+    <li><a href="#collateral">Collateral</a></li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown book-article"><h2 id="byte-pair-encoding-tokenizer">
+  Byte-Pair Encoding tokenizer
+  <a class="anchor" href="#byte-pair-encoding-tokenizer">#</a>
+</h2>
+<p>Byte-Pair Encoding (BPE) is a compression algorithm that iteratively replaces (<strong>merges</strong>) the most frequent pair if adjacent bytes/tokens
+with a single new tokens. Intuitively if a word occurs in put text enough times it will be represented a s single sub-word token.</p>
+<p>The BPE algorithm was introduced by Philip Gage in 1994 for <a href="http://www.pennelynn.com/Documents/CUJ/HTML/94HTML/19940045.HTM">data compression</a> and later it was adapted to NLP for neural machine translation by  Sennrich et al., 2016.</p>
+<blockquote class="book-hint info">
+<p><a href="https://arxiv.org/abs/1508.07909">Neural Machine Translation of Rare Words with Subword Units</a>, Rico Sennrich, Barry Haddow, Alexandra Birch, ACL 2016.</p>
+</blockquote>
+<p>BPE was used in GPT-2.</p>
+<blockquote class="book-hint info">
+<p><a href="https://cdn.openai.com/better-language-models/language_models_are_unsupervised_multitask_learners.pdf">Language Models are Unsupervised Multitask Learners</a>, Alec Radford, Jeffrey Wu, Rewon Child, David Luan, Dario Amodei, Ilya Sutskever, GPT-2 2019.</p>
+</blockquote>
+<h3 id="bpe-tokenizer-training">
+  BPE Tokenizer training
+  <a class="anchor" href="#bpe-tokenizer-training">#</a>
+</h3>
+<h3 id="vocabulary-initialization">
+  Vocabulary initialization
+  <a class="anchor" href="#vocabulary-initialization">#</a>
+</h3>
+<p>The tokenizer vocabulary is a one-to-one mapping from integer id (<code>int</code>) to bytestring (<code>bytes</code>) token. Our initial vocabulary is the set of all 256 possible byte values.</p>
+<div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#00a8c8">class</span> <span style="color:#75af00">BPETokenizerTrainer</span><span style="color:#111">:</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#d88200">&#34;&#34;&#34;Train the BPE tokenizer.&#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">def</span> <span style="color:#111">__init__</span><span style="color:#111">(</span><span style="color:#111">self</span><span style="color:#111">):</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Our initial vocabulary is the set of all 256 possible byte values.</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#111">self</span><span style="color:#f92672">.</span><span style="color:#111">vocab</span><span style="color:#111">:</span> <span style="color:#111">dict</span><span style="color:#111">[</span><span style="color:#111">int</span><span style="color:#111">,</span> <span style="color:#111">bytes</span><span style="color:#111">]</span> <span style="color:#f92672">=</span> <span style="color:#111">{</span><span style="color:#111">x</span><span style="color:#111">:</span> <span style="color:#111">bytes</span><span style="color:#111">([</span><span style="color:#111">x</span><span style="color:#111">])</span> <span style="color:#00a8c8">for</span> <span style="color:#111">x</span> <span style="color:#f92672">in</span> <span style="color:#111">range</span><span style="color:#111">(</span><span style="color:#ae81ff">256</span><span style="color:#111">)}</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#111">self</span><span style="color:#f92672">.</span><span style="color:#111">merges</span><span style="color:#111">:</span> <span style="color:#111">dict</span><span style="color:#111">[</span><span style="color:#111">tuple</span><span style="color:#111">[</span><span style="color:#111">int</span><span style="color:#111">,</span> <span style="color:#111">int</span><span style="color:#111">],</span> <span style="color:#111">int</span><span style="color:#111">]</span> <span style="color:#f92672">=</span> <span style="color:#111">{}</span>
+</span></span></code></pre></div><h3 id="pre-tokenization">
+  Pre-tokenization
+  <a class="anchor" href="#pre-tokenization">#</a>
+</h3>
+<p>In practice before we do the merging we <strong>pre-tokenize</strong> the corpus into a sequence of <strong>pre-tokens</strong>. This is a coarse-grained tokenization over the corpus.</p>
+<p>The original BPE implementation of Sennrich et al., 2016 pre-tokenizes by simply splitting on whitespace .</p>
+<div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">&gt;&gt;&gt;</span> <span style="color:#111">string</span> <span style="color:#f92672">=</span> <span style="color:#d88200">&#39;Hello, 🌍! 你好!&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&gt;&gt;&gt;</span> <span style="color:#111">string</span><span style="color:#f92672">.</span><span style="color:#111">split</span><span style="color:#111">(</span><span style="color:#d88200">&#34; &#34;</span><span style="color:#111">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&gt;&gt;&gt;</span> <span style="color:#111">[</span><span style="color:#d88200">&#39;Hello,&#39;</span><span style="color:#111">,</span> <span style="color:#d88200">&#39;🌍!&#39;</span><span style="color:#111">,</span> <span style="color:#d88200">&#39;你好!&#39;</span><span style="color:#111">]</span>
+</span></span></code></pre></div><p>GPT-2 (Radford et al., 2019) uses a <a href="https://github.com/openai/tiktoken/blob/main/tiktoken_ext/openai_public.py#L23">regex-based pre-tokenizer</a>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">&gt;&gt;&gt;</span> <span style="color:#f92672">import</span> <span style="color:#111">regex</span> <span style="color:#00a8c8">as</span> <span style="color:#111">re</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&gt;&gt;&gt;</span> <span style="color:#111">PAT</span> <span style="color:#f92672">=</span> <span style="color:#d88200">r</span><span style="color:#d88200">&#34;&#34;&#34;&#39;(?:[sdmt]|ll|ve|re)| ?\p</span><span style="color:#d88200">{L}</span><span style="color:#d88200">++| ?\p</span><span style="color:#d88200">{N}</span><span style="color:#d88200">++| ?[^\s\p</span><span style="color:#d88200">{L}</span><span style="color:#d88200">\p</span><span style="color:#d88200">{N}</span><span style="color:#d88200">]++|\s++$|\s+(?!\S)|\s&#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&gt;&gt;&gt;</span> <span style="color:#111">re</span><span style="color:#f92672">.</span><span style="color:#111">findall</span><span style="color:#111">(</span><span style="color:#111">PAT</span><span style="color:#111">,</span><span style="color:#111">string</span><span style="color:#111">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&gt;&gt;&gt;</span> <span style="color:#111">[</span><span style="color:#d88200">&#39;Hello&#39;</span><span style="color:#111">,</span> <span style="color:#d88200">&#39;,&#39;</span><span style="color:#111">,</span> <span style="color:#d88200">&#39; 🌍!&#39;</span><span style="color:#111">,</span> <span style="color:#d88200">&#39; 你好&#39;</span><span style="color:#111">,</span> <span style="color:#d88200">&#39;!&#39;</span><span style="color:#111">]</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&gt;&gt;&gt;</span> <span style="color:#111">[</span><span style="color:#00a8c8">match</span><span style="color:#f92672">.</span><span style="color:#111">group</span><span style="color:#111">()</span> <span style="color:#00a8c8">for</span> <span style="color:#00a8c8">match</span> <span style="color:#f92672">in</span> <span style="color:#111">re</span><span style="color:#f92672">.</span><span style="color:#111">finditer</span><span style="color:#111">(</span><span style="color:#111">PAT</span><span style="color:#111">,</span><span style="color:#111">string</span><span style="color:#111">)]</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&gt;&gt;&gt;</span> <span style="color:#111">[</span><span style="color:#d88200">&#39;Hello&#39;</span><span style="color:#111">,</span> <span style="color:#d88200">&#39;,&#39;</span><span style="color:#111">,</span> <span style="color:#d88200">&#39; 🌍!&#39;</span><span style="color:#111">,</span> <span style="color:#d88200">&#39; 你好&#39;</span><span style="color:#111">,</span> <span style="color:#d88200">&#39;!&#39;</span><span style="color:#111">]</span>
+</span></span></code></pre></div><p>Each pre-token is represented as a sequence of UTF-8 bytes.</p>
+<div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">&gt;&gt;&gt;</span> <span style="color:#111">[</span><span style="color:#00a8c8">match</span><span style="color:#f92672">.</span><span style="color:#111">group</span><span style="color:#111">()</span><span style="color:#f92672">.</span><span style="color:#111">encode</span><span style="color:#111">(</span><span style="color:#d88200">&#34;utf-8&#34;</span><span style="color:#111">)</span> <span style="color:#00a8c8">for</span> <span style="color:#00a8c8">match</span> <span style="color:#f92672">in</span> <span style="color:#111">re</span><span style="color:#f92672">.</span><span style="color:#111">finditer</span><span style="color:#111">(</span><span style="color:#111">pat</span><span style="color:#111">,</span><span style="color:#111">string</span><span style="color:#111">)]</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&gt;&gt;&gt;</span> <span style="color:#111">[</span><span style="color:#d88200">b</span><span style="color:#d88200">&#39;Hello&#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;,&#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39; </span><span style="color:#8045ff">\xf0\x9f\x8c\x8d</span><span style="color:#d88200">!&#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39; </span><span style="color:#8045ff">\xe4\xbd\xa0\xe5\xa5\xbd</span><span style="color:#d88200">&#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;!&#39;</span><span style="color:#111">]</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> <span style="color:#111">collections</span> <span style="color:#f92672">import</span> <span style="color:#111">defaultdict</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> <span style="color:#111">regex</span> <span style="color:#00a8c8">as</span> <span style="color:#111">re</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#00a8c8">def</span> <span style="color:#75af00">pre_tokenize</span><span style="color:#111">(</span><span style="color:#111">string</span><span style="color:#111">:</span> <span style="color:#111">str</span><span style="color:#111">)</span> <span style="color:#f92672">-&gt;</span> <span style="color:#111">dict</span><span style="color:#111">[</span><span style="color:#111">tuple</span><span style="color:#111">[</span><span style="color:#111">bytes</span><span style="color:#111">],</span> <span style="color:#111">int</span><span style="color:#111">]:</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#d88200">&#34;&#34;&#34;Regex based pre-tokenization.&#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># We will use a regex-based pre-tokenizer.</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># This was used by GPT-2 (Radford et al. 2019).</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># https://github.com/openai/tiktoken/blob/main/tiktoken_ext/openai_public.py#L23</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">PAT</span> <span style="color:#f92672">=</span> <span style="color:#d88200">r</span><span style="color:#d88200">&#34;&#34;&#34;&#39;(?:[sdmt]|ll|ve|re)| ?\p</span><span style="color:#d88200">{L}</span><span style="color:#d88200">++| ?\p</span><span style="color:#d88200">{N}</span><span style="color:#d88200">++| ?[^\s\p</span><span style="color:#d88200">{L}</span><span style="color:#d88200">\p</span><span style="color:#d88200">{N}</span><span style="color:#d88200">]++|\s++$|\s+(?!\S)|\s&#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">pre_tokens_count</span> <span style="color:#f92672">=</span> <span style="color:#111">defaultdict</span><span style="color:#111">(</span><span style="color:#111">int</span><span style="color:#111">)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Use finditer instead of findall.</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">for</span> <span style="color:#00a8c8">match</span> <span style="color:#f92672">in</span> <span style="color:#111">re</span><span style="color:#f92672">.</span><span style="color:#111">finditer</span><span style="color:#111">(</span><span style="color:#111">PAT</span><span style="color:#111">,</span> <span style="color:#111">string</span><span style="color:#111">):</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Key is tuple[bytes], for example (b&#39;l&#39;, b&#39;o&#39;, b&#39;w&#39;).</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#111">pre_token</span> <span style="color:#f92672">=</span> <span style="color:#111">tuple</span><span style="color:#111">([</span><span style="color:#111">bytes</span><span style="color:#111">([</span><span style="color:#111">c</span><span style="color:#111">])</span> <span style="color:#00a8c8">for</span> <span style="color:#111">c</span> <span style="color:#f92672">in</span> <span style="color:#00a8c8">match</span><span style="color:#f92672">.</span><span style="color:#111">group</span><span style="color:#111">()</span><span style="color:#f92672">.</span><span style="color:#111">encode</span><span style="color:#111">(</span><span style="color:#d88200">&#34;utf-8&#34;</span><span style="color:#111">)])</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#111">pre_tokens_count</span><span style="color:#111">[</span><span style="color:#111">pre_token</span><span style="color:#111">]</span> <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">return</span> <span style="color:#111">pre_tokens_count</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#111">{</span> <span style="color:#111">(</span><span style="color:#d88200">b</span><span style="color:#d88200">&#39; &#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;l&#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;o&#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;w&#39;</span><span style="color:#111">):</span> <span style="color:#ae81ff">4</span><span style="color:#111">,</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#111">(</span><span style="color:#d88200">b</span><span style="color:#d88200">&#39; &#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;l&#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;o&#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;w&#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;e&#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;r&#39;</span><span style="color:#111">):</span> <span style="color:#ae81ff">2</span><span style="color:#111">,</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#111">(</span><span style="color:#d88200">b</span><span style="color:#d88200">&#39; &#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;n&#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;e&#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;w&#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;e&#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;s&#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;t&#39;</span><span style="color:#111">):</span> <span style="color:#ae81ff">6</span><span style="color:#111">,</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#111">(</span><span style="color:#d88200">b</span><span style="color:#d88200">&#39; &#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;w&#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;i&#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;d&#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;e&#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;s&#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;t&#39;</span><span style="color:#111">):</span> <span style="color:#ae81ff">3</span><span style="color:#111">,</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#111">(</span><span style="color:#d88200">b</span><span style="color:#d88200">&#39;l&#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;o&#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;w&#39;</span><span style="color:#111">):</span> <span style="color:#ae81ff">1</span><span style="color:#111">}</span>
+</span></span></code></pre></div><h3 id="compute-bpe-merges">
+  Compute BPE merges
+  <a class="anchor" href="#compute-bpe-merges">#</a>
+</h3>
+<h3 id="special-tokens">
+  Special tokens
+  <a class="anchor" href="#special-tokens">#</a>
+</h3>
+<h2 id="wordpiece">
+  WordPiece
+  <a class="anchor" href="#wordpiece">#</a>
+</h2>
+<blockquote>
+<p>BERT</p></blockquote>
+<h2 id="unigram">
+  Unigram
+  <a class="anchor" href="#unigram">#</a>
+</h2>
+<blockquote>
+<p>T5</p></blockquote>
+<h2 id="sentencepiece">
+  SentencePiece
+  <a class="anchor" href="#sentencepiece">#</a>
+</h2>
+<p><a href="https://github.com/google/sentencepiece">https://github.com/google/sentencepiece</a></p>
+<p>SentencePiece is a tokenization algorithm for the preprocessing of text that you can use with either BPE, WordPiece, or Unigram model.</p>
+<ul>
+<li>It considers the text as a sequence of Unicode characters, and replaces spaces with a special character, <code>▁</code>.</li>
+<li>Used in conjunction with the Unigram algorithm, it doesn’t require a pre-tokenization step, which is very useful for languages where the space character is not used (like Chinese or Japanese).</li>
+<li>SentencePiece is <strong>reversible tokenization</strong>: since there is no special treatment of spaces, decoding the tokens is done simply by concatenating them and replacing the <code>_</code>s with spaces — this results in the normalized text.</li>
+</ul>
+<h2 id="tokenizer-free-approaches">
+  Tokenizer-free approaches
+  <a class="anchor" href="#tokenizer-free-approaches">#</a>
+</h2>
+<p>Use bytes directly, promising, but have not yet been scaled up to the frontier.</p>
+<p><a href="https://arxiv.org/abs/2105.13626">https://arxiv.org/abs/2105.13626</a></p>
+<p><a href="https://arxiv.org/pdf/2305.07185">https://arxiv.org/pdf/2305.07185</a></p>
+<p><a href="https://arxiv.org/abs/2412.09871">https://arxiv.org/abs/2412.09871</a></p>
+<p><a href="https://arxiv.org/abs/2406.19223">https://arxiv.org/abs/2406.19223</a></p>
+<h2 id="collateral">
+  Collateral
+  <a class="anchor" href="#collateral">#</a>
+</h2>
+<ul>
+<li><a href="https://www.youtube.com/watch?v=zduSFxRajkE">Let&rsquo;s build the GPT Tokenizer, Karpathy</a></li>
+<li><a href="https://tiktokenizer.vercel.app/">https://tiktokenizer.vercel.app/</a></li>
+</ul>
+</article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+
+</div>
+
+
+
+  <script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){if(window.getSelection().toString())return;e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script>
+
+
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#byte-pair-encoding-tokenizer">Byte-Pair Encoding tokenizer</a>
+      <ul>
+        <li><a href="#bpe-tokenizer-training">BPE Tokenizer training</a></li>
+        <li><a href="#vocabulary-initialization">Vocabulary initialization</a></li>
+        <li><a href="#pre-tokenization">Pre-tokenization</a></li>
+        <li><a href="#compute-bpe-merges">Compute BPE merges</a></li>
+        <li><a href="#special-tokens">Special tokens</a></li>
+      </ul>
+    </li>
+    <li><a href="#wordpiece">WordPiece</a></li>
+    <li><a href="#unigram">Unigram</a></li>
+    <li><a href="#sentencepiece">SentencePiece</a></li>
+    <li><a href="#tokenizer-free-approaches">Tokenizer-free approaches</a></li>
+    <li><a href="#collateral">Collateral</a></li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
