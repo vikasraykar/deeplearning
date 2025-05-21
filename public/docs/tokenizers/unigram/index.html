@@ -3,20 +3,51 @@
 <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="https://arxiv.org/abs/2302.10866">
+<meta name="description" content="
+  WordPiece
+  #
+
+
+BERT
+
+  Unigram
+  #
+
+
+T5
+
+  SentencePiece
+  #
+
+https://github.com/google/sentencepiece
+SentencePiece is a tokenization algorithm for the preprocessing of text that you can use with either BPE, WordPiece, or Unigram model.
+
+It considers the text as a sequence of Unicode characters, and replaces spaces with a special character, ▁.
+Used in conjunction with the Unigram algorithm, it doesn’t require a pre-tokenization step, which is very useful for languages where the space character is not used (like Chinese or Japanese).
+SentencePiece is reversible tokenization: since there is no special treatment of spaces, decoding the tokens is done simply by concatenating them and replacing the _s with spaces — this results in the normalized text.
+
+
+  Tokenizer-free approaches
+  #
+
+Use bytes directly, promising, but have not yet been scaled up to the frontier.">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#343a40">
-<meta name="color-scheme" content="light dark"><meta property="og:url" content="http://localhost:1313/docs/transformers/ssm/">
+<meta name="color-scheme" content="light dark"><meta property="og:url" content="http://localhost:1313/docs/tokenizers/unigram/">
   <meta property="og:site_name" content="Deep Learning">
-  <meta property="og:title" content="SSM">
-  <meta property="og:description" content="https://arxiv.org/abs/2302.10866">
+  <meta property="og:title" content="Unigram">
+  <meta property="og:description" content="WordPiece # BERT
+Unigram # T5
+SentencePiece # https://github.com/google/sentencepiece
+SentencePiece is a tokenization algorithm for the preprocessing of text that you can use with either BPE, WordPiece, or Unigram model.
+It considers the text as a sequence of Unicode characters, and replaces spaces with a special character, ▁. Used in conjunction with the Unigram algorithm, it doesn’t require a pre-tokenization step, which is very useful for languages where the space character is not used (like Chinese or Japanese). SentencePiece is reversible tokenization: since there is no special treatment of spaces, decoding the tokens is done simply by concatenating them and replacing the _s with spaces — this results in the normalized text. Tokenizer-free approaches # Use bytes directly, promising, but have not yet been scaled up to the frontier.">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
     <meta property="article:section" content="docs">
-<title>SSM | Deep Learning</title>
+<title>Unigram | Deep Learning</title>
 <link rel="icon" href="/favicon.png" >
 <link rel="manifest" href="/manifest.json">
-<link rel="canonical" href="http://localhost:1313/docs/transformers/ssm/">
+<link rel="canonical" href="http://localhost:1313/docs/tokenizers/unigram/">
 <link rel="stylesheet" href="/book.min.6c8b9d2a1fc95075ed7da46ca81060b39add8fff6741ac51259f768929281e2c.css" integrity="sha256-bIudKh/JUHXtfaRsqBBgs5rdj/9nQaxRJZ92iSkoHiw=" crossorigin="anonymous">
   <script defer src="/fuse.min.js"></script>
   <script defer src="/en.search.min.1ec7a26a27203dd113e7ca91d6a5f595fd456b59913d7d6eb75d67de78cf9974.js" integrity="sha256-HseiaicgPdET58qR1qX1lf1Fa1mRPX1ut11n3njPmXQ=" crossorigin="anonymous"></script>
@@ -385,7 +416,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="/docs/tokenizers/unigram/" class="">Unigram</a>
+    <a href="/docs/tokenizers/unigram/" class="active">Unigram</a>
   
 
         </li>
@@ -520,7 +551,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="/docs/transformers/ssm/" class="active">SSM</a>
+    <a href="/docs/transformers/ssm/" class="">SSM</a>
   
 
         </li>
@@ -610,7 +641,7 @@ https://github.com/alex-shpak/hugo-book
     <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
   </label>
 
-  <h3>SSM</h3>
+  <h3>Unigram</h3>
 
   <label for="toc-control">
     
@@ -624,7 +655,14 @@ https://github.com/alex-shpak/hugo-book
   <aside class="hidden clearfix">
     
   
-<nav id="TableOfContents"></nav>
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#wordpiece">WordPiece</a></li>
+    <li><a href="#unigram">Unigram</a></li>
+    <li><a href="#sentencepiece">SentencePiece</a></li>
+    <li><a href="#tokenizer-free-approaches">Tokenizer-free approaches</a></li>
+  </ul>
+</nav>
 
 
 
@@ -635,7 +673,38 @@ https://github.com/alex-shpak/hugo-book
 
       
       
-  <article class="markdown book-article"><p><a href="https://arxiv.org/abs/2302.10866">https://arxiv.org/abs/2302.10866</a></p>
+  <article class="markdown book-article"><h2 id="wordpiece">
+  WordPiece
+  <a class="anchor" href="#wordpiece">#</a>
+</h2>
+<blockquote>
+<p>BERT</p></blockquote>
+<h2 id="unigram">
+  Unigram
+  <a class="anchor" href="#unigram">#</a>
+</h2>
+<blockquote>
+<p>T5</p></blockquote>
+<h2 id="sentencepiece">
+  SentencePiece
+  <a class="anchor" href="#sentencepiece">#</a>
+</h2>
+<p><a href="https://github.com/google/sentencepiece">https://github.com/google/sentencepiece</a></p>
+<p>SentencePiece is a tokenization algorithm for the preprocessing of text that you can use with either BPE, WordPiece, or Unigram model.</p>
+<ul>
+<li>It considers the text as a sequence of Unicode characters, and replaces spaces with a special character, <code>▁</code>.</li>
+<li>Used in conjunction with the Unigram algorithm, it doesn’t require a pre-tokenization step, which is very useful for languages where the space character is not used (like Chinese or Japanese).</li>
+<li>SentencePiece is <strong>reversible tokenization</strong>: since there is no special treatment of spaces, decoding the tokens is done simply by concatenating them and replacing the <code>_</code>s with spaces — this results in the normalized text.</li>
+</ul>
+<h2 id="tokenizer-free-approaches">
+  Tokenizer-free approaches
+  <a class="anchor" href="#tokenizer-free-approaches">#</a>
+</h2>
+<p>Use bytes directly, promising, but have not yet been scaled up to the frontier.</p>
+<p><a href="https://arxiv.org/abs/2105.13626">https://arxiv.org/abs/2105.13626</a></p>
+<p><a href="https://arxiv.org/pdf/2305.07185">https://arxiv.org/pdf/2305.07185</a></p>
+<p><a href="https://arxiv.org/abs/2412.09871">https://arxiv.org/abs/2412.09871</a></p>
+<p><a href="https://arxiv.org/abs/2406.19223">https://arxiv.org/abs/2406.19223</a></p>
 </article>
  
       
@@ -675,7 +744,14 @@ https://github.com/alex-shpak/hugo-book
       <div class="book-toc-content">
         
   
-<nav id="TableOfContents"></nav>
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#wordpiece">WordPiece</a></li>
+    <li><a href="#unigram">Unigram</a></li>
+    <li><a href="#sentencepiece">SentencePiece</a></li>
+    <li><a href="#tokenizer-free-approaches">Tokenizer-free approaches</a></li>
+  </ul>
+</nav>
 
 
  

@@ -7,15 +7,15 @@
   Byte-Pair Encoding tokenizer
   #
 
-Byte-Pair Encoding (BPE) is a compression algorithm that iteratively replaces (merges) the most frequent pair if adjacent bytes/tokens
-with a single new tokens. Intuitively if a word occurs in put text enough times it will be represented a s single sub-word token.
+Byte-Pair Encoding (BPE) is a simple compression algorithm that iteratively replaces (merges) the most frequent pair of adjacent bytes/tokens
+in a sequence  with a single new unused byte/token. Intuitively if a word occurs in the text enough times it will be represented a s single sub-word token.
 The BPE algorithm was introduced by Philip Gage in 1994 for data compression and later it was adapted to NLP for neural machine translation by  Sennrich et al., 2016.">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#343a40">
 <meta name="color-scheme" content="light dark"><meta property="og:url" content="http://localhost:1313/docs/tokenizers/bpe/">
   <meta property="og:site_name" content="Deep Learning">
   <meta property="og:title" content="BPE tokenizer">
-  <meta property="og:description" content="Byte-Pair Encoding tokenizer # Byte-Pair Encoding (BPE) is a compression algorithm that iteratively replaces (merges) the most frequent pair if adjacent bytes/tokens with a single new tokens. Intuitively if a word occurs in put text enough times it will be represented a s single sub-word token.
+  <meta property="og:description" content="Byte-Pair Encoding tokenizer # Byte-Pair Encoding (BPE) is a simple compression algorithm that iteratively replaces (merges) the most frequent pair of adjacent bytes/tokens in a sequence with a single new unused byte/token. Intuitively if a word occurs in the text enough times it will be represented a s single sub-word token.
 The BPE algorithm was introduced by Philip Gage in 1994 for data compression and later it was adapted to NLP for neural machine translation by Sennrich et al., 2016.">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
@@ -26,7 +26,7 @@ The BPE algorithm was introduced by Philip Gage in 1994 for data compression and
 <link rel="canonical" href="http://localhost:1313/docs/tokenizers/bpe/">
 <link rel="stylesheet" href="/book.min.6c8b9d2a1fc95075ed7da46ca81060b39add8fff6741ac51259f768929281e2c.css" integrity="sha256-bIudKh/JUHXtfaRsqBBgs5rdj/9nQaxRJZ92iSkoHiw=" crossorigin="anonymous">
   <script defer src="/fuse.min.js"></script>
-  <script defer src="/en.search.min.8e5693ee7197945738e66794bc0d320966f664b7d81fe0457770249b16515eed.js" integrity="sha256-jlaT7nGXlFc45meUvA0yCWb2ZLfYH&#43;BFd3AkmxZRXu0=" crossorigin="anonymous"></script>
+  <script defer src="/en.search.min.1ec7a26a27203dd113e7ca91d6a5f595fd456b59913d7d6eb75d67de78cf9974.js" integrity="sha256-HseiaicgPdET58qR1qX1lf1Fa1mRPX1ut11n3njPmXQ=" crossorigin="anonymous"></script>
 <!--
 Made with Book Theme
 https://github.com/alex-shpak/hugo-book
@@ -385,6 +385,19 @@ https://github.com/alex-shpak/hugo-book
         </li>
       
     
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/tokenizers/unigram/" class="">Unigram</a>
+  
+
+        </li>
+      
+    
   </ul>
 
         </li>
@@ -620,19 +633,21 @@ https://github.com/alex-shpak/hugo-book
   
 <nav id="TableOfContents">
   <ul>
-    <li><a href="#byte-pair-encoding-tokenizer">Byte-Pair Encoding tokenizer</a>
+    <li><a href="#training">Training</a>
       <ul>
-        <li><a href="#bpe-tokenizer-training">BPE Tokenizer training</a></li>
         <li><a href="#vocabulary-initialization">Vocabulary initialization</a></li>
         <li><a href="#pre-tokenization">Pre-tokenization</a></li>
-        <li><a href="#compute-bpe-merges">Compute BPE merges</a></li>
+        <li><a href="#bpe-merges">BPE merges</a></li>
+        <li><a href="#compute-byte-pair-frequencies">Compute byte pair frequencies</a></li>
+        <li><a href="#find-the-best-pair-to-merge">Find the best pair to merge</a></li>
+        <li><a href="#merge-the-pre-tokens">Merge the pre-tokens</a></li>
+        <li><a href="#iterate">Iterate</a></li>
         <li><a href="#special-tokens">Special tokens</a></li>
       </ul>
     </li>
-    <li><a href="#wordpiece">WordPiece</a></li>
-    <li><a href="#unigram">Unigram</a></li>
-    <li><a href="#sentencepiece">SentencePiece</a></li>
-    <li><a href="#tokenizer-free-approaches">Tokenizer-free approaches</a></li>
+    <li><a href="#parameters">Parameters</a></li>
+    <li><a href="#encoding">Encoding</a></li>
+    <li><a href="#decoding">Decoding</a></li>
     <li><a href="#collateral">Collateral</a></li>
   </ul>
 </nav>
@@ -646,36 +661,30 @@ https://github.com/alex-shpak/hugo-book
 
       
       
-  <article class="markdown book-article"><h2 id="byte-pair-encoding-tokenizer">
+  <article class="markdown book-article"><h1 id="byte-pair-encoding-tokenizer">
   Byte-Pair Encoding tokenizer
   <a class="anchor" href="#byte-pair-encoding-tokenizer">#</a>
-</h2>
-<p>Byte-Pair Encoding (BPE) is a compression algorithm that iteratively replaces (<strong>merges</strong>) the most frequent pair if adjacent bytes/tokens
-with a single new tokens. Intuitively if a word occurs in put text enough times it will be represented a s single sub-word token.</p>
+</h1>
+<p>Byte-Pair Encoding (BPE) is a simple compression algorithm that iteratively replaces (<strong>merges</strong>) the most frequent pair of adjacent bytes/tokens
+in a sequence  with a single new unused byte/token. Intuitively if a word occurs in the text enough times it will be represented a s single sub-word token.</p>
 <p>The BPE algorithm was introduced by Philip Gage in 1994 for <a href="http://www.pennelynn.com/Documents/CUJ/HTML/94HTML/19940045.HTM">data compression</a> and later it was adapted to NLP for neural machine translation by  Sennrich et al., 2016.</p>
 <blockquote class="book-hint info">
 <p><a href="https://arxiv.org/abs/1508.07909">Neural Machine Translation of Rare Words with Subword Units</a>, Rico Sennrich, Barry Haddow, Alexandra Birch, ACL 2016.</p>
 </blockquote>
-<p>BPE was used in GPT-2.</p>
+<p>BPE was later used in GPT-2.</p>
 <blockquote class="book-hint info">
 <p><a href="https://cdn.openai.com/better-language-models/language_models_are_unsupervised_multitask_learners.pdf">Language Models are Unsupervised Multitask Learners</a>, Alec Radford, Jeffrey Wu, Rewon Child, David Luan, Dario Amodei, Ilya Sutskever, GPT-2 2019.</p>
 </blockquote>
-<h3 id="bpe-tokenizer-training">
-  BPE Tokenizer training
-  <a class="anchor" href="#bpe-tokenizer-training">#</a>
-</h3>
+<h2 id="training">
+  Training
+  <a class="anchor" href="#training">#</a>
+</h2>
 <h3 id="vocabulary-initialization">
   Vocabulary initialization
   <a class="anchor" href="#vocabulary-initialization">#</a>
 </h3>
 <p>The tokenizer vocabulary is a one-to-one mapping from integer id (<code>int</code>) to bytestring (<code>bytes</code>) token. Our initial vocabulary is the set of all 256 possible byte values.</p>
-<div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#00a8c8">class</span> <span style="color:#75af00">BPETokenizerTrainer</span><span style="color:#111">:</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#d88200">&#34;&#34;&#34;Train the BPE tokenizer.&#34;&#34;&#34;</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">def</span> <span style="color:#111">__init__</span><span style="color:#111">(</span><span style="color:#111">self</span><span style="color:#111">):</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Our initial vocabulary is the set of all 256 possible byte values.</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#111">self</span><span style="color:#f92672">.</span><span style="color:#111">vocab</span><span style="color:#111">:</span> <span style="color:#111">dict</span><span style="color:#111">[</span><span style="color:#111">int</span><span style="color:#111">,</span> <span style="color:#111">bytes</span><span style="color:#111">]</span> <span style="color:#f92672">=</span> <span style="color:#111">{</span><span style="color:#111">x</span><span style="color:#111">:</span> <span style="color:#111">bytes</span><span style="color:#111">([</span><span style="color:#111">x</span><span style="color:#111">])</span> <span style="color:#00a8c8">for</span> <span style="color:#111">x</span> <span style="color:#f92672">in</span> <span style="color:#111">range</span><span style="color:#111">(</span><span style="color:#ae81ff">256</span><span style="color:#111">)}</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#111">self</span><span style="color:#f92672">.</span><span style="color:#111">merges</span><span style="color:#111">:</span> <span style="color:#111">dict</span><span style="color:#111">[</span><span style="color:#111">tuple</span><span style="color:#111">[</span><span style="color:#111">int</span><span style="color:#111">,</span> <span style="color:#111">int</span><span style="color:#111">],</span> <span style="color:#111">int</span><span style="color:#111">]</span> <span style="color:#f92672">=</span> <span style="color:#111">{}</span>
+<div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#111">self</span><span style="color:#f92672">.</span><span style="color:#111">vocab</span> <span style="color:#f92672">=</span> <span style="color:#111">{</span><span style="color:#111">x</span><span style="color:#111">:</span> <span style="color:#111">bytes</span><span style="color:#111">([</span><span style="color:#111">x</span><span style="color:#111">])</span> <span style="color:#00a8c8">for</span> <span style="color:#111">x</span> <span style="color:#f92672">in</span> <span style="color:#111">range</span><span style="color:#111">(</span><span style="color:#ae81ff">256</span><span style="color:#111">)}</span>
 </span></span></code></pre></div><h3 id="pre-tokenization">
   Pre-tokenization
   <a class="anchor" href="#pre-tokenization">#</a>
@@ -706,59 +715,198 @@ with a single new tokens. Intuitively if a word occurs in put text enough times 
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e"># https://github.com/openai/tiktoken/blob/main/tiktoken_ext/openai_public.py#L23</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#111">PAT</span> <span style="color:#f92672">=</span> <span style="color:#d88200">r</span><span style="color:#d88200">&#34;&#34;&#34;&#39;(?:[sdmt]|ll|ve|re)| ?\p</span><span style="color:#d88200">{L}</span><span style="color:#d88200">++| ?\p</span><span style="color:#d88200">{N}</span><span style="color:#d88200">++| ?[^\s\p</span><span style="color:#d88200">{L}</span><span style="color:#d88200">\p</span><span style="color:#d88200">{N}</span><span style="color:#d88200">]++|\s++$|\s+(?!\S)|\s&#34;&#34;&#34;</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#111">pre_tokens_count</span> <span style="color:#f92672">=</span> <span style="color:#111">defaultdict</span><span style="color:#111">(</span><span style="color:#111">int</span><span style="color:#111">)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">pretokens_freq</span> <span style="color:#f92672">=</span> <span style="color:#111">defaultdict</span><span style="color:#111">(</span><span style="color:#111">int</span><span style="color:#111">)</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Use finditer instead of findall.</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">for</span> <span style="color:#00a8c8">match</span> <span style="color:#f92672">in</span> <span style="color:#111">re</span><span style="color:#f92672">.</span><span style="color:#111">finditer</span><span style="color:#111">(</span><span style="color:#111">PAT</span><span style="color:#111">,</span> <span style="color:#111">string</span><span style="color:#111">):</span>
 </span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Key is tuple[bytes], for example (b&#39;l&#39;, b&#39;o&#39;, b&#39;w&#39;).</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#111">pre_token</span> <span style="color:#f92672">=</span> <span style="color:#111">tuple</span><span style="color:#111">([</span><span style="color:#111">bytes</span><span style="color:#111">([</span><span style="color:#111">c</span><span style="color:#111">])</span> <span style="color:#00a8c8">for</span> <span style="color:#111">c</span> <span style="color:#f92672">in</span> <span style="color:#00a8c8">match</span><span style="color:#f92672">.</span><span style="color:#111">group</span><span style="color:#111">()</span><span style="color:#f92672">.</span><span style="color:#111">encode</span><span style="color:#111">(</span><span style="color:#d88200">&#34;utf-8&#34;</span><span style="color:#111">)])</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#111">pre_tokens_count</span><span style="color:#111">[</span><span style="color:#111">pre_token</span><span style="color:#111">]</span> <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#111">pretoken</span> <span style="color:#f92672">=</span> <span style="color:#111">tuple</span><span style="color:#111">([</span><span style="color:#111">bytes</span><span style="color:#111">([</span><span style="color:#111">c</span><span style="color:#111">])</span> <span style="color:#00a8c8">for</span> <span style="color:#111">c</span> <span style="color:#f92672">in</span> <span style="color:#00a8c8">match</span><span style="color:#f92672">.</span><span style="color:#111">group</span><span style="color:#111">()</span><span style="color:#f92672">.</span><span style="color:#111">encode</span><span style="color:#111">(</span><span style="color:#d88200">&#34;utf-8&#34;</span><span style="color:#111">)])</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#111">pretokens_freq</span><span style="color:#111">[</span><span style="color:#111">pretoken</span><span style="color:#111">]</span> <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">return</span> <span style="color:#111">pre_tokens_count</span>
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#111">{</span> <span style="color:#111">(</span><span style="color:#d88200">b</span><span style="color:#d88200">&#39; &#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;l&#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;o&#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;w&#39;</span><span style="color:#111">):</span> <span style="color:#ae81ff">4</span><span style="color:#111">,</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#111">(</span><span style="color:#d88200">b</span><span style="color:#d88200">&#39; &#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;l&#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;o&#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;w&#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;e&#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;r&#39;</span><span style="color:#111">):</span> <span style="color:#ae81ff">2</span><span style="color:#111">,</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#111">(</span><span style="color:#d88200">b</span><span style="color:#d88200">&#39; &#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;n&#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;e&#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;w&#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;e&#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;s&#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;t&#39;</span><span style="color:#111">):</span> <span style="color:#ae81ff">6</span><span style="color:#111">,</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#111">(</span><span style="color:#d88200">b</span><span style="color:#d88200">&#39; &#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;w&#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;i&#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;d&#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;e&#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;s&#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;t&#39;</span><span style="color:#111">):</span> <span style="color:#ae81ff">3</span><span style="color:#111">,</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#111">(</span><span style="color:#d88200">b</span><span style="color:#d88200">&#39;l&#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;o&#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;w&#39;</span><span style="color:#111">):</span> <span style="color:#ae81ff">1</span><span style="color:#111">}</span>
-</span></span></code></pre></div><h3 id="compute-bpe-merges">
-  Compute BPE merges
-  <a class="anchor" href="#compute-bpe-merges">#</a>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">return</span> <span style="color:#111">pretokens_freq</span>
+</span></span></code></pre></div><p>For illustration we will use this  stylized example from Sennrich et al. 2016.</p>
+<div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#111">string</span> <span style="color:#f92672">=</span> <span style="color:#111">(</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#d88200">&#34; low low low low low &#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#d88200">&#34;lower lower widest widest widest &#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#d88200">&#34;newest newest newest newest newest newest&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#111">)</span>
+</span></span></code></pre></div><p>We get the following after pre-tokenization.</p>
+<div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span> <span style="color:#111">(</span><span style="color:#d88200">b</span><span style="color:#d88200">&#39; &#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;l&#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;o&#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;w&#39;</span><span style="color:#111">):</span> <span style="color:#ae81ff">5</span><span style="color:#111">,</span>
+</span></span><span style="display:flex;"><span> <span style="color:#111">(</span><span style="color:#d88200">b</span><span style="color:#d88200">&#39; &#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;l&#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;o&#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;w&#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;e&#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;r&#39;</span><span style="color:#111">):</span> <span style="color:#ae81ff">2</span><span style="color:#111">,</span>
+</span></span><span style="display:flex;"><span> <span style="color:#111">(</span><span style="color:#d88200">b</span><span style="color:#d88200">&#39; &#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;n&#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;e&#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;w&#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;e&#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;s&#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;t&#39;</span><span style="color:#111">):</span> <span style="color:#ae81ff">6</span><span style="color:#111">,</span>
+</span></span><span style="display:flex;"><span> <span style="color:#111">(</span><span style="color:#d88200">b</span><span style="color:#d88200">&#39; &#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;w&#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;i&#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;d&#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;e&#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;s&#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;t&#39;</span><span style="color:#111">):</span> <span style="color:#ae81ff">3</span>
+</span></span><span style="display:flex;"><span> <span style="color:#111">}</span>
+</span></span></code></pre></div><h3 id="bpe-merges">
+  BPE merges
+  <a class="anchor" href="#bpe-merges">#</a>
 </h3>
-<h3 id="special-tokens">
+<p>After converting the input text into pre-tokens we compute the BPE merges.</p>
+<p>The merge algorithm iteratively counts every pair of bytes and identifies the pair with the highest frequency (for example, <code>(b'e', b'st')</code>).
+Every occurrence of this most frequent pair (<code>(b'e', b'st')</code>) is than merged and replaced with a new merged token (<code>(b'est')</code>). This new
+merged token is added to our vocabulary.</p>
+<blockquote>
+<p>For efficiency we do not consider pairs that cross pre-token boundaries.</p></blockquote>
+<h3 id="compute-byte-pair-frequencies">
+  Compute byte pair frequencies
+  <a class="anchor" href="#compute-byte-pair-frequencies">#</a>
+</h3>
+<div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#00a8c8">def</span> <span style="color:#75af00">__byte_pair_freq</span><span style="color:#111">(</span><span style="color:#111">self</span><span style="color:#111">,</span> <span style="color:#111">pretokens_freq</span><span style="color:#111">)</span> <span style="color:#f92672">-&gt;</span> <span style="color:#111">dict</span><span style="color:#111">[</span><span style="color:#111">tuple</span><span style="color:#111">[</span><span style="color:#111">bytes</span><span style="color:#111">],</span> <span style="color:#111">int</span><span style="color:#111">]:</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#d88200">&#34;&#34;&#34;Compute byte pair frequencies.&#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">byte_pair_freq</span> <span style="color:#f92672">=</span> <span style="color:#111">defaultdict</span><span style="color:#111">(</span><span style="color:#111">int</span><span style="color:#111">)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">for</span> <span style="color:#111">pretoken</span><span style="color:#111">,</span> <span style="color:#111">freq</span> <span style="color:#f92672">in</span> <span style="color:#111">pretokens_freq</span><span style="color:#f92672">.</span><span style="color:#111">items</span><span style="color:#111">():</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#111">n</span> <span style="color:#f92672">=</span> <span style="color:#111">len</span><span style="color:#111">(</span><span style="color:#111">pretoken</span><span style="color:#111">)</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#00a8c8">if</span> <span style="color:#111">n</span> <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">1</span><span style="color:#111">:</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#00a8c8">for</span> <span style="color:#111">i</span> <span style="color:#f92672">in</span> <span style="color:#111">range</span><span style="color:#111">(</span><span style="color:#111">n</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span><span style="color:#111">):</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#111">byte_pair</span> <span style="color:#f92672">=</span> <span style="color:#111">(</span><span style="color:#111">pretoken</span><span style="color:#111">[</span><span style="color:#111">i</span><span style="color:#111">],</span> <span style="color:#111">pretoken</span><span style="color:#111">[</span><span style="color:#111">i</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span><span style="color:#111">])</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#111">byte_pair_freq</span><span style="color:#111">[</span><span style="color:#111">byte_pair</span><span style="color:#111">]</span> <span style="color:#f92672">+=</span> <span style="color:#111">freq</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">return</span> <span style="color:#111">byte_pair_freq</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span><span style="color:#111">(</span><span style="color:#d88200">b</span><span style="color:#d88200">&#39; &#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;l&#39;</span><span style="color:#111">):</span> <span style="color:#ae81ff">7</span><span style="color:#111">,</span>
+</span></span><span style="display:flex;"><span><span style="color:#111">(</span><span style="color:#d88200">b</span><span style="color:#d88200">&#39; &#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;n&#39;</span><span style="color:#111">):</span> <span style="color:#ae81ff">6</span><span style="color:#111">,</span>
+</span></span><span style="display:flex;"><span><span style="color:#111">(</span><span style="color:#d88200">b</span><span style="color:#d88200">&#39; &#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;w&#39;</span><span style="color:#111">):</span> <span style="color:#ae81ff">3</span><span style="color:#111">,</span>
+</span></span><span style="display:flex;"><span><span style="color:#111">(</span><span style="color:#d88200">b</span><span style="color:#d88200">&#39;d&#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;e&#39;</span><span style="color:#111">):</span> <span style="color:#ae81ff">3</span><span style="color:#111">,</span>
+</span></span><span style="display:flex;"><span><span style="color:#111">(</span><span style="color:#d88200">b</span><span style="color:#d88200">&#39;e&#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;r&#39;</span><span style="color:#111">):</span> <span style="color:#ae81ff">2</span><span style="color:#111">,</span>
+</span></span><span style="display:flex;"><span><span style="color:#111">(</span><span style="color:#d88200">b</span><span style="color:#d88200">&#39;e&#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;s&#39;</span><span style="color:#111">):</span> <span style="color:#ae81ff">9</span><span style="color:#111">,</span>
+</span></span><span style="display:flex;"><span><span style="color:#111">(</span><span style="color:#d88200">b</span><span style="color:#d88200">&#39;e&#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;w&#39;</span><span style="color:#111">):</span> <span style="color:#ae81ff">6</span><span style="color:#111">,</span>
+</span></span><span style="display:flex;"><span><span style="color:#111">(</span><span style="color:#d88200">b</span><span style="color:#d88200">&#39;i&#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;d&#39;</span><span style="color:#111">):</span> <span style="color:#ae81ff">3</span><span style="color:#111">,</span>
+</span></span><span style="display:flex;"><span><span style="color:#111">(</span><span style="color:#d88200">b</span><span style="color:#d88200">&#39;l&#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;o&#39;</span><span style="color:#111">):</span> <span style="color:#ae81ff">7</span><span style="color:#111">,</span>
+</span></span><span style="display:flex;"><span><span style="color:#111">(</span><span style="color:#d88200">b</span><span style="color:#d88200">&#39;n&#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;e&#39;</span><span style="color:#111">):</span> <span style="color:#ae81ff">6</span><span style="color:#111">,</span>
+</span></span><span style="display:flex;"><span><span style="color:#111">(</span><span style="color:#d88200">b</span><span style="color:#d88200">&#39;o&#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;w&#39;</span><span style="color:#111">):</span> <span style="color:#ae81ff">7</span><span style="color:#111">,</span>
+</span></span><span style="display:flex;"><span><span style="color:#111">(</span><span style="color:#d88200">b</span><span style="color:#d88200">&#39;s&#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;t&#39;</span><span style="color:#111">):</span> <span style="color:#ae81ff">9</span><span style="color:#111">,</span>
+</span></span><span style="display:flex;"><span><span style="color:#111">(</span><span style="color:#d88200">b</span><span style="color:#d88200">&#39;w&#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;e&#39;</span><span style="color:#111">):</span> <span style="color:#ae81ff">8</span><span style="color:#111">,</span>
+</span></span><span style="display:flex;"><span><span style="color:#111">(</span><span style="color:#d88200">b</span><span style="color:#d88200">&#39;w&#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;i&#39;</span><span style="color:#111">):</span> <span style="color:#ae81ff">3</span>
+</span></span><span style="display:flex;"><span><span style="color:#111">}</span>
+</span></span></code></pre></div><h3 id="find-the-best-pair-to-merge">
+  Find the best pair to merge
+  <a class="anchor" href="#find-the-best-pair-to-merge">#</a>
+</h3>
+<div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#00a8c8">def</span> <span style="color:#75af00">__best_pair_to_merge</span><span style="color:#111">(</span><span style="color:#111">self</span><span style="color:#111">,</span> <span style="color:#111">byte_pair_freq</span><span style="color:#111">)</span> <span style="color:#f92672">-&gt;</span> <span style="color:#111">tuple</span><span style="color:#111">[</span><span style="color:#111">bytes</span><span style="color:#111">]:</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#d88200">&#34;&#34;&#34;Return the best pair to merge.&#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Find the pair with the highest frequency.</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Break ties by preferring the lexicographically greater pair.</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">max_freq</span> <span style="color:#f92672">=</span> <span style="color:#111">max</span><span style="color:#111">(</span><span style="color:#111">byte_pair_freq</span><span style="color:#f92672">.</span><span style="color:#111">values</span><span style="color:#111">())</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">max_pairs</span> <span style="color:#f92672">=</span> <span style="color:#111">[</span><span style="color:#111">key</span> <span style="color:#00a8c8">for</span> <span style="color:#111">key</span><span style="color:#111">,</span> <span style="color:#111">val</span> <span style="color:#f92672">in</span> <span style="color:#111">byte_pair_freq</span><span style="color:#f92672">.</span><span style="color:#111">items</span><span style="color:#111">()</span> <span style="color:#00a8c8">if</span> <span style="color:#111">val</span> <span style="color:#f92672">==</span> <span style="color:#111">max_freq</span><span style="color:#111">]</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">best_pair_to_merge</span> <span style="color:#f92672">=</span> <span style="color:#111">max</span><span style="color:#111">(</span><span style="color:#111">max_pairs</span><span style="color:#111">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">return</span> <span style="color:#111">best_pair_to_merge</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#111">(</span><span style="color:#d88200">b</span><span style="color:#d88200">&#39;s&#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;t&#39;</span><span style="color:#111">)</span> <span style="color:#f92672">-&gt;</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;st&#39;</span>
+</span></span></code></pre></div><h3 id="merge-the-pre-tokens">
+  Merge the pre-tokens
+  <a class="anchor" href="#merge-the-pre-tokens">#</a>
+</h3>
+<div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#00a8c8">def</span> <span style="color:#75af00">__merge_pretokens</span><span style="color:#111">(</span><span style="color:#111">self</span><span style="color:#111">,</span> <span style="color:#111">pretokens_freq</span><span style="color:#111">,</span> <span style="color:#111">best_pair_to_merge</span><span style="color:#111">)</span> <span style="color:#f92672">-&gt;</span> <span style="color:#111">dict</span><span style="color:#111">[</span><span style="color:#111">tuple</span><span style="color:#111">[</span><span style="color:#111">bytes</span><span style="color:#111">],</span> <span style="color:#111">int</span><span style="color:#111">]:</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#d88200">&#34;&#34;&#34;Merge.&#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">pretokens_freq_merged</span> <span style="color:#f92672">=</span> <span style="color:#111">defaultdict</span><span style="color:#111">(</span><span style="color:#111">int</span><span style="color:#111">)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">for</span> <span style="color:#111">pretoken</span><span style="color:#111">,</span> <span style="color:#111">count</span> <span style="color:#f92672">in</span> <span style="color:#111">pretokens_freq</span><span style="color:#f92672">.</span><span style="color:#111">items</span><span style="color:#111">():</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#111">pretoken_merged</span> <span style="color:#f92672">=</span> <span style="color:#111">pretoken</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#111">n</span> <span style="color:#f92672">=</span> <span style="color:#111">len</span><span style="color:#111">(</span><span style="color:#111">pretoken</span><span style="color:#111">)</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#00a8c8">if</span> <span style="color:#111">n</span> <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">1</span><span style="color:#111">:</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#111">i</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#00a8c8">while</span> <span style="color:#111">i</span> <span style="color:#f92672">&lt;</span> <span style="color:#111">n</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span><span style="color:#111">:</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#00a8c8">if</span> <span style="color:#111">(</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#111">pretoken</span><span style="color:#111">[</span><span style="color:#111">i</span><span style="color:#111">]</span> <span style="color:#f92672">==</span> <span style="color:#111">best_pair_to_merge</span><span style="color:#111">[</span><span style="color:#ae81ff">0</span><span style="color:#111">]</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#f92672">and</span> <span style="color:#111">pretoken</span><span style="color:#111">[</span><span style="color:#111">i</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span><span style="color:#111">]</span> <span style="color:#f92672">==</span> <span style="color:#111">best_pair_to_merge</span><span style="color:#111">[</span><span style="color:#ae81ff">1</span><span style="color:#111">]</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#111">):</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#111">pretoken_merged</span> <span style="color:#f92672">=</span> <span style="color:#111">(</span>
+</span></span><span style="display:flex;"><span>                        <span style="color:#111">pretoken</span><span style="color:#111">[:</span><span style="color:#111">i</span><span style="color:#111">]</span>
+</span></span><span style="display:flex;"><span>                        <span style="color:#f92672">+</span> <span style="color:#111">tuple</span><span style="color:#111">(</span>
+</span></span><span style="display:flex;"><span>                            <span style="color:#111">[</span><span style="color:#111">bytes</span><span style="color:#111">(</span><span style="color:#111">best_pair_to_merge</span><span style="color:#111">[</span><span style="color:#ae81ff">0</span><span style="color:#111">]</span> <span style="color:#f92672">+</span> <span style="color:#111">best_pair_to_merge</span><span style="color:#111">[</span><span style="color:#ae81ff">1</span><span style="color:#111">])]</span>
+</span></span><span style="display:flex;"><span>                        <span style="color:#111">)</span>
+</span></span><span style="display:flex;"><span>                        <span style="color:#f92672">+</span> <span style="color:#111">pretoken</span><span style="color:#111">[</span><span style="color:#111">i</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span> <span style="color:#111">:]</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#111">)</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#111">i</span> <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#111">pretokens_freq_merged</span><span style="color:#111">[</span><span style="color:#111">pretoken_merged</span><span style="color:#111">]</span> <span style="color:#f92672">=</span> <span style="color:#111">count</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">return</span> <span style="color:#111">pretokens_freq_merged</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span><span style="color:#111">(</span><span style="color:#d88200">b</span><span style="color:#d88200">&#39; &#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;l&#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;o&#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;w&#39;</span><span style="color:#111">):</span> <span style="color:#ae81ff">5</span><span style="color:#111">,</span>
+</span></span><span style="display:flex;"><span><span style="color:#111">(</span><span style="color:#d88200">b</span><span style="color:#d88200">&#39; &#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;l&#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;o&#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;w&#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;e&#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;r&#39;</span><span style="color:#111">):</span> <span style="color:#ae81ff">2</span><span style="color:#111">,</span>
+</span></span><span style="display:flex;"><span><span style="color:#111">(</span><span style="color:#d88200">b</span><span style="color:#d88200">&#39; &#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;n&#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;e&#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;w&#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;e&#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;st&#39;</span><span style="color:#111">):</span> <span style="color:#ae81ff">6</span><span style="color:#111">,</span>
+</span></span><span style="display:flex;"><span><span style="color:#111">(</span><span style="color:#d88200">b</span><span style="color:#d88200">&#39; &#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;w&#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;i&#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;d&#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;e&#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;st&#39;</span><span style="color:#111">):</span> <span style="color:#ae81ff">3</span>
+</span></span><span style="display:flex;"><span><span style="color:#111">}</span>
+</span></span></code></pre></div><h3 id="iterate">
+  Iterate
+  <a class="anchor" href="#iterate">#</a>
+</h3>
+<div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#00a8c8">def</span> <span style="color:#75af00">train</span><span style="color:#111">(</span><span style="color:#111">self</span><span style="color:#111">,</span> <span style="color:#111">string</span><span style="color:#111">:</span> <span style="color:#111">str</span><span style="color:#111">,</span> <span style="color:#111">num_merges</span><span style="color:#111">:</span> <span style="color:#111">int</span><span style="color:#111">)</span> <span style="color:#f92672">-&gt;</span> <span style="color:#111">BPETokenizerParams</span><span style="color:#111">:</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#d88200">&#34;&#34;&#34;Train the byte-level BPE tokenizer.
+</span></span></span><span style="display:flex;"><span><span style="color:#d88200">
+</span></span></span><span style="display:flex;"><span><span style="color:#d88200">    Args:
+</span></span></span><span style="display:flex;"><span><span style="color:#d88200">        string (str): The training data.
+</span></span></span><span style="display:flex;"><span><span style="color:#d88200">        num_merges (int): The number of BPE merges.
+</span></span></span><span style="display:flex;"><span><span style="color:#d88200">
+</span></span></span><span style="display:flex;"><span><span style="color:#d88200">    Returns:
+</span></span></span><span style="display:flex;"><span><span style="color:#d88200">        BPETokenizerParams: The trained BPE tokenizer.
+</span></span></span><span style="display:flex;"><span><span style="color:#d88200">    &#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Pre-tokenization.</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">pretokens_freq</span> <span style="color:#f92672">=</span> <span style="color:#111">self</span><span style="color:#f92672">.</span><span style="color:#111">__pre_tokenize</span><span style="color:#111">(</span><span style="color:#111">string</span><span style="color:#111">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Merges.</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">id</span> <span style="color:#f92672">=</span> <span style="color:#111">len</span><span style="color:#111">(</span><span style="color:#111">self</span><span style="color:#f92672">.</span><span style="color:#111">vocab</span><span style="color:#111">)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">for</span> <span style="color:#111">i</span> <span style="color:#f92672">in</span> <span style="color:#111">range</span><span style="color:#111">(</span><span style="color:#111">num_merges</span><span style="color:#111">):</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#111">byte_pair_freq</span> <span style="color:#f92672">=</span> <span style="color:#111">self</span><span style="color:#f92672">.</span><span style="color:#111">__byte_pair_freq</span><span style="color:#111">(</span><span style="color:#111">pretokens_freq</span><span style="color:#111">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#111">best_pair_to_merge</span> <span style="color:#f92672">=</span> <span style="color:#111">self</span><span style="color:#f92672">.</span><span style="color:#111">__best_pair_to_merge</span><span style="color:#111">(</span><span style="color:#111">byte_pair_freq</span><span style="color:#111">)</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#111">merged_pair</span> <span style="color:#f92672">=</span> <span style="color:#111">bytes</span><span style="color:#111">(</span><span style="color:#111">best_pair_to_merge</span><span style="color:#111">[</span><span style="color:#ae81ff">0</span><span style="color:#111">]</span> <span style="color:#f92672">+</span> <span style="color:#111">best_pair_to_merge</span><span style="color:#111">[</span><span style="color:#ae81ff">1</span><span style="color:#111">])</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#111">print</span><span style="color:#111">(</span><span style="color:#d88200">f</span><span style="color:#d88200">&#34;Merge </span><span style="color:#d88200">{</span><span style="color:#111">i</span><span style="color:#f92672">+</span><span style="color:#ae81ff">1</span><span style="color:#d88200">}</span><span style="color:#d88200">/</span><span style="color:#d88200">{</span><span style="color:#111">num_merges</span><span style="color:#d88200">}</span><span style="color:#d88200"> </span><span style="color:#d88200">{</span><span style="color:#111">best_pair_to_merge</span><span style="color:#d88200">}</span><span style="color:#d88200"> -&gt; </span><span style="color:#d88200">{</span><span style="color:#111">merged_pair</span><span style="color:#d88200">}</span><span style="color:#d88200">&#34;</span><span style="color:#111">)</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#111">self</span><span style="color:#f92672">.</span><span style="color:#111">merges</span><span style="color:#f92672">.</span><span style="color:#111">append</span><span style="color:#111">(</span><span style="color:#111">best_pair_to_merge</span><span style="color:#111">)</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#111">self</span><span style="color:#f92672">.</span><span style="color:#111">vocab</span><span style="color:#111">[</span><span style="color:#111">id</span><span style="color:#111">]</span> <span style="color:#f92672">=</span> <span style="color:#111">merged_pair</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#111">id</span> <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#111">pretokens_freq</span> <span style="color:#f92672">=</span> <span style="color:#111">self</span><span style="color:#f92672">.</span><span style="color:#111">__merge_pretokens</span><span style="color:#111">(</span><span style="color:#111">pretokens_freq</span><span style="color:#111">,</span> <span style="color:#111">best_pair_to_merge</span><span style="color:#111">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">return</span> <span style="color:#111">BPETokenizerParams</span><span style="color:#111">(</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#111">vocab</span><span style="color:#f92672">=</span><span style="color:#111">self</span><span style="color:#f92672">.</span><span style="color:#111">vocab</span><span style="color:#111">,</span> <span style="color:#111">merges</span><span style="color:#f92672">=</span><span style="color:#111">self</span><span style="color:#f92672">.</span><span style="color:#111">merges</span><span style="color:#111">,</span> <span style="color:#111">special_tokens</span><span style="color:#f92672">=</span><span style="color:#111">self</span><span style="color:#f92672">.</span><span style="color:#111">special_tokens</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">)</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#111">Merge</span> <span style="color:#ae81ff">1</span><span style="color:#f92672">/</span><span style="color:#ae81ff">10</span> <span style="color:#111">(</span><span style="color:#d88200">b</span><span style="color:#d88200">&#39;s&#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;t&#39;</span><span style="color:#111">)</span> <span style="color:#f92672">-&gt;</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;st&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#111">Merge</span> <span style="color:#ae81ff">2</span><span style="color:#f92672">/</span><span style="color:#ae81ff">10</span> <span style="color:#111">(</span><span style="color:#d88200">b</span><span style="color:#d88200">&#39;e&#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;st&#39;</span><span style="color:#111">)</span> <span style="color:#f92672">-&gt;</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;est&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#111">Merge</span> <span style="color:#ae81ff">3</span><span style="color:#f92672">/</span><span style="color:#ae81ff">10</span> <span style="color:#111">(</span><span style="color:#d88200">b</span><span style="color:#d88200">&#39;o&#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;w&#39;</span><span style="color:#111">)</span> <span style="color:#f92672">-&gt;</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;ow&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#111">Merge</span> <span style="color:#ae81ff">4</span><span style="color:#f92672">/</span><span style="color:#ae81ff">10</span> <span style="color:#111">(</span><span style="color:#d88200">b</span><span style="color:#d88200">&#39;l&#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;ow&#39;</span><span style="color:#111">)</span> <span style="color:#f92672">-&gt;</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;low&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#111">Merge</span> <span style="color:#ae81ff">5</span><span style="color:#f92672">/</span><span style="color:#ae81ff">10</span> <span style="color:#111">(</span><span style="color:#d88200">b</span><span style="color:#d88200">&#39; &#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;low&#39;</span><span style="color:#111">)</span> <span style="color:#f92672">-&gt;</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39; low&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#111">Merge</span> <span style="color:#ae81ff">6</span><span style="color:#f92672">/</span><span style="color:#ae81ff">10</span> <span style="color:#111">(</span><span style="color:#d88200">b</span><span style="color:#d88200">&#39;w&#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;est&#39;</span><span style="color:#111">)</span> <span style="color:#f92672">-&gt;</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;west&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#111">Merge</span> <span style="color:#ae81ff">7</span><span style="color:#f92672">/</span><span style="color:#ae81ff">10</span> <span style="color:#111">(</span><span style="color:#d88200">b</span><span style="color:#d88200">&#39;n&#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;e&#39;</span><span style="color:#111">)</span> <span style="color:#f92672">-&gt;</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;ne&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#111">Merge</span> <span style="color:#ae81ff">8</span><span style="color:#f92672">/</span><span style="color:#ae81ff">10</span> <span style="color:#111">(</span><span style="color:#d88200">b</span><span style="color:#d88200">&#39;ne&#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;west&#39;</span><span style="color:#111">)</span> <span style="color:#f92672">-&gt;</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;newest&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#111">Merge</span> <span style="color:#ae81ff">9</span><span style="color:#f92672">/</span><span style="color:#ae81ff">10</span> <span style="color:#111">(</span><span style="color:#d88200">b</span><span style="color:#d88200">&#39; &#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;newest&#39;</span><span style="color:#111">)</span> <span style="color:#f92672">-&gt;</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39; newest&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#111">Merge</span> <span style="color:#ae81ff">10</span><span style="color:#f92672">/</span><span style="color:#ae81ff">10</span> <span style="color:#111">(</span><span style="color:#d88200">b</span><span style="color:#d88200">&#39;w&#39;</span><span style="color:#111">,</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;i&#39;</span><span style="color:#111">)</span> <span style="color:#f92672">-&gt;</span> <span style="color:#d88200">b</span><span style="color:#d88200">&#39;wi&#39;</span>
+</span></span></code></pre></div><h3 id="special-tokens">
   Special tokens
   <a class="anchor" href="#special-tokens">#</a>
 </h3>
-<h2 id="wordpiece">
-  WordPiece
-  <a class="anchor" href="#wordpiece">#</a>
+<p>Often, some strings (for example, <code>&lt;|endoftext|&gt;</code>) are used to encode metadata (e.g., boundaries between documents).When encoding text, these special tokens should never be split into multiple tokens and should be preserved as a single token. These special tokens must be added to the vocablry, so they have a corresponding fixed token ID.</p>
+<h2 id="parameters">
+  Parameters
+  <a class="anchor" href="#parameters">#</a>
 </h2>
-<blockquote>
-<p>BERT</p></blockquote>
-<h2 id="unigram">
-  Unigram
-  <a class="anchor" href="#unigram">#</a>
+<div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75af00">@dataclass</span><span style="color:#111">(</span><span style="color:#111">frozen</span><span style="color:#f92672">=</span><span style="color:#00a8c8">True</span><span style="color:#111">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#00a8c8">class</span> <span style="color:#75af00">BPETokenizerParams</span><span style="color:#111">:</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#d88200">&#34;&#34;&#34;BPE tokenizer parameters.&#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># The tokenizer vocabulary is a one-to-one mapping</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># from integer id to bytestring token.</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">vocab</span><span style="color:#111">:</span> <span style="color:#111">dict</span><span style="color:#111">[</span><span style="color:#111">int</span><span style="color:#111">,</span> <span style="color:#111">bytes</span><span style="color:#111">]</span>  <span style="color:#75715e"># {258: b&#39;est&#39;}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># A list of BPE merges produced from training.</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># The merges are in the order of creation.</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Each item is a tuple of bytes (&lt;token1&gt;,&lt;token2&gt;),</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># meaning &lt;token1&gt; was merged with &lt;token2&gt;.</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">merges</span><span style="color:#111">:</span> <span style="color:#111">list</span><span style="color:#111">[</span><span style="color:#111">tuple</span><span style="color:#111">[</span><span style="color:#111">bytes</span><span style="color:#111">,</span> <span style="color:#111">bytes</span><span style="color:#111">]]</span>  <span style="color:#75715e"># [(b&#39;e&#39;, b&#39;st&#39;)]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># The special tokens.</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># A list of strings to add to the vocabulary.</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">special_tokens</span><span style="color:#111">:</span> <span style="color:#111">list</span><span style="color:#111">[</span><span style="color:#111">str</span><span style="color:#111">]</span> <span style="color:#75715e"># [&#34;&lt;|endoftext|&gt;&#34;]</span>
+</span></span></code></pre></div><h2 id="encoding">
+  Encoding
+  <a class="anchor" href="#encoding">#</a>
 </h2>
-<blockquote>
-<p>T5</p></blockquote>
-<h2 id="sentencepiece">
-  SentencePiece
-  <a class="anchor" href="#sentencepiece">#</a>
+<h2 id="decoding">
+  Decoding
+  <a class="anchor" href="#decoding">#</a>
 </h2>
-<p><a href="https://github.com/google/sentencepiece">https://github.com/google/sentencepiece</a></p>
-<p>SentencePiece is a tokenization algorithm for the preprocessing of text that you can use with either BPE, WordPiece, or Unigram model.</p>
-<ul>
-<li>It considers the text as a sequence of Unicode characters, and replaces spaces with a special character, <code>▁</code>.</li>
-<li>Used in conjunction with the Unigram algorithm, it doesn’t require a pre-tokenization step, which is very useful for languages where the space character is not used (like Chinese or Japanese).</li>
-<li>SentencePiece is <strong>reversible tokenization</strong>: since there is no special treatment of spaces, decoding the tokens is done simply by concatenating them and replacing the <code>_</code>s with spaces — this results in the normalized text.</li>
-</ul>
-<h2 id="tokenizer-free-approaches">
-  Tokenizer-free approaches
-  <a class="anchor" href="#tokenizer-free-approaches">#</a>
-</h2>
-<p>Use bytes directly, promising, but have not yet been scaled up to the frontier.</p>
-<p><a href="https://arxiv.org/abs/2105.13626">https://arxiv.org/abs/2105.13626</a></p>
-<p><a href="https://arxiv.org/pdf/2305.07185">https://arxiv.org/pdf/2305.07185</a></p>
-<p><a href="https://arxiv.org/abs/2412.09871">https://arxiv.org/abs/2412.09871</a></p>
-<p><a href="https://arxiv.org/abs/2406.19223">https://arxiv.org/abs/2406.19223</a></p>
 <h2 id="collateral">
   Collateral
   <a class="anchor" href="#collateral">#</a>
@@ -808,19 +956,21 @@ with a single new tokens. Intuitively if a word occurs in put text enough times 
   
 <nav id="TableOfContents">
   <ul>
-    <li><a href="#byte-pair-encoding-tokenizer">Byte-Pair Encoding tokenizer</a>
+    <li><a href="#training">Training</a>
       <ul>
-        <li><a href="#bpe-tokenizer-training">BPE Tokenizer training</a></li>
         <li><a href="#vocabulary-initialization">Vocabulary initialization</a></li>
         <li><a href="#pre-tokenization">Pre-tokenization</a></li>
-        <li><a href="#compute-bpe-merges">Compute BPE merges</a></li>
+        <li><a href="#bpe-merges">BPE merges</a></li>
+        <li><a href="#compute-byte-pair-frequencies">Compute byte pair frequencies</a></li>
+        <li><a href="#find-the-best-pair-to-merge">Find the best pair to merge</a></li>
+        <li><a href="#merge-the-pre-tokens">Merge the pre-tokens</a></li>
+        <li><a href="#iterate">Iterate</a></li>
         <li><a href="#special-tokens">Special tokens</a></li>
       </ul>
     </li>
-    <li><a href="#wordpiece">WordPiece</a></li>
-    <li><a href="#unigram">Unigram</a></li>
-    <li><a href="#sentencepiece">SentencePiece</a></li>
-    <li><a href="#tokenizer-free-approaches">Tokenizer-free approaches</a></li>
+    <li><a href="#parameters">Parameters</a></li>
+    <li><a href="#encoding">Encoding</a></li>
+    <li><a href="#decoding">Decoding</a></li>
     <li><a href="#collateral">Collateral</a></li>
   </ul>
 </nav>

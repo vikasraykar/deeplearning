@@ -8,14 +8,7 @@ paginate: true
 # Training neural networks
 
 **Vikas Chandrakant Raykar**
-Microsoft
 
-
----
-
-## [IOAI 2025 Syllabus](https://ioai-official.org/wp-content/uploads/2025/01/Syllabus-2025-Final.pdf)
-
-<img src="ioai_syllabus.png" alt="" width="600"/>
 
 
 ---
@@ -144,7 +137,7 @@ $$
 
 ---
 
-# Vectorization
+# Linear Regression Vectorization
 
 We often stack all the $n$ examples into a *design matrix* $\mathbf{X} \in \mathbb{R}^{n \times d}$, where each row is one instance. The predictions for all the $n$ instances $\mathbf{y} \in \mathbb{R}^n$ can be written conveniently as a matrix-vector product.
 $$
@@ -178,6 +171,28 @@ $$
 
 ---
 
+# Linear Regression Vectorization
+
+We often stack all the $n$ examples into a *design matrix* $\mathbf{X} \in \mathbb{R}^{n \times d}$.
+$$
+\mathbf{y} = \mathbf{X}\mathbf{w}
+$$
+Loss function
+$$
+L(\mathbf{w}) = \frac{1}{2} \| \mathbf{y} - \mathbf{X}\mathbf{w} \|^2
+$$
+Gradient
+$$
+\nabla_{\mathbf{w}} L(\mathbf{w}) = \mathbf{X}^T(\mathbf{X}\mathbf{w}-\mathbf{y})
+$$
+Analytic solution
+$$
+\hat{\mathbf{w}} = (\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{y}
+$$
+> Quiz - In practice we prefer gradient descent over analytic solution. Why ?
+
+---
+
 # Logistic Regression
 
 ---
@@ -190,7 +205,7 @@ $$
 $$
 where $\mathbf{w}\in \mathbb{R}^d$ are the weights/**parameters** of the model and $\sigma$ is the **sigmoid** activation function defined as
 $$
-\sigma(z) = \frac{1}{1-e^{-z}}
+\sigma(z) = \frac{1}{1+e^{-z}}
 $$
 
 > Without loss of generalization we ignore the bias term as it can be incorporated into the feature vector.
@@ -408,9 +423,9 @@ $$
 
 <img src="prelu.png" alt="" width="400"/>
 
-
 > He et al., 2015
 
+> Quiz : What is the difference between Leaky ReLU and pReLU ?
 ---
 
 # Tanh
